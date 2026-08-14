@@ -65,6 +65,10 @@ export interface BasePriceQueryDTO {
 /** 物品搜索请求参数 */
 export interface ItemIntroDTO {
     itemName: string
+    // 页码，默认 1
+    pageNum?: number
+    // 每页条数，默认 10
+    pageSize?: number
 }
 
 export interface PriceLatestQueryDTO
@@ -141,13 +145,12 @@ export interface PriceTrendPointVO {
 }
 
 // 价格趋势数据
-export interface PriceTrendVO {
-    itemId: number;
-    itemName: string;
-    unit: string;
-    specification: string;
-    categoryName: string;
+export interface PriceTrendVO extends PriceItemVO {
+    // 地点 ID
+    locationId: number;
+    // 地点名
     locationName: string;
+    // 趋势数据点
     trend: PriceTrendPointVO[];
 }
 

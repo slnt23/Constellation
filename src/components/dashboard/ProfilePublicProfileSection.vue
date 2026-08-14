@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import type { UserInfoParams } from '@/types'
+import type { UserInfoVO } from '@/types'
 
 
 import {
@@ -20,26 +20,28 @@ const hints = {
 }
 
 const props = defineProps<{
-  profile: UserInfoParams
+  profile: UserInfoVO
 }>()
 
 const emit = defineEmits<{
-  save: [profile: UserInfoParams]
+  save: [profile: UserInfoVO]
   editAvatar: []
   'email-settings': []
 }>()
 
 const router = useRouter()
 
-const formState = reactive<UserInfoParams>({
+const formState = reactive<UserInfoVO>({
   userName: '',
-  nickName: '',
+  nickname: '',
   email: '',
   phone: '',
   remark: '',
-  rawPhone: '',
   role: '',
   avatarUrl: '',
+  id: 0,
+  userCode: '',
+  createTime: '',
 })
 
 const emailOptionsBase = EXAMPLE_PUBLIC_PROFILE_EMAIL_OPTIONS
@@ -54,15 +56,17 @@ const emailOptionsResolved = computed(() => {
   return list
 })
 
-const syncFormState = (profile: UserInfoParams) => {
+const syncFormState = (profile: UserInfoVO) => {
   formState.userName = profile.userName
-  formState.nickName = profile.nickName
+  formState.nickname = profile.nickname
   formState.email = profile.email
   formState.remark = profile.remark
   formState.phone = profile.phone
-  formState.rawPhone = profile.rawPhone
   formState.role = profile.role
   formState.avatarUrl = profile.avatarUrl
+  formState.id = profile.id
+  formState.userCode = profile.userCode
+  formState.createTime = profile.createTime
 }
 
 watch(
@@ -110,7 +114,7 @@ const goPersonalProfile = () => {
 
         <div class="field">
           <label class="field__label" for="pp-display-name">昵称</label>
-          <input id="pp-display-name" v-model="formState.nickName" type="text" class="field__control"
+          <input id="pp-display-name" v-model="formState.nickname" type="text" class="field__control"
             autocomplete="name" />
           <p class="field__hint">{{ hints.displayName }}</p>
         </div>
@@ -163,7 +167,7 @@ const goPersonalProfile = () => {
             <img :src="formState.avatarUrl" alt="默认头像" class="public-profile__avatar-img" />
           </div>
           <div v-else class="public-profile__avatar-ring public-profile__avatar-ring--placeholder">
-            {{ formState.nickName?.trim().slice(0, 1) || formState.userName?.trim().slice(0, 1) || '用' }}
+            {{ formState.nickname?.trim().slice(0, 1) || formState.userName?.trim().slice(0, 1) || '用' }}
           </div>
           <button type="button" class="public-profile__edit-avatar" @click="handleEditAvatar">
             编辑

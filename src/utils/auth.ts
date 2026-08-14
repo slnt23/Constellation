@@ -1,5 +1,5 @@
 ﻿
-import type { UserInfoParams } from "@/types";
+import type { UserInfoVO } from "@/types";
 import { AUTH_STORAGE_KEY, TOKEN_STORAGE_KEY, AUTH_CHANGE_EVENT } from "@/constant";
 
 
@@ -39,13 +39,13 @@ export const logout = (): void => {
 }
 
 // 设置当前用户信息到localStorage，并触发认证状态变化事件
-export const setCurrentUser = (userData: UserInfoParams): void => {
+export const setCurrentUser = (userData: UserInfoVO): void => {
   window.localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(userData))
   window.dispatchEvent(new CustomEvent(AUTH_CHANGE_EVENT, { detail: userData }))// 触发认证状态变化事件
 }
 
 // 获取当前用户信息，
-export const getCurrentUser = (): UserInfoParams | null => {
+export const getCurrentUser = (): UserInfoVO | null => {
   if (!isClient()) return null
   const rawSession = window.localStorage.getItem(AUTH_STORAGE_KEY)
   if (!rawSession) return null
@@ -59,7 +59,7 @@ export const getCurrentUser = (): UserInfoParams | null => {
 }
 
 // 注册认证状态变化监听器,用于在主页来监听认证状态变化（如登录/登出）并更新UI
-export const onAuthChange = (callback: (user: UserInfoParams | null) => void): (() => void) => {
+export const onAuthChange = (callback: (user: UserInfoVO | null) => void): (() => void) => {
   if (!isClient() || typeof callback !== 'function') {
     return () => { } // 返回空函数
   }

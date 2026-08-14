@@ -31,14 +31,14 @@ const mapConversation = (vo: ConversationVO): AiConversation => ({
   id: vo.id,
   title: vo.title,
   preview: '',
-  timestamp: new Date(vo.updatedAt),
+  timestamp: new Date(vo.updateTime),
 })
 
 const mapMessage = (vo: MessageVO): AiMessage => ({
   id: String(vo.id),
   role: vo.role === 'system' ? 'assistant' : vo.role,
   content: vo.content,
-  timestamp: new Date(vo.createdAt),
+  timestamp: new Date(vo.createTime),
 })
 
 const loadConversations = async () => {

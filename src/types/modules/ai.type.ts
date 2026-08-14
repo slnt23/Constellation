@@ -13,8 +13,8 @@ export interface CreateConversationDTO {
 export interface ConversationVO {
   id: string
   title: string
-  createdAt: string
-  updatedAt: string
+  createTime: string
+  updateTime: string
 }
 
 /** 历史消息 — MessageVO */
@@ -22,5 +22,5 @@ export interface MessageVO {
   id: number
   role: 'user' | 'assistant' | 'system'
   content: string
-  createdAt: string
+  createTime: string
 }

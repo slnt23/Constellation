@@ -4,6 +4,8 @@ import { useRouter } from 'vue-router'
 import SettingsWorkspaceShell from '@/components/dashboard/SettingsWorkspaceShell.vue'
 import ProfileAccountSection from '@/components/dashboard/ProfileAccountSection.vue'
 import ProfileAppearanceSection from '@/components/dashboard/ProfileAppearanceSection.vue'
+import SpotlightManageSection from '@/components/dashboard/SpotlightManageSection.vue'
+import FeatureManageSection from '@/components/dashboard/FeatureManageSection.vue'
 import SettingsSidebar from '@/components/dashboard/SettingsSidebar.vue'
 import {
   ADMIN_DASHBOARD_NAV_SECTIONS,
@@ -13,24 +15,24 @@ import {
   ADMIN_SETTINGS_INFO_FALLBACK,
   EXAMPLE_PUBLIC_PROFILE_DEFAULTS,
 } from '@/constant'
-import type { DashboardSectionId, ProfileInfoExample, UserInfoParams } from '@/types'
+import type { DashboardSectionId, ProfileInfoExample, UserInfoVO } from '@/types'
 import { getCurrentUser, logout, onAuthChange } from '@/utils/auth.ts'
 
-import cardImageOne from '@/assets/example/editorial-card-01.jpg'
-import cardImageTwo from '@/assets/example/editorial-card-02.jpg'
-import cardImageThree from '@/assets/example/editorial-card-03.jpg'
+import cardImageOne from '@/assets/example/editorial-hero-01.jpg'
+import cardImageTwo from '@/assets/example/editorial-hero-02.jpg'
+import cardImageThree from '@/assets/example/banner.jpg'
 
 const router = useRouter()
-const currentUser = ref<UserInfoParams | null>(getCurrentUser())
+const currentUser = ref<UserInfoVO | null>(getCurrentUser())
 const activeSectionId = ref<DashboardSectionId>('overview')
 let removeAuthListener = () => { }
 
 const profileName = computed(
-  () => currentUser.value?.nickName || currentUser.value?.userName || '管理员',
+  () => currentUser.value?.nickname || currentUser.value?.userName || '管理员',
 )
 const profileTitleLine = computed(() => {
   const u = currentUser.value
-  const nick = (u?.nickName || '').trim()
+  const nick = (u?.nickname || '').trim()
   const un = (u?.userName || '').trim()
   if (nick && un) return `${nick} (${un})`
   if (nick) return nick
@@ -71,7 +73,7 @@ const handleLogout = () => {
 
 onMounted(() => {
   removeAuthListener = onAuthChange((user) => {
-    currentUser.value = user as UserInfoParams | null
+    currentUser.value = user as UserInfoVO | null
   })
 })
 
@@ -115,6 +117,10 @@ onBeforeUnmount(() => {
           <button type="button" class="admin-post-card__cta">{{ item.cta }}</button>
         </article>
       </section>
+
+      <SpotlightManageSection v-else-if="activeSectionId === 'spotlight'" />
+
+      <FeatureManageSection v-else-if="activeSectionId === 'feature'" />
 
       <ProfileAccountSection v-else :cards="settingsCards" />
     </div>

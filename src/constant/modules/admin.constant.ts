@@ -19,8 +19,8 @@ export const ADMIN_DASHBOARD_NAV_SECTIONS: NavSection[] = [
     {
         title: '前台管理',
         items: [
-            {id: 'spotlight', label: '用户角色', icon: 'user', navigable: true},
-            {id: 'feature', label: '用户2', icon: 'user', navigable: true},
+            {id: 'spotlight', label: '焦点项目', icon: 'view', navigable: true},
+            {id: 'feature', label: '特性管理', icon: 'box', navigable: true},
         ]
     },
     {}

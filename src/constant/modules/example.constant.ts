@@ -10,53 +10,41 @@ import type {
   SpotlightItem,
   StatItem,
 } from '@/types'
-import projectImageOne from '@/assets/example/pic01.jpg'
-import projectImageTwo from '@/assets/example/pic02.jpg'
-import projectImageThree from '@/assets/example/pic03.jpg'
+import projectImageOne from '@/assets/example/editorial-hero-01.jpg'
+import projectImageTwo from '@/assets/example/editorial-hero-02.jpg'
+import projectImageThree from '@/assets/example/banner.jpg'
 
 
 import type { StoryGalleryItem } from '@/types'
-import full01 from '@/assets/example/story-gallery/fulls/01.jpg'
-import full02 from '@/assets/example/story-gallery/fulls/02.jpg'
-import full03 from '@/assets/example/story-gallery/fulls/03.jpg'
-import full04 from '@/assets/example/story-gallery/fulls/04.jpg'
-import full05 from '@/assets/example/story-gallery/fulls/05.jpg'
-import full06 from '@/assets/example/story-gallery/fulls/06.jpg'
-import full07 from '@/assets/example/story-gallery/fulls/07.jpg'
-import full08 from '@/assets/example/story-gallery/fulls/08.jpg'
-import full09 from '@/assets/example/story-gallery/fulls/09.jpg'
-import full10 from '@/assets/example/story-gallery/fulls/10.jpg'
-import full11 from '@/assets/example/story-gallery/fulls/11.jpg'
-import full12 from '@/assets/example/story-gallery/fulls/12.jpg'
-import thumb01 from '@/assets/example/story-gallery/thumbs/01.jpg'
-import thumb02 from '@/assets/example/story-gallery/thumbs/02.jpg'
-import thumb03 from '@/assets/example/story-gallery/thumbs/03.jpg'
-import thumb04 from '@/assets/example/story-gallery/thumbs/04.jpg'
-import thumb05 from '@/assets/example/story-gallery/thumbs/05.jpg'
-import thumb06 from '@/assets/example/story-gallery/thumbs/06.jpg'
-import thumb07 from '@/assets/example/story-gallery/thumbs/07.jpg'
-import thumb08 from '@/assets/example/story-gallery/thumbs/08.jpg'
-import thumb09 from '@/assets/example/story-gallery/thumbs/09.jpg'
-import thumb10 from '@/assets/example/story-gallery/thumbs/10.jpg'
-import thumb11 from '@/assets/example/story-gallery/thumbs/11.jpg'
-import thumb12 from '@/assets/example/story-gallery/thumbs/12.jpg'
+import galleryImage01 from '@/assets/example/editorial-hero-01.jpg'
+import galleryImage02 from '@/assets/example/editorial-hero-02.jpg'
+import galleryImage03 from '@/assets/example/banner.jpg'
+import galleryImage04 from '@/assets/example/login-hero-bg-01.jpg'
+import galleryImage05 from '@/assets/example/login-hero-bg-02.jpg'
+import galleryImage06 from '@/assets/example/login-hero-bg-03.jpg'
+import galleryImage07 from '@/assets/example/pic04.jpg'
+import galleryImage08 from '@/assets/example/pic05.jpg'
+import galleryImage09 from '@/assets/example/default_avatar.png'
+import galleryImage10 from '@/assets/example/brand_home_header.png'
+import galleryImage11 from '@/assets/example/vue.svg'
+import galleryImage12 from '@/assets/example/editorial-hero-01.jpg'
 
 const defaultDescription =
   'Nunc blandit nisi ligula magna sodales lectus elementum non. Integer id venenatis velit.'
 
 export const STORY_GALLERY_ITEMS: StoryGalleryItem[] = [
-  { title: 'Magna Feugiat Lorem', description: defaultDescription, image: full01, thumbnail: thumb01 },
-  { title: 'Nisl Adipiscing', description: defaultDescription, image: full02, thumbnail: thumb02 },
-  { title: 'Tempus Aliquam Veroeros', description: defaultDescription, image: full03, thumbnail: thumb03 },
-  { title: 'Aliquam Ipsum Sed Dolore', description: defaultDescription, image: full04, thumbnail: thumb04 },
-  { title: 'Cursis Aliquam Nisl', description: defaultDescription, image: full05, thumbnail: thumb05 },
-  { title: 'Sed Consequat Phasellus', description: defaultDescription, image: full06, thumbnail: thumb06 },
-  { title: 'Mauris Id Tellus Arcu', description: defaultDescription, image: full07, thumbnail: thumb07 },
-  { title: 'Nunc Vehicula Id Nulla', description: defaultDescription, image: full08, thumbnail: thumb08 },
-  { title: 'Neque Et Faucibus Viverra', description: defaultDescription, image: full09, thumbnail: thumb09 },
-  { title: 'Mattis Ante Fermentum', description: defaultDescription, image: full10, thumbnail: thumb10 },
-  { title: 'Sed Ac Elementum Arcu', description: defaultDescription, image: full11, thumbnail: thumb11 },
-  { title: 'Vehicula Id Nulla Dignissim', description: defaultDescription, image: full12, thumbnail: thumb12 },
+  { title: 'Magna Feugiat Lorem', description: defaultDescription, image: galleryImage01, thumbnail: galleryImage01 },
+  { title: 'Nisl Adipiscing', description: defaultDescription, image: galleryImage02, thumbnail: galleryImage02 },
+  { title: 'Tempus Aliquam Veroeros', description: defaultDescription, image: galleryImage03, thumbnail: galleryImage03 },
+  { title: 'Aliquam Ipsum Sed Dolore', description: defaultDescription, image: galleryImage04, thumbnail: galleryImage04 },
+  { title: 'Cursis Aliquam Nisl', description: defaultDescription, image: galleryImage05, thumbnail: galleryImage05 },
+  { title: 'Sed Consequat Phasellus', description: defaultDescription, image: galleryImage06, thumbnail: galleryImage06 },
+  { title: 'Mauris Id Tellus Arcu', description: defaultDescription, image: galleryImage07, thumbnail: galleryImage07 },
+  { title: 'Nunc Vehicula Id Nulla', description: defaultDescription, image: galleryImage08, thumbnail: galleryImage08 },
+  { title: 'Neque Et Faucibus Viverra', description: defaultDescription, image: galleryImage09, thumbnail: galleryImage09 },
+  { title: 'Mattis Ante Fermentum', description: defaultDescription, image: galleryImage10, thumbnail: galleryImage10 },
+  { title: 'Sed Ac Elementum Arcu', description: defaultDescription, image: galleryImage11, thumbnail: galleryImage11 },
+  { title: 'Vehicula Id Nulla Dignissim', description: defaultDescription, image: galleryImage12, thumbnail: galleryImage12 },
 ]
 
 
@@ -68,7 +56,7 @@ export const SPOTLIGHT_ITEMS: SpotlightItem[] = [
     description:
       '保留模板里强叙事的首屏',
     imageUrl: projectImageOne,
-    order: 1,
+    sortOrder: 1,
     link: '/brand',
     target: '_self',
   },
@@ -79,7 +67,7 @@ export const SPOTLIGHT_ITEMS: SpotlightItem[] = [
     description:
       '站点会持续扩展新的兴趣模块。',
     imageUrl: projectImageTwo,
-    order: 2,
+    sortOrder: 2,
     link: '/projects',
     target: '_self',
   },
@@ -90,7 +78,7 @@ export const SPOTLIGHT_ITEMS: SpotlightItem[] = [
     description:
       '现在先完成前台官网',
     imageUrl: projectImageThree,
-    order: 3,
+    sortOrder: 3,
     link: '/growth',
     target: '_self',
   },
@@ -101,7 +89,7 @@ export const SPOTLIGHT_ITEMS: SpotlightItem[] = [
     description:
       '现在先完成前台官网',
     imageUrl: projectImageThree,
-    order: 4,
+    sortOrder: 4,
     link: '/growth',
     target: '_self',
   },
@@ -112,7 +100,7 @@ export const SPOTLIGHT_ITEMS: SpotlightItem[] = [
     description:
       '现在先完成前台官网',
     imageUrl: projectImageThree,
-    order: 5,
+    sortOrder: 5,
     link: '/growth',
     target: '_self',
   },
@@ -123,7 +111,7 @@ export const SPOTLIGHT_ITEMS: SpotlightItem[] = [
     description:
       '现在先完成前台官网',
     imageUrl: projectImageThree,
-    order: 6,
+    sortOrder: 6,
     link: '/growth',
     target: '_self',
   },

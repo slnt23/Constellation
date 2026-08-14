@@ -18,7 +18,7 @@ import SettingsWorkspaceShell from '@/components/dashboard/SettingsWorkspaceShel
 import SettingsSidebar from '@/components/dashboard/SettingsSidebar.vue' // 侧边导航栏
 
 // 导入类型定义
-import type { DashboardSectionId, UserInfoParams } from '@/types'
+import type { DashboardSectionId, UserInfoVO } from '@/types'
 
 // 导入常量配置
 import {
@@ -40,7 +40,7 @@ import { getCurrentUser, logout, onAuthChange } from '@/utils/auth.ts'
 const router = useRouter()
 
 // 响应式数据定义，改为
-const currentUser = ref<UserInfoParams | null>(getCurrentUser()) // 当前登录用户信息
+const currentUser = ref<UserInfoVO | null>(getCurrentUser()) // 当前登录用户信息
 const activeSectionId = ref<DashboardSectionId>('public') // 当前激活的功能区块ID，默认为公开资料
 
 // 认证状态监听器清理函数
@@ -50,7 +50,7 @@ let removeAuthListener = () => {
 /**
  * 计算属性：用户显示名称（优先显示昵称，其次用户名）
  */
-const profileName = computed(() => currentUser.value?.nickName || currentUser.value?.userName || '个人中心')
+const profileName = computed(() => currentUser.value?.nickname || currentUser.value?.userName || '个人中心')
 
 /**
  * 计算属性：用户邮箱或访客标识
@@ -61,7 +61,7 @@ const profileHandle = computed(() => currentUser.value?.email || 'guest@kite.loc
 const profileTitleLine = computed(() => {
   const u = currentUser.value
   const truncate = (str: string) => str.length > 4 ? str.slice(0, 4) + '...' : str
-  const nick = truncate((u?.nickName || '').trim())
+  const nick = truncate((u?.nickname || '').trim())
   const un = truncate((u?.userName || '').trim())
   if (nick && un) return `${nick} (${un})`
   if (nick) return nick
@@ -85,7 +85,10 @@ const profileLoginMode = computed(() => currentUser.value?.phone || '当前手�
 /**
  * 计算属性：最近活动时间或登录记录
  */
-const profileLoginAt = computed(() => currentUser.value?.rawPhone || '上一手机号')
+const profileLoginAt = computed(() => {
+  const time = currentUser.value?.createTime
+  return time ? new Date(time).toLocaleString('zh-CN') : '暂无记录'
+})
 
 /**
  * 计算属性：用户名称首字母（用于头像占位符）
@@ -113,17 +116,19 @@ const examplePublic = EXAMPLE_PUBLIC_PROFILE_DEFAULTS
  * 计算属性：可编辑的公开资料表单数据
  * 将用户数据与默认值合并，确保表单有合理的初始值
  */
-const publicProfile = computed<UserInfoParams>(() => {
+const publicProfile = computed<UserInfoVO>(() => {
   const u = currentUser.value
   return {
     userName: u?.userName ?? examplePublic.userName,
-    nickName: (u?.nickName || u?.userName || '').trim() || examplePublic.nickName,
+    nickname: (u?.nickname || u?.userName || '').trim() || examplePublic.nickname,
     email: u?.email ?? examplePublic.email,
     phone: u?.phone ?? examplePublic.phone,
     remark: (u?.remark ?? '').trim() || examplePublic.remark,
-    rawPhone: u?.rawPhone ?? examplePublic.rawPhone,
     role: u?.role ?? examplePublic.role,
     avatarUrl: (u?.avatarUrl ?? '').trim() || examplePublic.avatarUrl,
+    id: u?.id ?? examplePublic.id,
+    userCode: u?.userCode ?? examplePublic.userCode,
+    createTime: u?.createTime ?? examplePublic.createTime,
   }
 })
 
@@ -132,25 +137,27 @@ const handleLogout = () => {
   router.push('/')
 }
 
-const handleSavePublicProfile = (payload: UserInfoParams) => {
+const handleSavePublicProfile = (payload: UserInfoVO) => {
   // 更新当前用户数据
   currentUser.value = {
     ...(currentUser.value || {
       userName: '',
-      nickName: '',
+      nickname: '',
       email: '',
       phone: '',
       remark: '',
-      rawPhone: '',
       avatarUrl: '',
+      id: 0,
+      userCode: '',
+      createTime: '',
     }),
     userName: payload.userName,
-    nickName: payload.nickName,
+    nickname: payload.nickname,
     email: payload.email,
     phone: payload.phone,
     remark: payload.remark,
     avatarUrl: payload.avatarUrl,
-  } as UserInfoParams
+  } as UserInfoVO
 
   // 在浏览器环境中持久化数据并通知其他组件
   if (typeof window !== 'undefined') {
@@ -175,7 +182,7 @@ const handleEditAvatar = () => {
  */
 onMounted(() => {
   removeAuthListener = onAuthChange((user) => {
-    currentUser.value = user as UserInfoParams | null
+    currentUser.value = user as UserInfoVO | null
   })
 })
 

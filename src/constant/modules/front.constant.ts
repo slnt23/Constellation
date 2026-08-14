@@ -1,4 +1,4 @@
-import type { UserInfoParams } from '@/types'
+import type { UserInfoVO } from '@/types'
 import type { NavSection } from '@/types'
 import type { MenuItem } from '@/types'
 import type { SectionIntroData } from '@/types'
@@ -10,15 +10,17 @@ import projectImageOne from '@/assets/example/default_avatar.png'
 
 
 // 默认用户信息，用于未登录状态下的展示
-export const EXAMPLE_PUBLIC_PROFILE_DEFAULTS: UserInfoParams = {
+export const EXAMPLE_PUBLIC_PROFILE_DEFAULTS: UserInfoVO = {
+    id: 0,
+    userCode: '',
     userName: '默认用户A',           // 用户名（小写）
-    nickName: '默认昵称A',           // 昵称/显示名
+    nickname: '默认昵称A',           // 昵称/显示名
     email: '123@qq.comA',
     phone: '110A',
     remark: '默认备注A',
-    rawPhone: '000 000A',                // 原始手机号（可选）
     role: 'UserA',            // 角色
     avatarUrl: projectImageOne as string,
+    createTime: '',
 }
 
 // GitHub 风格设置侧栏：用户，

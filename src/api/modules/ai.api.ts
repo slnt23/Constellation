@@ -2,6 +2,7 @@ import request from '../request/index'
 import type { ChatRequestDTO, ConversationVO, CreateConversationDTO, MessageVO } from '@/types'
 import { TOKEN_STORAGE_KEY } from '@/constant'
 
+/** 发送聊天消息（普通请求，返回完整回复） — POST /ai/chat */
 export const sendChatApi = (data: ChatRequestDTO) => {
   return request<string>({
     url: '/ai/chat',
@@ -10,6 +11,10 @@ export const sendChatApi = (data: ChatRequestDTO) => {
   })
 }
 
+/**
+ * 发送聊天消息（流式） — POST /ai/chat/stream
+ * 后端返回 SSE（text/event-stream），按事件流解析回复片段
+ */
 export const sendChatStreamApi = (
   data: ChatRequestDTO,
   onMessage: (text: string) => void

@@ -29,3 +29,8 @@ frontend-api.md
 AGENTS.md
 CLOUDE.md
 .prettierrc
+
+# 自动生成的文件（不提交）
+auto-imports.d.ts
+components.d.ts
+src/assets/

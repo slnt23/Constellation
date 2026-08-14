@@ -11,14 +11,22 @@ export interface MenuItem {
 
 
 export interface SpotlightItem {
-    eyebrow?: string
+    /** 主键 */
+    id: number
+    /** 眉题 */
+    eyebrow: string
+    /** 主标题 */
     title: string
+    /** 描述 */
     description?: string
+    /** 图片 URL */
     imageUrl: string
-    id: number  //是否唯一
-    order: number  //排序
-    link: string  //链接
-    target: string  //打开方式
+    /** 排序，值越小越靠前 */
+    sortOrder: number
+    /** 跳转链接 */
+    link?: string
+    /** 打开方式，如 _blank */
+    target?: string
 }
 
 export interface FeatureItem {

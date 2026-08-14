@@ -24,7 +24,8 @@ request.interceptors.response.use(
     response => {
         const res = response.data
 
-        if (res.code !== 200) {
+        // 后端成功码包含 200（操作成功）与 201（创建成功）
+        if (res.code !== 200 && res.code !== 201) {
             return Promise.reject(new Error(res.message || res.msg || 'Error'))
         }
 

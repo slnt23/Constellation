@@ -47,14 +47,11 @@ const toggleMode = () => {
 const submitLoginOrRegister = async (type: 'login' | 'register') => {
   submitting.value = true
 
-  // 构建提交数据
-  const submitData = {
-    email: loginForm.email,
-    ...(activeTab.value === 'mail' ? { code: loginForm.code } : { password: loginForm.password }),
-    role: showAdmin.value ? 'ADMIN' : 'USER'
-  }
-
-  const result = type === 'login' ? await (activeTab.value === 'mail' ? loginMailApi : loginPasswordApi)(submitData) : await registerApi(submitData)
+  const result = type === 'login'
+    ? activeTab.value === 'mail'
+      ? await loginMailApi({ email: loginForm.email, code: loginForm.code ?? '' })
+      : await loginPasswordApi({ email: loginForm.email, password: loginForm.password ?? '' })
+    : await registerApi({ email: loginForm.email, code: loginForm.code ?? '' })
 
   if (result.code == 200) {
     submitting.value = false
