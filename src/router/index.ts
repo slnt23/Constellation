@@ -33,7 +33,7 @@ router.beforeEach(async (to) => {
   // 1. 仅限未登录用户访问的页面，但用户已登录 → 自动跳转默认页面
   if (publicOnly && authenticated) {
     return {
-      name: currentUser?.role === 'admin' ? 'dashboard' : 'front-profile'
+      name: currentUser?.role?.toUpperCase() === 'ADMIN' ? 'admin-home-dashboard' : 'front-profile'
     }
   }
 
@@ -47,7 +47,7 @@ router.beforeEach(async (to) => {
   }
 
   // 3. 需要管理员权限但不是管理员 → 跳转个人中心
-  if (requiresAdmin && currentUser?.role !== 'admin') {
+  if (requiresAdmin && currentUser?.role?.toUpperCase() !== 'ADMIN') {
     return { name: 'front-profile' }
   }
 

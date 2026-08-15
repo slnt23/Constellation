@@ -1,6 +1,7 @@
 ﻿
 import type { UserInfoVO } from "@/types";
 import { AUTH_STORAGE_KEY, TOKEN_STORAGE_KEY, AUTH_CHANGE_EVENT } from "@/constant";
+import { logoutApi } from '@/api/modules/auth.api'
 
 
 /**
@@ -28,14 +29,19 @@ export const isAuthenticated = (): boolean => {
   return !!token && token.length > 0
 }
 
-// 用户登出函数,在实际项目中，可能需要调用后端登出API
-export const logout = (): void => {
-  if (isClient()) {
-    window.localStorage.removeItem(AUTH_STORAGE_KEY)
-    window.localStorage.removeItem(TOKEN_STORAGE_KEY)
-    window.dispatchEvent(new CustomEvent(AUTH_CHANGE_EVENT, { detail: null }))// 触发认证状态变化事件
+// 用户登出函数：通知后端失效 token，并清理本地登录态
+export const logout = async (): Promise<void> => {
+  try {
+    await logoutApi()
+  } catch {
+    // 登出接口失败不阻塞本地清理
+  } finally {
+    if (isClient()) {
+      window.localStorage.removeItem(AUTH_STORAGE_KEY)
+      window.localStorage.removeItem(TOKEN_STORAGE_KEY)
+      window.dispatchEvent(new CustomEvent(AUTH_CHANGE_EVENT, { detail: null }))// 触发认证状态变化事件
+    }
   }
-  // logoutApi().catch(console.error) // 可选：调用后端登出API
 }
 
 // 设置当前用户信息到localStorage，并触发认证状态变化事件

@@ -1,10 +1,29 @@
 // spotlight.api.ts
 
 import request from '../request'
-import type { FeatureDTO, FeatureItem, Result, SpotlightCreateDTO, SpotlightItem, SpotlightUpdateDTO } from '@/types'
+import type {
+  AdminUserQuery,
+  AdminUserStatus,
+  AdminUserVO,
+  FeatureDTO,
+  FeatureItem,
+  PageResult,
+  Result,
+  RoleCreateDTO,
+  RoleUpdateDTO,
+  RoleVO,
+  SpotlightCreateDTO,
+  SpotlightItem,
+  SpotlightUpdateDTO,
+  UserCreateDTO,
+  UserPasswordResetDTO,
+  UserUpdateDTO,
+} from '@/types'
 
 const FEATURE_BASE_URL = '/admin/feature'
 const SPOTLIGHT_BASE_URL = '/admin/spotlight'
+const ADMIN_USER_BASE_URL = '/admin/user-do'
+const ADMIN_ROLE_BASE_URL = '/admin/role-do'
 
 /** 焦点项目管理（后台公开接口） */
 export const spotlightApi = {
@@ -73,5 +92,81 @@ export const featureApi = {
   /** 删除产品特性 — DELETE /admin/feature/{id} */
   deleteById(id: number): Promise<Result<null>> {
     return request.delete(`${FEATURE_BASE_URL}/${id}`)
+  },
+}
+
+/** 后台用户管理（要求 ROLE_ADMIN） */
+export const adminUserApi = {
+  /** 用户分页列表 — GET /admin/user-do */
+  list(params?: AdminUserQuery): Promise<Result<PageResult<AdminUserVO>>> {
+    return request.get(ADMIN_USER_BASE_URL, { params })
+  },
+
+  /** 用户详情 — GET /admin/user-do/{id} */
+  getById(id: number): Promise<Result<AdminUserVO>> {
+    return request.get(`${ADMIN_USER_BASE_URL}/${id}`)
+  },
+
+  /** 新增用户，返回新用户 ID — POST /admin/user-do */
+  create(data: UserCreateDTO): Promise<Result<number>> {
+    return request.post(ADMIN_USER_BASE_URL, data)
+  },
+
+  /** 更新用户 — PUT /admin/user-do/{id} */
+  update(id: number, data: UserUpdateDTO): Promise<Result<null>> {
+    return request.put(`${ADMIN_USER_BASE_URL}/${id}`, data)
+  },
+
+  /** 删除用户 — DELETE /admin/user-do/{id} */
+  deleteById(id: number): Promise<Result<null>> {
+    return request.delete(`${ADMIN_USER_BASE_URL}/${id}`)
+  },
+
+  /** 启用/封禁用户 — PUT /admin/user-do/{id}/status */
+  updateStatus(id: number, status: AdminUserStatus): Promise<Result<null>> {
+    return request.put(`${ADMIN_USER_BASE_URL}/${id}/status`, null, { params: { status } })
+  },
+
+  /** 修改用户角色 — PUT /admin/user-do/{id}/role */
+  updateRole(id: number, roleName: string): Promise<Result<null>> {
+    return request.put(`${ADMIN_USER_BASE_URL}/${id}/role`, null, { params: { roleName } })
+  },
+
+  /** 重置用户密码 — PUT /admin/user-do/{id}/password/reset */
+  resetPassword(id: number, data: UserPasswordResetDTO): Promise<Result<null>> {
+    return request.put(`${ADMIN_USER_BASE_URL}/${id}/password/reset`, data)
+  },
+}
+
+/** 后台角色管理（要求 ROLE_ADMIN） */
+export const adminRoleApi = {
+  /** 角色列表 — GET /admin/role-do */
+  list(): Promise<Result<RoleVO[]>> {
+    return request.get(ADMIN_ROLE_BASE_URL)
+  },
+
+  /** 角色详情 — GET /admin/role-do/{id} */
+  getById(id: number): Promise<Result<RoleVO>> {
+    return request.get(`${ADMIN_ROLE_BASE_URL}/${id}`)
+  },
+
+  /** 新增角色，返回新角色 ID — POST /admin/role-do */
+  create(data: RoleCreateDTO): Promise<Result<number>> {
+    return request.post(ADMIN_ROLE_BASE_URL, data)
+  },
+
+  /** 更新角色 — PUT /admin/role-do/{id} */
+  update(id: number, data: RoleUpdateDTO): Promise<Result<null>> {
+    return request.put(`${ADMIN_ROLE_BASE_URL}/${id}`, data)
+  },
+
+  /** 删除角色 — DELETE /admin/role-do/{id} */
+  deleteById(id: number): Promise<Result<null>> {
+    return request.delete(`${ADMIN_ROLE_BASE_URL}/${id}`)
+  },
+
+  /** 启用/禁用角色 — PUT /admin/role-do/{id}/enabled */
+  updateEnabled(id: number, enabled: boolean): Promise<Result<null>> {
+    return request.put(`${ADMIN_ROLE_BASE_URL}/${id}/enabled`, null, { params: { enabled } })
   },
 }

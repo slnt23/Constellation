@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite' // Vite 配置辅助函数，提供类型提示
+import { defineConfig, loadEnv } from 'vite' // Vite 配置辅助函数，提供类型提示
 import vue from '@vitejs/plugin-vue' // Vue 单文件组件编译插件
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers' // Element Plus 组件解析器
 import AutoImport from 'unplugin-auto-import/vite' // API 自动导入（ref、computed 等）
@@ -6,32 +6,31 @@ import Components from 'unplugin-vue-components/vite' // 组件按需自动注�
 import { fileURLToPath, URL } from 'node:url' // 路径转换工具
 
 // https://vite.dev/config/
-export default defineConfig(() => {
-  // const env = loadEnv(mode, process.cwd(), '') // 暂不需要动态加载环境变量
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '')
 
   return {
     plugins: [
       vue(), // 编译 .vue 文件
       AutoImport({ // 自动导入 Vue API 和 Element Plus API
         resolvers: [ElementPlusResolver()],
-        dts: 'auto-imports.d.ts', // 自动生成的 TS 类型声明
+        dts: 'auto-imports.d.ts',
       }),
       Components({ // 自动按需导入 Element Plus 组件
         resolvers: [ElementPlusResolver()],
-        dts: 'components.d.ts', // 自动生成的组件类型声明
+        dts: 'components.d.ts',
       }),
     ],
     resolve: {
       alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url)), // @ 别名指向 src 目录
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
       },
     },
     server: {
       proxy: {
-        '/api': { // 匹配 /api 开头的请求
-          target: 'http://192.168.131.128:30023', // 转发到后端服务地址
+        '/api': {
+          target: 'http://127.0.0.1:18080',
           changeOrigin: true, // 修改请求头 Origin 为目标地址
-          // 后端接口已统一带 /api 前缀，无需 rewrite 去除
         },
       },
     },

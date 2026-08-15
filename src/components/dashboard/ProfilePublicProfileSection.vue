@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { computed, reactive, watch } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
+import { updateAvatarApi } from '@/api'
 import type { UserInfoVO } from '@/types'
 
 
@@ -25,11 +27,13 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   save: [profile: UserInfoVO]
-  editAvatar: []
+  avatarUpdated: [avatarUrl: string]
   'email-settings': []
 }>()
 
 const router = useRouter()
+const avatarUploading = ref(false)
+const avatarInput = ref<HTMLInputElement | null>(null)
 
 const formState = reactive<UserInfoVO>({
   userName: '',
@@ -81,8 +85,36 @@ const handleConfirmUpdate = () => {
   emit('save', { ...formState })
 }
 
-const handleEditAvatar = () => {
-  emit('editAvatar')
+const handleAvatarChange = async (event: Event) => {
+  const input = event.target as HTMLInputElement
+  const file = input.files?.[0]
+  if (!file) return
+
+  const validTypes = ['image/jpeg', 'image/png', 'image/webp']
+  if (!validTypes.includes(file.type)) {
+    ElMessage.error('仅支持 jpeg/png/webp 图片')
+    input.value = ''
+    return
+  }
+  if (file.size > 5 * 1024 * 1024) {
+    ElMessage.error('图片大小不能超过 5MB')
+    input.value = ''
+    return
+  }
+
+  avatarUploading.value = true
+  try {
+    const res = await updateAvatarApi(file)
+    const avatarUrl = res.data || formState.avatarUrl
+    formState.avatarUrl = avatarUrl
+    emit('avatarUpdated', avatarUrl)
+    ElMessage.success('头像已更新')
+  } catch (error) {
+    ElMessage.error((error as Error).message || '头像上传失败，请稍后重试')
+  } finally {
+    avatarUploading.value = false
+    input.value = ''
+  }
 }
 
 const goPersonalProfile = () => {
@@ -169,8 +201,11 @@ const goPersonalProfile = () => {
           <div v-else class="public-profile__avatar-ring public-profile__avatar-ring--placeholder">
             {{ formState.nickname?.trim().slice(0, 1) || formState.userName?.trim().slice(0, 1) || '用' }}
           </div>
-          <button type="button" class="public-profile__edit-avatar" @click="handleEditAvatar">
-            编辑
+          <input ref="avatarInput" type="file" accept="image/jpeg,image/png,image/webp"
+            class="public-profile__avatar-input" @change="handleAvatarChange" />
+          <button type="button" class="public-profile__edit-avatar" :disabled="avatarUploading"
+            @click="avatarInput?.click()">
+            {{ avatarUploading ? '上传中...' : '更换' }}
           </button>
         </div>
       </aside>
@@ -380,6 +415,10 @@ const goPersonalProfile = () => {
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+.public-profile__avatar-input {
+  display: none;
 }
 
 .public-profile__edit-avatar {

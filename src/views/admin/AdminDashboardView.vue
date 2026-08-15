@@ -6,16 +6,17 @@ import ProfileAccountSection from '@/components/dashboard/ProfileAccountSection.
 import ProfileAppearanceSection from '@/components/dashboard/ProfileAppearanceSection.vue'
 import SpotlightManageSection from '@/components/dashboard/SpotlightManageSection.vue'
 import FeatureManageSection from '@/components/dashboard/FeatureManageSection.vue'
+import UserManageSection from '@/components/dashboard/UserManageSection.vue'
+import RoleManageSection from '@/components/dashboard/RoleManageSection.vue'
 import SettingsSidebar from '@/components/dashboard/SettingsSidebar.vue'
 import {
   ADMIN_DASHBOARD_NAV_SECTIONS,
   // ADMIN_DASHBOARD_SECTION_META,
   ADMIN_OVERVIEW_FEATURE_CARDS,
   ADMIN_OVERVIEW_QUICK_CARDS,
-  ADMIN_SETTINGS_INFO_FALLBACK,
   EXAMPLE_PUBLIC_PROFILE_DEFAULTS,
 } from '@/constant'
-import type { DashboardSectionId, ProfileInfoExample, UserInfoVO } from '@/types'
+import type { DashboardSectionId, UserInfoVO } from '@/types'
 import { getCurrentUser, logout, onAuthChange } from '@/utils/auth.ts'
 
 import cardImageOne from '@/assets/example/editorial-hero-01.jpg'
@@ -50,16 +51,6 @@ const sidebarAvatarUrl = computed(
 
 // const activeSection = computed(() => ADMIN_DASHBOARD_SECTION_META[activeSectionId.value])
 
-const settingsCards = computed<ProfileInfoExample[]>(() => {
-  const u = currentUser.value
-  const roleLabel = u ? '已登录' : ADMIN_SETTINGS_INFO_FALLBACK[0].value
-  return [
-    { label: '当前角色', value: roleLabel },
-    ADMIN_SETTINGS_INFO_FALLBACK[1],
-    ADMIN_SETTINGS_INFO_FALLBACK[2],
-  ]
-})
-
 const contentPosts = [
   { image: cardImageOne, title: '内容发布', description: '这里先占位内容编辑与发布流程。', cta: '进入' },
   { image: cardImageTwo, title: '数据维护', description: '这里先占位价格维护、导入与校验。', cta: '进入' },
@@ -67,8 +58,7 @@ const contentPosts = [
 ]
 
 const handleLogout = () => {
-  logout()
-  router.push('/login')
+  void logout().then(() => router.push('/'))
 }
 
 onMounted(() => {
@@ -122,7 +112,11 @@ onBeforeUnmount(() => {
 
       <FeatureManageSection v-else-if="activeSectionId === 'feature'" />
 
-      <ProfileAccountSection v-else :cards="settingsCards" />
+      <UserManageSection v-else-if="activeSectionId === 'user'" />
+
+      <RoleManageSection v-else-if="activeSectionId === 'role'" />
+
+      <ProfileAccountSection v-else />
     </div>
   </SettingsWorkspaceShell>
 </template>

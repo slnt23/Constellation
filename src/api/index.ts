@@ -1,4 +1,6 @@
 
+export { ApiError } from '@/api/request'
+
 // 导出所有 API 模块
 export * from '@/api/modules/auth.api'
 export * from '@/api/modules/user.api'

@@ -5,6 +5,7 @@
 
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
 
 // 导入个人中心各功能区块组件
 import ProfileAccessibilitySection from '@/components/dashboard/ProfileAccessibilitySection.vue' // 辅助功能设置
@@ -22,11 +23,8 @@ import type { DashboardSectionId, UserInfoVO } from '@/types'
 
 // 导入常量配置
 import {
-  AUTH_CHANGE_EVENT,
-  AUTH_STORAGE_KEY,
   EXAMPLE_PUBLIC_PROFILE_DEFAULTS,
   PROFILE_ACCESSIBILITY_CARDS,
-  PROFILE_ACCOUNT_CARDS,
   PROFILE_APPEARANCE_CARDS,
   PROFILE_NOTIFICATION_CARDS,
   // PROFILE_SECTION_ITEMS,
@@ -34,7 +32,8 @@ import {
 } from '@/constant'
 
 // 导入认证工具函数
-import { getCurrentUser, logout, onAuthChange } from '@/utils/auth.ts'
+import { getCurrentUser, logout, onAuthChange, setCurrentUser } from '@/utils/auth.ts'
+import { getUserInfoApi, updateUserInfoApi } from '@/api'
 
 // 路由实例，用于页面导航
 const router = useRouter()
@@ -52,11 +51,6 @@ let removeAuthListener = () => {
  */
 const profileName = computed(() => currentUser.value?.nickname || currentUser.value?.userName || '个人中心')
 
-/**
- * 计算属性：用户邮箱或访客标识
- */
-const profileHandle = computed(() => currentUser.value?.email || 'guest@kite.local')
-
 // 侧边栏标题行显示逻辑,显示规则：昵称(用户名) > 昵称 > (用户名) > 默认名称(guest)
 const profileTitleLine = computed(() => {
   const u = currentUser.value
@@ -71,24 +65,6 @@ const profileTitleLine = computed(() => {
 
 // 侧边栏副标题
 const profileSidebarSubtitle = '你的个人账户'
-
-/**
- * 计算属性：用户角色/备注信息
- */
-const profileRole = computed(() => currentUser.value?.remark || '备注信息')
-
-/**
- * 计算属性：登录方式显示
- */
-const profileLoginMode = computed(() => currentUser.value?.phone || '当前手机号')
-
-/**
- * 计算属性：最近活动时间或登录记录
- */
-const profileLoginAt = computed(() => {
-  const time = currentUser.value?.createTime
-  return time ? new Date(time).toLocaleString('zh-CN') : '暂无记录'
-})
 
 /**
  * 计算属性：用户名称首字母（用于头像占位符）
@@ -132,48 +108,44 @@ const publicProfile = computed<UserInfoVO>(() => {
   }
 })
 
-const handleLogout = () => {
-  logout()
+const handleLogout = async () => {
+  await logout()
   router.push('/')
 }
 
-const handleSavePublicProfile = (payload: UserInfoVO) => {
-  // 更新当前用户数据
-  currentUser.value = {
-    ...(currentUser.value || {
-      userName: '',
-      nickname: '',
-      email: '',
-      phone: '',
-      remark: '',
-      avatarUrl: '',
-      id: 0,
-      userCode: '',
-      createTime: '',
-    }),
-    userName: payload.userName,
-    nickname: payload.nickname,
-    email: payload.email,
-    phone: payload.phone,
-    remark: payload.remark,
-    avatarUrl: payload.avatarUrl,
-  } as UserInfoVO
-
-  // 在浏览器环境中持久化数据并通知其他组件
-  if (typeof window !== 'undefined') {
-    window.localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(currentUser.value))
-    window.dispatchEvent(new Event(AUTH_CHANGE_EVENT))
-
-    //后续要发送给后端接口，
+const handleSavePublicProfile = async (payload: UserInfoVO) => {
+  try {
+    await updateUserInfoApi({
+      userName: payload.userName,
+      nickname: payload.nickname,
+      phone: payload.phone,
+      remark: payload.remark,
+    })
+    const userInfoResult = await getUserInfoApi()
+    if (userInfoResult.code === 200) {
+      currentUser.value = userInfoResult.data
+      setCurrentUser(userInfoResult.data)
+    }
+    ElMessage.success('资料已更新')
+  } catch (error) {
+    ElMessage.error((error as Error).message || '更新失败，请稍后重试')
   }
 }
 
-/**
- * 处理头像编辑操作
- * 切换到公开资料区块以便编辑头像
- */
-const handleEditAvatar = () => {
-  activeSectionId.value = 'public'
+const handleAvatarUpdated = async (avatarUrl: string) => {
+  if (currentUser.value) {
+    currentUser.value = { ...currentUser.value, avatarUrl }
+    setCurrentUser(currentUser.value)
+  }
+  try {
+    const userInfoResult = await getUserInfoApi()
+    if (userInfoResult.code === 200) {
+      currentUser.value = userInfoResult.data
+      setCurrentUser(userInfoResult.data)
+    }
+  } catch {
+    // 本地已同步头像，后台刷新失败不阻塞
+  }
 }
 
 /**
@@ -194,21 +166,6 @@ onBeforeUnmount(() => {
   removeAuthListener()
 })
 
-// 后期清除
-
-/**
- * 计算属性：账户信息卡片数据
- * 将静态卡片配置与动态用户数据结合
- */
-const accountCards = computed(() =>
-  PROFILE_ACCOUNT_CARDS.map((card) => {
-    if (card.label === '当前身份') return { ...card, value: profileRole.value }
-    if (card.label === '登录方式') return { ...card, value: profileLoginMode.value }
-    if (card.label === '最近活动') return { ...card, value: profileLoginAt.value }
-    if (card.label === '主邮箱') return { ...card, value: profileHandle.value }
-    return card
-  }),
-)
 </script>
 
 <template>
@@ -242,8 +199,9 @@ const accountCards = computed(() =>
 
       <!-- 动态内容区块：根据激活的区块ID显示对应组件 -->
       <ProfilePublicProfileSection v-if="activeSectionId === 'public'" :profile="publicProfile"
-        @save="handleSavePublicProfile" @edit-avatar="handleEditAvatar" @email-settings="activeSectionId = 'account'" />
-      <ProfileAccountSection v-else-if="activeSectionId === 'account'" :cards="accountCards" />
+        @save="handleSavePublicProfile" @avatar-updated="handleAvatarUpdated"
+        @email-settings="activeSectionId = 'account'" />
+      <ProfileAccountSection v-else-if="activeSectionId === 'account'" />
       <ProfileAppearanceSection v-else-if="activeSectionId === 'appearance'" :cards="PROFILE_APPEARANCE_CARDS" />
       <ProfileAccessibilitySection v-else-if="activeSectionId === 'accessibility'"
         :cards="PROFILE_ACCESSIBILITY_CARDS" />

@@ -1,14 +1,10 @@
 import request from '../request/index'
-import type { ChatRequestDTO, ConversationVO, CreateConversationDTO, MessageVO } from '@/types'
+import type { ChatRequestDTO, ConversationVO, CreateConversationDTO, MessageVO, Result } from '@/types'
 import { TOKEN_STORAGE_KEY } from '@/constant'
 
 /** 发送聊天消息（普通请求，返回完整回复） — POST /ai/chat */
-export const sendChatApi = (data: ChatRequestDTO) => {
-  return request<string>({
-    url: '/ai/chat',
-    method: 'post',
-    data,
-  })
+export const sendChatApi = (data: ChatRequestDTO): Promise<Result<string>> => {
+  return request.post('/ai/chat', data)
 }
 
 /**
@@ -84,34 +80,21 @@ function parseSSEBuffer(buffer: string): string {
 }
 
 /** 新建会话 */
-export const createConversationApi = (data?: CreateConversationDTO) => {
-  return request<string>({
-    url: '/ai/conversation',
-    method: 'post',
-    data,
-  })
+export const createConversationApi = (data?: CreateConversationDTO): Promise<Result<string>> => {
+  return request.post('/ai/conversation', data)
 }
 
 /** 获取会话历史列表 */
-export const listConversationsApi = () => {
-  return request<ConversationVO[]>({
-    url: '/ai/conversation/list',
-    method: 'get',
-  })
+export const listConversationsApi = (): Promise<Result<ConversationVO[]>> => {
+  return request.get('/ai/conversation/list')
 }
 
 /** 获取会话的历史消息 */
-export const getMessagesApi = (conversationId: string) => {
-  return request<MessageVO[]>({
-    url: `/ai/conversation/${conversationId}/messages`,
-    method: 'get',
-  })
+export const getMessagesApi = (conversationId: string): Promise<Result<MessageVO[]>> => {
+  return request.get(`/ai/conversation/${conversationId}/messages`)
 }
 
 /** 删除会话 */
-export const deleteConversationApi = (conversationId: string) => {
-  return request<void>({
-    url: `/ai/conversation/${conversationId}`,
-    method: 'delete',
-  })
+export const deleteConversationApi = (conversationId: string): Promise<Result<null>> => {
+  return request.delete(`/ai/conversation/${conversationId}`)
 }
