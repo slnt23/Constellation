@@ -1,0 +1,5 @@
+export { default as PriceMainPage } from './pages/PriceMainPage.vue'
+export * from './api'
+export * from './types'
+export * from './constants'
+export * from './store'

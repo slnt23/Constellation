@@ -1,13 +1,13 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { RouterLink, RouterView, useRoute } from 'vue-router'
-import { getCurrentUser, onAuthChange } from '../utils/auth.js'
+import { getCurrentUser, onAuthChange } from '@/core/permission'
 import {
   FRONT_MENU_ITEMS
-} from '@/constant'
-import MenuPanel from '../components/site/MenuPanel.vue'
-import SiteFooter from '../components/site/SiteFooter.vue'
-import LoginDialog from '../components/site/LoginDialog.vue'
+} from '@/shared/constants'
+import MenuPanel from '@/shared/components/MenuPanel.vue'
+import SiteFooter from '@/shared/components/SiteFooter.vue'
+import LoginDialog from '@/shared/components/LoginDialog.vue'
 
 
 const route = useRoute()
@@ -195,7 +195,7 @@ onBeforeUnmount(() => {
     }">
       <RouterLink class="site-brand" to="/" @click="closeMenu">
         <strong>
-          <img class="site-brand__logo" src="../assets/example/brand_home_header.png" alt="主页" />
+      <img class="site-brand__logo" src="@/shared/assets/example/brand_home_header.png" alt="主页" />
         </strong>
         <span class="site-brand__name">主页中心</span>
       </RouterLink>

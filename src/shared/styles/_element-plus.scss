@@ -1,0 +1,331 @@
+// Element Plus 全局变量定义
+:root {
+  /* ========== 主色变量 ========== */
+  --el-color-primary: #3b82f6;
+  --el-color-primary-light-3: #60a5fa;
+  --el-color-primary-light-5: #93c5fd;
+  --el-color-primary-light-7: #bfdbfe;
+  --el-color-primary-light-8: #dbeafe;
+  --el-color-primary-light-9: #eff6ff;
+  --el-color-primary-dark-2: #2563eb;
+
+  /* ========== 背景色变量 ========== */
+  --el-bg-color: #ffffff;
+  --el-bg-color-page: #fafafa;
+  --el-bg-color-overlay: #f9fafb;
+
+  /* ========== 文字色变量 ========== */
+  --el-text-color-primary: #1f2937;
+  --el-text-color-regular: #4b5563;
+  --el-text-color-secondary: #6b7280;
+  --el-text-color-placeholder: #9ca3af;
+  --el-text-color-disabled: #d1d5db;
+
+  /* ========== 边框色变量 ========== */
+  --el-border-color: #e5e7eb;
+  --el-border-color-light: #f3f4f6;
+  --el-border-color-lighter: #f9fafb;
+  --el-border-color-dark: #d1d5db;
+
+  /* ========== 填充色变量 ========== */
+  --el-fill-color: #f9fafb;
+  --el-fill-color-light: #fafafa;
+  --el-fill-color-blank: #ffffff;
+
+  /* ========== 阴影变量 ========== */
+  --el-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --el-box-shadow-light: 0 1px 3px rgba(0, 0, 0, 0.02);
+  --el-box-shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --el-box-shadow-large: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+  /* ========== 圆角变量 ========== */
+  --el-border-radius-base: 8px;
+  --el-border-radius-small: 6px;
+  --el-border-radius-round: 12px;
+  --el-border-radius-circle: 50%;
+
+  /* ========== 状态色变量 ========== */
+  --el-color-success: #10b981;
+  --el-color-warning: #f59e0b;
+  --el-color-danger: #ef4444;
+  --el-color-info: #64748b;
+}
+
+// Element Plus 组件样式
+.el-button,
+.el-input__wrapper,
+.el-tabs__nav {
+  border-radius: var(--el-border-radius-base);
+}
+
+.el-dialog {
+  border-radius: var(--el-border-radius-round);
+  box-shadow: var(--el-box-shadow-medium);
+}
+
+// 一、按钮类
+.el-button {
+  border-radius: var(--el-border-radius-small);
+  font-weight: 500;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    transform: none;
+    box-shadow: none;
+  }
+
+  &:active:not(:disabled) {
+    transform: none;
+  }
+
+  &.is-disabled {
+    background-color: var(--el-fill-color);
+    color: var(--el-text-color-disabled);
+    border-color: var(--el-border-color-light);
+    cursor: not-allowed;
+  }
+}
+
+
+// Element Plus 表单组件
+.el-form-item {
+  margin-bottom: var(--spacing-lg);
+}
+
+.el-form-item__label {
+  font-weight: 500;
+  color: var(--el-text-color-primary);
+}
+
+// 输入框样式
+.el-input__wrapper {
+  border: 1px solid var(--el-border-color);
+  box-shadow: none;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: var(--el-color-primary-light-5);
+  }
+
+  &.is-focus {
+    border-color: var(--el-color-primary);
+    box-shadow: 0 0 0 3px var(--el-color-primary-light-8);
+  }
+}
+
+// Element Plus 弹窗相关样式
+body.el-popup-parent--hidden {
+  width: 100% !important;
+  padding-right: 0 !important;
+}
+
+
+
+// Element Plus 消息提示
+.el-message {
+  border-radius: var(--el-border-radius-round);
+  box-shadow: var(--el-box-shadow-medium);
+  border: 1px solid var(--el-border-color-light);
+}
+
+
+// 标签页（Tab）- 纯文字竖线分隔样式
+.el-tabs {
+
+  // 移除容器背景和边框
+  .el-tabs__header {
+    background: none;
+    border: none;
+    border-radius: 0;
+    margin-bottom: 0;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  // 移除导航容器样式
+  .el-tabs__nav {
+    border: none;
+    background: none;
+    display: flex;
+    justify-content: center;
+  }
+
+  // 移除导航滚动条的任何边框
+  .el-tabs__nav-wrap,
+  .el-tabs__nav-scroll {
+    border: none;
+    box-shadow: none;
+    display: flex;
+    justify-content: center;
+  }
+
+  // 选项卡项 - 纯文字样式（与登录对话框 tab 栏大小一致）
+  .el-tabs__item {
+    position: relative;
+    font-weight: normal;
+    border-radius: 0;
+    background: none !important;
+    border: none !important;
+    padding: 12px 36px; // 上下左右都有内边距，实现居中
+    font-size: 18px; // 与登录对话框一致的字体大小
+    color: #303133; // 与登录对话框一致的默认文字颜色
+    transition: color 0.3s ease;
+    display: flex; // 使用 flex 布局
+    align-items: center; // 垂直居中
+    justify-content: center; // 水平居中
+    height: auto; // 高度自适应内容
+    line-height: 1.5; // 行高
+
+    // 悬浮态：文字变蓝
+    &:hover {
+      color: #409eff;
+      background: none !important;
+    }
+
+    // 激活态：文字变蓝加粗
+    &.is-active {
+      color: #409eff;
+      font-weight: 500;
+      background: none !important;
+    }
+
+    // 添加竖线分隔（除了最后一个）- 加粗版
+    &:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 2px; // 加粗竖线宽度
+      height: 24px; // 增加竖线高度
+      background-color: #c0c4cc; // 稍微深一点的灰色，更明显
+      border-radius: 1px; // 圆角处理
+    }
+  }
+
+  // 移除激活项下划线和任何可能残留的 bar
+  .el-tabs__active-bar {
+    display: none !important;
+  }
+
+  // 确保没有任何底部边框线
+  .el-tabs__nav-wrap::after {
+    display: none !important;
+  }
+}
+
+
+// Element Plus 响应式适配
+@media (max-width: 760px) {
+  .el-dialog {
+    width: 90% !important;
+    margin: 5vh auto !important;
+  }
+
+}
+
+// ========== 登录对话框特有的 Element Plus 样式 ==========
+.login-dialog {
+
+  // 对话框内容区
+  .el-dialog__body {
+    padding: 0 !important;
+  }
+
+  // 标签页样式
+  .tabs {
+    .el-tabs__nav {
+      border: none;
+      background: transparent;
+      margin: 0 auto;
+    }
+
+    .el-tabs__nav-wrap,
+    .el-tabs__nav-scroll {
+      display: flex;
+      justify-content: center;
+    }
+
+    .el-tabs__item {
+      padding: 0 32px 16px;
+      font-size: 18px;
+      color: #303133;
+      background: transparent;
+      border: none;
+      position: relative;
+      transition: color 0.3s;
+
+      &:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1px;
+        height: 18px;
+        background-color: #dcdfe6;
+      }
+
+      &.is-active {
+        color: #409eff;
+        font-weight: 500;
+      }
+
+      &:hover {
+        color: #409eff;
+      }
+    }
+
+    .el-tabs__active-bar {
+      display: none !important;
+    }
+  }
+
+}
+
+// ========== Linear 风格覆盖 ==========
+.el-card {
+  border: 1px solid var(--el-border-color-light);
+  border-radius: var(--el-border-radius-base);
+  box-shadow: none;
+}
+
+.el-menu {
+  border-right: none;
+}
+
+.el-menu-item {
+  border-radius: var(--el-border-radius-small);
+  margin: 2px 8px;
+
+  &:hover {
+    background: var(--el-fill-color-light);
+  }
+
+  &.is-active {
+    background: var(--el-fill-color);
+    color: var(--el-text-color-primary);
+  }
+}
+
+.el-table {
+  --el-table-border-color: var(--el-border-color-light);
+  --el-table-header-bg-color: #fafafa;
+  --el-table-header-text-color: var(--el-text-color-primary);
+
+  th.el-table__cell {
+    font-weight: 500;
+  }
+}
+
+.el-pagination {
+  justify-content: flex-end;
+}
+
+.el-dialog {
+  border-radius: var(--el-border-radius-base);
+  box-shadow: var(--el-box-shadow-medium);
+}
