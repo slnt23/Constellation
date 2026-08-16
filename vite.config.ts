@@ -15,12 +15,12 @@ export default defineConfig(({ mode }) => {
       vue(), // 编译 .vue 文件
       AutoImport({ // 自动导入 Vue API 和 Element Plus API
         resolvers: [ElementPlusResolver()],
-        dts: 'src/core/config/auto-imports.d.ts',
+        dts: 'auto-imports.d.ts',
       }),
       Components({ // 自动按需导入 Element Plus 组件
         resolvers: [ElementPlusResolver()],
         dirs: ['src/modules', 'src/shared/components'],
-        dts: 'src/core/config/components.d.ts',
+        dts: 'components.d.ts',
       }),
     ],
     resolve: {

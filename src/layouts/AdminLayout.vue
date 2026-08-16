@@ -10,8 +10,7 @@ import { RouterView } from 'vue-router'
 
 <style scoped lang="scss">
 .admin-layout {
-  width: var(--shell-width);
-  margin: 0 auto;
+  width: 100%;
   min-height: 100vh;
   box-sizing: border-box;
 }

@@ -12,6 +12,10 @@ export function useAdminDashboard() {
     () => currentUser.value?.nickname || currentUser.value?.userName || '管理员',
   )
 
+  const profileEmail = computed(() => currentUser.value?.email || '')
+
+  const profileAvatar = computed(() => currentUser.value?.avatarUrl || '')
+
   const handleLogout = () => {
     void logout().then(() => router.push('/'))
   }
@@ -29,6 +33,8 @@ export function useAdminDashboard() {
   return {
     currentUser,
     profileName,
+    profileEmail,
+    profileAvatar,
     handleLogout,
   }
 }

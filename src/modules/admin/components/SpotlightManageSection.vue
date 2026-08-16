@@ -3,6 +3,7 @@ import { computed, onMounted, reactive, ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { FormInstance, FormRules, UploadFile, UploadUserFile } from 'element-plus'
 import { Delete, EditPen, Plus } from '@element-plus/icons-vue'
+import AdminPageHeader from '@/modules/admin/components/AdminPageHeader.vue'
 import { spotlightApi } from '@/modules/admin/api'
 import type { SpotlightItem } from '@/shared/types'
 
@@ -159,20 +160,17 @@ onMounted(fetchList)
 </script>
 
 <template>
-  <el-card shadow="never">
-    <template #header>
-      <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px">
-        <div>
-          <el-text size="large" tag="b">焦点项目管理</el-text>
-          <br />
-          <el-text type="info" size="small">首页焦点项目内容维护</el-text>
-        </div>
-        <el-button type="primary" :icon="Plus" @click="openCreate">新增焦点项目</el-button>
-      </div>
-    </template>
+  <div class="manage-panel">
+    <AdminPageHeader
+      title="焦点项目管理"
+      subtitle="首页焦点项目内容维护"
+      action-label="新增焦点项目"
+      @action="openCreate"
+    />
 
+    <div class="manage-panel__card">
     <div class="manage-panel__table-wrap">
-      <el-table v-if="!loading || list.length" :data="list" border stripe class="manage-panel__table">
+      <el-table v-if="!loading || list.length" :data="list" class="manage-panel__table">
         <el-table-column label="封面" width="110">
           <template #default="{ row }">
             <el-image
@@ -208,6 +206,7 @@ onMounted(fetchList)
       <el-skeleton v-else-if="loading" :rows="5" animated class="manage-panel__skeleton" />
 
       <el-empty v-else description="暂无焦点项目" />
+    </div>
     </div>
 
     <el-dialog
@@ -261,7 +260,7 @@ onMounted(fetchList)
         <el-button type="primary" :loading="submitting" @click="submit">保存</el-button>
       </template>
     </el-dialog>
-  </el-card>
+  </div>
 </template>
 
 

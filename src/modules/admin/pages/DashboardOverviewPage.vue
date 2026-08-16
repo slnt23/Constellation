@@ -1,23 +1,18 @@
 <script setup lang="ts">
-import { ADMIN_OVERVIEW_FEATURE_CARDS, ADMIN_OVERVIEW_QUICK_CARDS } from '@/modules/admin/constants'
+import { Monitor } from '@element-plus/icons-vue'
+import AdminEmptyState from '@/modules/admin/components/AdminEmptyState.vue'
+import AdminPageHeader from '@/modules/admin/components/AdminPageHeader.vue'
 </script>
 
 <template>
-  <el-row :gutter="16">
-    <el-col v-for="card in ADMIN_OVERVIEW_QUICK_CARDS" :key="card.title" :xs="24" :sm="12" :lg="8">
-      <el-card shadow="never">
-        <el-text size="large" tag="b">{{ card.title }}</el-text>
-        <el-text type="info" size="small">{{ card.description }}</el-text>
-      </el-card>
-    </el-col>
-  </el-row>
-
-  <el-row :gutter="16" style="margin-top: 16px">
-    <el-col v-for="card in ADMIN_OVERVIEW_FEATURE_CARDS" :key="card.title" :xs="24" :sm="12" :lg="6">
-      <el-card shadow="never">
-        <el-text size="large" tag="b">{{ card.title }}</el-text>
-        <el-text type="info" size="small">{{ card.description }}</el-text>
-      </el-card>
-    </el-col>
-  </el-row>
+  <div class="admin-page">
+    <AdminPageHeader title="控制台总览" subtitle="系统运行概览与关键指标" :show-action="false" />
+    <div class="admin-page__card">
+      <AdminEmptyState title="暂无统计数据" description="统计接口接入后将在此展示控制台指标与图表。">
+        <template #icon>
+          <el-icon><Monitor /></el-icon>
+        </template>
+      </AdminEmptyState>
+    </div>
+  </div>
 </template>

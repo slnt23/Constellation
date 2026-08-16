@@ -2,7 +2,8 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
-import { Delete, EditPen, Plus } from '@element-plus/icons-vue'
+import { Delete, EditPen } from '@element-plus/icons-vue'
+import AdminPageHeader from '@/modules/admin/components/AdminPageHeader.vue'
 import { featureApi } from '@/modules/admin/api'
 import type { FeatureItem } from '@/shared/types'
 
@@ -131,20 +132,17 @@ onMounted(fetchList)
 </script>
 
 <template>
-  <el-card shadow="never">
-    <template #header>
-      <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px">
-        <div>
-          <el-text size="large" tag="b">特性管理</el-text>
-          <br />
-          <el-text type="info" size="small">首页特性卡片内容维护</el-text>
-        </div>
-        <el-button type="primary" :icon="Plus" @click="openCreate">新增特性</el-button>
-      </div>
-    </template>
+  <div class="manage-panel">
+    <AdminPageHeader
+      title="特性管理"
+      subtitle="首页特性卡片内容维护"
+      action-label="新增特性"
+      @action="openCreate"
+    />
 
+    <div class="manage-panel__card">
     <div class="manage-panel__table-wrap">
-      <el-table v-if="!loading || list.length" :data="list" border stripe class="manage-panel__table">
+      <el-table v-if="!loading || list.length" :data="list" class="manage-panel__table">
         <el-table-column prop="id" label="ID" width="80" />
         <el-table-column label="图标" width="110">
           <template #default="{ row }">
@@ -165,6 +163,7 @@ onMounted(fetchList)
       <el-skeleton v-else-if="loading" :rows="5" animated class="manage-panel__skeleton" />
 
       <el-empty v-else description="暂无特性" />
+    </div>
     </div>
 
     <el-dialog
@@ -193,7 +192,7 @@ onMounted(fetchList)
         <el-button type="primary" :loading="submitting" @click="submit">保存</el-button>
       </template>
     </el-dialog>
-  </el-card>
+  </div>
 </template>
 
 

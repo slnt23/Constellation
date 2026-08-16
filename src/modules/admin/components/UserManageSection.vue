@@ -2,7 +2,8 @@
 import { onMounted, reactive, ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
-import { Delete, EditPen, Key, Plus, Search } from '@element-plus/icons-vue'
+import { Delete, EditPen, Key, Search } from '@element-plus/icons-vue'
+import AdminPageHeader from '@/modules/admin/components/AdminPageHeader.vue'
 import { adminRoleApi, adminUserApi } from '@/modules/admin/api'
 import type {
   AdminUserQuery,
@@ -248,18 +249,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <el-card shadow="never">
-    <template #header>
-      <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px">
-        <div>
-          <el-text size="large" tag="b">用户管理</el-text>
-          <br />
-          <el-text type="info" size="small">后台用户查询、创建与状态维护</el-text>
-        </div>
-        <el-button type="primary" :icon="Plus" @click="openCreate">新增用户</el-button>
-      </div>
-    </template>
+  <div class="manage-panel">
+    <AdminPageHeader
+      title="用户管理"
+      subtitle="后台用户查询、创建与状态维护"
+      action-label="新增用户"
+      @action="openCreate"
+    />
 
+    <div class="manage-panel__card">
     <div class="manage-panel__filters">
       <el-input v-model="query.keyword" placeholder="用户名 / 昵称 / 手机号 / 邮箱" clearable class="manage-panel__keyword"
         @keyup.enter="handleSearch">
@@ -278,7 +276,7 @@ onMounted(() => {
     </div>
 
     <div class="manage-panel__table-wrap">
-      <el-table v-if="!loading || list.length" :data="list" border stripe class="manage-panel__table">
+      <el-table v-if="!loading || list.length" :data="list" class="manage-panel__table">
         <el-table-column prop="id" label="ID" width="80" />
         <el-table-column prop="userCode" label="编号" min-width="130" show-overflow-tooltip />
         <el-table-column prop="username" label="用户名" min-width="120" show-overflow-tooltip />
@@ -288,7 +286,11 @@ onMounted(() => {
         <el-table-column prop="roleName" label="角色" min-width="120" show-overflow-tooltip />
         <el-table-column label="状态" width="90">
           <template #default="{ row }">
-            <el-tag :type="row.status === 0 ? 'success' : 'danger'">
+            <el-tag
+              class="manage-panel__status-tag"
+              :type="row.status === 0 ? 'success' : 'danger'"
+              effect="light"
+            >
               {{ row.status === 0 ? '正常' : '封禁' }}
             </el-tag>
           </template>
@@ -321,6 +323,7 @@ onMounted(() => {
         @current-change="handlePageChange"
         @size-change="handleSizeChange"
       />
+    </div>
     </div>
 
     <el-dialog
@@ -386,7 +389,7 @@ onMounted(() => {
         <el-button type="primary" :loading="passwordSubmitting" @click="submitResetPassword">确认重置</el-button>
       </template>
     </el-dialog>
-  </el-card>
+  </div>
 </template>
 
 
