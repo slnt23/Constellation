@@ -28,5 +28,3 @@ docker compose down
 cd ..
 
 docker ps -a
-
-

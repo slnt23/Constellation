@@ -3,7 +3,7 @@
 services:
   mysql:
     image: mysql:8.0.20
-    container_name: owl_mysql
+    container_name: owl-mysql
     restart: always
     ports:
       - "3306:3306"

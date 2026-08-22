@@ -3,7 +3,7 @@
 services:
   owl:
     image: owl:1.0.0
-    container_name: owl_back
+    container_name: owl-back
     restart: always
     ports:
       - "30023:8080"
