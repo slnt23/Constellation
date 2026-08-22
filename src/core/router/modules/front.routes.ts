@@ -47,7 +47,7 @@ const frontRoutes = [
         name: 'front-blog',
         component: BlogPage,
         meta: {
-          requiresAuth: true,
+          // requiresAuth: true,
         },
       },
       {
@@ -55,7 +55,7 @@ const frontRoutes = [
         name: 'front-blog-posts',
         component: BlogListPage,
         meta: {
-          requiresAuth: true,
+          // requiresAuth: true,
         },
       },
       {
