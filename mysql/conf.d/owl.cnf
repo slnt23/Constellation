@@ -1,0 +1,13 @@
+[mysqld]
+
+sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+
+# 字符集
+character-set-server=utf8mb4
+collation-server=utf8mb4_unicode_ci
+
+# 认证插件（MySQL 8.0 兼容旧客户端）
+default-authentication-plugin=mysql_native_password
+
+# 连接数
+max_connections=1000

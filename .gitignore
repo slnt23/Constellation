@@ -1,0 +1,14 @@
+dfs/
+elk/
+jenkins/
+k8s/
+mongodb/
+portainer/
+rocketmq/
+seata/
+sentinel/
+nacos/nacos-alone/
+
+
+data/
+logs/
