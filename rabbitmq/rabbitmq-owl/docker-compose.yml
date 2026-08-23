@@ -2,7 +2,7 @@
 
 services:
   rabbitmq:
-    image: rabbitmq:4.0.9-management  # 最新稳定版
+    image: rabbitmq:3.12-management
     container_name: owl-rabbitmq
     restart: always
     ports:
@@ -29,5 +29,3 @@ services:
           cpus: '0.25'
           memory: 256M
 
-
-#image: rabbitmq:3.12-management

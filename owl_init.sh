@@ -8,7 +8,7 @@ cd ../..
 # source init.sh
 
 
-cd ./redis/redis-sentinel
+cd ./redis/redis-alone
 docker compose up -d
 cd ../..
 # source init.sh
