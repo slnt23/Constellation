@@ -23,7 +23,7 @@ docker compose down
 cd ../..
 # source init.sh
 
-cd ./mysql
+cd ./mysql/mysql-owl
 docker compose down
 cd ..
 

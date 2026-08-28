@@ -1,7 +1,7 @@
 
 services:
   nacos:
-    image: nacos/nacos-server:v2.1.0
+    image: nacos/nacos-server:v3.1.1
     container_name: owl-nacos
     restart: always
     environment:

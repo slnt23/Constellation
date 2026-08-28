@@ -8,7 +8,7 @@ cd ../..
 # source init.sh
 
 
-cd ./redis/redis-alone
+cd ./redis/redis-sentinel
 docker compose up -d
 cd ../..
 # source init.sh
@@ -25,7 +25,7 @@ docker compose up -d
 cd ../..
 # source init.sh
 
-cd ./mysql
+cd ./mysql/mysql-owl
 docker compose up -d
 cd ..
 
