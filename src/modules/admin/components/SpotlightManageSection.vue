@@ -24,6 +24,9 @@ const formRef = ref<FormInstance>()
 const list = ref<SpotlightItem[]>([])
 const fileList = ref<UploadUserFile[]>([])
 const uploadFile = ref<File | null>(null)
+const pageNum = ref(1)
+const pageSize = ref(10)
+const total = ref(0)
 
 const form = reactive<SpotlightForm>({
   eyebrow: '',
@@ -53,13 +56,25 @@ const isEdit = computed(() => editingId.value !== null)
 const fetchList = async () => {
   loading.value = true
   try {
-    const res = await spotlightApi.list()
-    list.value = res.data ?? []
+    const res = await spotlightApi.page(pageNum.value, pageSize.value)
+    list.value = res.data?.records ?? []
+    total.value = res.data?.total ?? 0
   } catch {
     ElMessage.error('加载焦点项目失败，请稍后重试')
   } finally {
     loading.value = false
   }
+}
+
+const handlePageChange = (page: number) => {
+  pageNum.value = page
+  fetchList()
+}
+
+const handleSizeChange = (size: number) => {
+  pageSize.value = size
+  pageNum.value = 1
+  fetchList()
 }
 
 const resetForm = () => {
@@ -106,7 +121,7 @@ const submit = async () => {
   const valid = await formRef.value?.validate().catch(() => false)
   if (!valid) return
 
-  if (!isEdit.value && !uploadFile.value) {
+  if (!uploadFile.value) {
     ElMessage.warning('请上传封面图片')
     return
   }
@@ -123,7 +138,7 @@ const submit = async () => {
     }
 
     if (editingId.value !== null) {
-      await spotlightApi.update(editingId.value, { ...payload, id: editingId.value })
+      await spotlightApi.update(editingId.value, { ...payload, image: uploadFile.value })
       ElMessage.success('焦点项目已更新')
     } else {
       await spotlightApi.create({ ...payload, image: uploadFile.value as File })
@@ -207,6 +222,18 @@ onMounted(fetchList)
 
       <el-empty v-else description="暂无焦点项目" />
     </div>
+
+    <div class="manage-panel__pagination">
+      <el-pagination
+        v-model:current-page="pageNum"
+        v-model:page-size="pageSize"
+        :total="total"
+        :page-sizes="[10, 20, 50, 100]"
+        layout="total, sizes, prev, pager, next, jumper"
+        @current-change="handlePageChange"
+        @size-change="handleSizeChange"
+      />
+    </div>
     </div>
 
     <el-dialog
@@ -237,7 +264,7 @@ onMounted(fetchList)
             <el-option label="新窗口" value="_blank" />
           </el-select>
         </el-form-item>
-        <el-form-item v-if="!isEdit" label="封面图片">
+        <el-form-item label="封面图片">
           <el-upload
             v-model:file-list="fileList"
             :auto-upload="false"
@@ -250,9 +277,6 @@ onMounted(fetchList)
             <el-icon :size="20"><Plus /></el-icon>
           </el-upload>
         </el-form-item>
-        <el-form-item v-else label="封面图片">
-          <span class="manage-panel__muted">编辑暂不支持更换图片</span>
-        </el-form-item>
       </el-form>
 
       <template #footer>
@@ -262,5 +286,4 @@ onMounted(fetchList)
     </el-dialog>
   </div>
 </template>
-
 

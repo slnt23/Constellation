@@ -20,6 +20,9 @@ const dialogVisible = ref(false)
 const editingId = ref<number | null>(null)
 const formRef = ref<FormInstance>()
 const list = ref<FeatureItem[]>([])
+const pageNum = ref(1)
+const pageSize = ref(10)
+const total = ref(0)
 
 const form = reactive<FeatureForm>({
   icon: '',
@@ -46,13 +49,25 @@ const isEdit = computed(() => editingId.value !== null)
 const fetchList = async () => {
   loading.value = true
   try {
-    const res = await featureApi.list()
-    list.value = res.data ?? []
+    const res = await featureApi.page(pageNum.value, pageSize.value)
+    list.value = res.data?.records ?? []
+    total.value = res.data?.total ?? 0
   } catch {
     ElMessage.error('加载特性失败，请稍后重试')
   } finally {
     loading.value = false
   }
+}
+
+const handlePageChange = (page: number) => {
+  pageNum.value = page
+  fetchList()
+}
+
+const handleSizeChange = (size: number) => {
+  pageSize.value = size
+  pageNum.value = 1
+  fetchList()
 }
 
 const resetForm = () => {
@@ -70,11 +85,11 @@ const openCreate = () => {
 }
 
 const openEdit = (row: FeatureItem) => {
-  editingId.value = row.id ?? null
-  form.icon = row.icon ?? ''
+  editingId.value = row.id
+  form.icon = row.icon
   form.title = row.title
   form.description = row.description ?? ''
-  form.sortOrder = row.sortOrder ?? 0
+  form.sortOrder = row.sortOrder
   formRef.value?.clearValidate()
   dialogVisible.value = true
 }
@@ -110,8 +125,6 @@ const submit = async () => {
 }
 
 const remove = async (row: FeatureItem) => {
-  if (row.id === undefined) return
-
   try {
     await ElMessageBox.confirm(`确定删除「${row.title}」吗？删除后不可恢复。`, '删除确认', {
       type: 'warning',
@@ -163,6 +176,18 @@ onMounted(fetchList)
       <el-skeleton v-else-if="loading" :rows="5" animated class="manage-panel__skeleton" />
 
       <el-empty v-else description="暂无特性" />
+    </div>
+
+    <div class="manage-panel__pagination">
+      <el-pagination
+        v-model:current-page="pageNum"
+        v-model:page-size="pageSize"
+        :total="total"
+        :page-sizes="[10, 20, 50, 100]"
+        layout="total, sizes, prev, pager, next, jumper"
+        @current-change="handlePageChange"
+        @size-change="handleSizeChange"
+      />
     </div>
     </div>
 

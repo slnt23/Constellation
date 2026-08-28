@@ -1,10 +1,10 @@
 :root {
   /* 圆角体系 */
-  --radius-pill: 999px;
-  --radius-soft-sm: 16px;
-  --radius-soft-md: 24px;
-  --radius-soft-lg: 32px;
-  --radius-ui: 10px;
+  --radius-pill: var(--theme-radius-action);
+  --radius-soft-sm: var(--theme-radius-card);
+  --radius-soft-md: var(--theme-radius-card);
+  --radius-soft-lg: var(--theme-radius-large);
+  --radius-ui: var(--theme-radius-control);
 
   /* 语义化圆角变量 */
   --border-radius-sm: var(--radius-soft-sm);
@@ -12,24 +12,24 @@
   --border-radius-lg: var(--radius-soft-lg);
 
   /* 全局主题色 */
-  --color-primary: #409eff;
-  --color-primary-strong: #337ecc;
-  --color-accent: #f5f9fc;
-  --color-surface: rgba(255, 255, 255, 0.72);
-  --color-surface-strong: rgba(244, 248, 252, 0.92);
-  --color-surface-soft: rgba(255, 255, 255, 0.52);
-  --color-border: rgba(28, 54, 72, 0.14);
+  --color-primary: var(--theme-primary);
+  --color-primary-strong: var(--theme-primary-strong);
+  --color-accent: var(--theme-primary-soft);
+  --color-surface: var(--theme-surface);
+  --color-surface-strong: var(--theme-surface-strong);
+  --color-surface-soft: var(--theme-surface-soft);
+  --color-border: var(--theme-border);
 
-  --color-text: #111111;
-  --color-text-soft: #2f2f2f;
-  --color-text-deep: #000000;
-  --color-muted-deep: #3f3f3f;
-  --color-muted-foreground: #6b7280;
-  --color-background: #ffffff;
-  --color-foreground: #171717;
+  --color-text: var(--theme-text);
+  --color-text-soft: var(--theme-text-regular);
+  --color-text-deep: var(--theme-text);
+  --color-muted-deep: var(--theme-text-regular);
+  --color-muted-foreground: var(--theme-text-muted);
+  --color-background: var(--theme-canvas);
+  --color-foreground: var(--theme-text);
 
-  --shadow-soft: 0 18px 48px rgba(27, 44, 57, 0.08);
-  --shadow-medium: 0 10px 28px rgba(27, 44, 57, 0.1);
+  --shadow-soft: var(--theme-shadow-card);
+  --shadow-medium: var(--theme-shadow-overlay);
   //  gap统一规定
   //  --gap
   /* 页面内容与导航安全留白 */
@@ -41,7 +41,7 @@
   --chat-nav-gap: var(--base-site-gap);
   --chat-edge-gap: var(--base-site-gap);
 
-  --font-family-base: 'Inter', 'Geist', 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+  --font-family-base: var(--theme-font-family);
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-bold: 600;
@@ -74,11 +74,9 @@
   --vercel-section-gap: 96px;
   --vercel-section-pad: 64px;
 
-  font-family: var(--font-family-base), serif;
+  font-family: var(--font-family-base);
   color: var(--color-text-deep);
-  background:
-    radial-gradient(circle at top left, rgba(220, 233, 243, 0.42), transparent 40%),
-    linear-gradient(180deg, #fbfdff 0%, #f4f8fb 46%, #edf3f7 100%);
+  background: var(--theme-canvas);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

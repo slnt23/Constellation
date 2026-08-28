@@ -21,5 +21,5 @@ export interface SpotlightDTO {
 /** 新增焦点项目请求模型 — multipart/form-data，image 必传 */
 export type SpotlightCreateDTO = Omit<SpotlightDTO, 'id' | 'image'> & { image: File }
 
-/** 更新焦点项目请求模型 — JSON，主键必传 */
-export type SpotlightUpdateDTO = Omit<SpotlightDTO, 'id' | 'image'> & { id: number }
+/** 更新焦点项目请求模型 — multipart/form-data，字段与新增一致 */
+export type SpotlightUpdateDTO = SpotlightCreateDTO

@@ -154,25 +154,12 @@ const handleUpdatePassword = async () => {
 </template>
 
 <style scoped lang="scss">
-.account-settings-form {
-  :deep(.el-form-item) {
-    margin-bottom: 24px;
-  }
-
-  :deep(.el-form-item__label) {
-    font-size: 14px;
-    font-weight: 500;
-    color: #171717;
-    padding-bottom: 8px;
-    line-height: 20px;
-  }
-}
-
-/* 输入框 + 按钮组合 */
+/* 表单控件保持 Element Plus 原生视觉，仅保留必要布局。 */
 .input-group {
   display: flex;
-  gap: 12px;
   align-items: center;
+  gap: 12px;
+  width: 100%;
 }
 
 .email-code-group {
@@ -181,55 +168,11 @@ const handleUpdatePassword = async () => {
 
 .custom-input {
   flex: 1;
-  --el-input-bg-color: #ffffff;
-  --el-input-border-color: #ebebeb;
-  --el-input-border-radius: 6px;
-  --el-input-height: 40px;
-
-  &:focus {
-    --el-input-border-color: #171717;
-    box-shadow: 0 0 0 3px rgba(23, 23, 23, 0.1);
-  }
-}
-
-.update-btn {
-  padding: 0 12px;
-  font-size: 14px;
-  font-weight: 500;
-  height: 40px;
-  white-space: nowrap;
-  background-color: #171717;
-  border-color: #171717;
-  border-radius: 100px;
-
-  &:hover {
-    background-color: #171717;
-    border-color: #171717;
-    opacity: 0.9;
-  }
-
-  &--secondary {
-    background-color: #ffffff;
-    border-color: #171717;
-    color: #171717;
-
-    &:hover {
-      background-color: #f5f5f5;
-      border-color: #171717;
-      color: #171717;
-      opacity: 1;
-    }
-  }
 }
 
 .field-hint {
-  margin: 8px 0 0 0;
+  margin: 8px 0 0;
+  color: var(--el-text-color-secondary);
   font-size: 12px;
-  color: #888888;
-  line-height: 16px;
-}
-
-.account-settings-form {
-  padding: 0;
 }
 </style>

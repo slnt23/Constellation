@@ -25,7 +25,7 @@ const emit = defineEmits(['close'])
             <h2 class="menu-panel__title">菜单</h2>
             <button class="ui-icon-close-button ui-icon-close-button--close ui-icon-close-button--right" type="button"
               @click="emit('close')">
-              <img src="/src/shared/assets/modules/ICON_CLOSE.svg" alt="关闭" width="20" height="20" />
+              <img src="/src/shared/assets/icons/close.svg" alt="关闭" width="20" height="20" />
               <span class="visually-hidden">关闭</span>
             </button>
           </div>
@@ -51,6 +51,10 @@ const emit = defineEmits(['close'])
 
 <style scoped lang="scss">
 .menu-panel {
+  /* 独立视觉：菜单面板不跟随全局主题变化。 */
+  --menu-panel-radius: 32px;
+  --menu-panel-surface: rgba(255, 255, 255, 0.92);
+
   position: fixed;
   inset: 0;
   z-index: 80;
@@ -63,8 +67,8 @@ const emit = defineEmits(['close'])
     height: 80vh;
     margin: 10vh auto;
     overflow-y: auto;
-    border-radius: var(--radius-soft-lg);
-    background: rgba(255, 255, 255, 0.92);
+    border-radius: var(--menu-panel-radius);
+    background: var(--menu-panel-surface);
     backdrop-filter: blur(20px);
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 

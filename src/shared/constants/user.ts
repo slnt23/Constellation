@@ -1,5 +1,5 @@
 import type { UserInfoVO } from '@/shared/types'
-import projectImageOne from '@/shared/assets/example/default_avatar.png'
+import projectImageOne from '@/shared/assets/ui/default-avatar.png'
 
 // 默认用户信息，用于未登录状态下的展示
 export const EXAMPLE_PUBLIC_PROFILE_DEFAULTS: UserInfoVO = {

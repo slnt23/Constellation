@@ -8,7 +8,6 @@ import { fileURLToPath, URL } from 'node:url' // 路径转换工具
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  const apiTarget = env.VITE_API_BASE_URL || 'http://127.0.0.1:18080'
 
   return {
     plugins: [
@@ -31,7 +30,8 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         '/api': {
-          target: apiTarget,
+          target: 'http://localhost:8080',
+          // target: 'http://192.168.0.43:50023',
           changeOrigin: true, // 修改请求头 Origin 为目标地址
         },
       },

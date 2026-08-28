@@ -1,6 +1,6 @@
 import request from '@/core/api/request'
 import type { FeatureDTO } from '@/modules/admin/types'
-import type { FeatureItem, Result } from '@/shared/types'
+import type { FeatureItem, PageResult, Result } from '@/shared/types'
 
 const FEATURE_BASE_URL = '/admin/feature'
 
@@ -9,6 +9,11 @@ export const featureApi = {
   /** 获取全部产品特性（按 sortOrder 升序） — GET /admin/feature */
   list(): Promise<Result<FeatureItem[]>> {
     return request.get(FEATURE_BASE_URL)
+  },
+
+  /** 分页获取全部产品特性 — GET /admin/feature/page */
+  page(pageNum = 1, pageSize = 10): Promise<Result<PageResult<FeatureItem>>> {
+    return request.get(`${FEATURE_BASE_URL}/page`, { params: { pageNum, pageSize } })
   },
 
   /** 获取单个产品特性 — GET /admin/feature/{id} */
@@ -23,8 +28,7 @@ export const featureApi = {
 
   /** 更新产品特性 — PUT /admin/feature/{id} */
   update(id: number, data: FeatureDTO): Promise<Result<null>> {
-    const payload = { ...data, id }
-    return request.put(`${FEATURE_BASE_URL}/${id}`, payload)
+    return request.put(`${FEATURE_BASE_URL}/${id}`, data)
   },
 
   /** 删除产品特性 — DELETE /admin/feature/{id} */

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import loginAdminImage from '@/shared/assets/modules/LOGIN/LOGIN_ADMIN.png'
-import loginUserImage from '@/shared/assets/modules/LOGIN/LOGIN_USER.png'
+import loginAdminImage from '@/shared/assets/login/admin.png'
+import loginUserImage from '@/shared/assets/login/user.png'
 
 
 import { ref, computed, reactive } from 'vue'
@@ -74,8 +74,11 @@ const submitLoginOrRegister = async (type: 'login' | 'register') => {
 
       if (userInfoResult.code == 200) {
         setCurrentUser(userInfoResult.data)
+        const isAdmin = userInfoResult.data.role?.toUpperCase() === 'ADMIN'
+        await router.push(isAdmin ? { name: 'admin-home-dashboard' } : { name: 'front-home' })
+      } else {
+        await router.push('/')
       }
-      await router.push('/')
     } else {
       ElMessage.error(result.message || '登录失败，请重试')
     }
@@ -182,7 +185,7 @@ const closeDialog = () => {
   <el-dialog v-model="visible" width="1000px" :show-close="false" @close="closeDialog" class="login-dialog">
     <button class="ui-icon-close-button ui-icon-close-button--close ui-icon-close-button--right" type="button"
       @click="closeDialog">
-      <img src="/src/shared/assets/modules/ICON_CLOSE.svg" alt="关闭" width="20" height="20" />
+      <img src="/src/shared/assets/icons/close.svg" alt="关闭" width="20" height="20" />
     </button>
 
     <div class="dialog-content">
@@ -310,7 +313,19 @@ const closeDialog = () => {
 
 <style scoped lang="scss">
 .login-dialog {
-  border-radius: var(--border-radius-md);
+  /* 独立视觉：不继承全站 UI 主题令牌。 */
+  --el-color-primary: #409eff;
+  --el-color-primary-dark-2: #337ecc;
+  --el-color-primary-light-9: #ecf5ff;
+  --el-border-radius-base: 10px;
+  --el-border-radius-small: 10px;
+  --el-border-radius-round: 24px;
+  --el-text-color-primary: #303133;
+  --el-text-color-regular: #606266;
+  --el-border-color: #dcdfe6;
+  --el-border-color-light: #e4e7ed;
+
+  border-radius: 24px;
   overflow: hidden;
   padding: 50px;
 
@@ -403,13 +418,13 @@ const closeDialog = () => {
         .el-input__inner {
           height: 44px;
           font-size: 16px;
-          border-radius: var(--radius-ui);
+          border-radius: 10px;
         }
 
         .el-button {
           height: 44px;
           font-size: 16px;
-          border-radius: var(--radius-ui);
+          border-radius: 10px;
         }
 
         .error-message {
@@ -422,7 +437,7 @@ const closeDialog = () => {
         text-align: center;
         width: 100%;
         padding: 75px;
-        border-radius: var(--border-radius-md);
+        border-radius: 24px;
 
         img {
           max-width: 100%;

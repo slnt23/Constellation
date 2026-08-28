@@ -46,20 +46,7 @@ export const PROFILE_ACCESSIBILITY_CARDS: ProfileCardExample[] = [
   },
 ]
 
-export const PROFILE_NOTIFICATION_CARDS: ProfileCardExample[] = [
-  {
-    title: '价格提醒',
-    description: '按品类、地区或材料跟踪价格变化，并及时接收动态通知。',
-  },
-  {
-    title: 'AI 助手动态',
-    description: '当长会话、摘要或任务结果生成完成时，第一时间收到提醒。',
-  },
-  {
-    title: '安全消息',
-    description: '接收重要的账户访问提醒、会话变化通知与策略更新摘要。',
-  },
-]
+// 通知/超时提醒依赖后端计划任务，接口完善前暂不提供前端入口与占位数据。
 
 export const EXAMPLE_PUBLIC_PROFILE_EMAIL_OPTIONS: ProfileSelectOption[] = [
   { value: '', label: '选择已验证邮箱以展示' },

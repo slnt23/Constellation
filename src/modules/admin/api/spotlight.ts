@@ -1,6 +1,6 @@
 import request from '@/core/api/request'
 import type { SpotlightCreateDTO, SpotlightUpdateDTO } from '@/modules/admin/types'
-import type { Result, SpotlightItem } from '@/shared/types'
+import type { PageResult, Result, SpotlightItem } from '@/shared/types'
 
 const SPOTLIGHT_BASE_URL = '/admin/spotlight'
 
@@ -9,6 +9,11 @@ export const spotlightApi = {
   /** 获取全部焦点项目（按 sortOrder 升序） — GET /admin/spotlight */
   list(): Promise<Result<SpotlightItem[]>> {
     return request.get(SPOTLIGHT_BASE_URL)
+  },
+
+  /** 分页获取全部焦点项目 — GET /admin/spotlight/page */
+  page(pageNum = 1, pageSize = 10): Promise<Result<PageResult<SpotlightItem>>> {
+    return request.get(`${SPOTLIGHT_BASE_URL}/page`, { params: { pageNum, pageSize } })
   },
 
   /** 获取单个焦点项目 — GET /admin/spotlight/{id} */
@@ -32,11 +37,16 @@ export const spotlightApi = {
 
   /**
    * 更新焦点项目 — PUT /admin/spotlight/{id}
-   * 当前后端使用 JSON 接收 SpotlightDTO（已知问题：JSON 无法绑定图片文件）
+   * 使用 multipart/form-data，image 字段为图片文件
    */
   update(id: number, data: SpotlightUpdateDTO): Promise<Result<null>> {
-    const payload = { ...data, id }
-    return request.put(`${SPOTLIGHT_BASE_URL}/${id}`, payload)
+    const formData = new FormData()
+    Object.entries(data).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        formData.append(key, value as string | Blob)
+      }
+    })
+    return request.put(`${SPOTLIGHT_BASE_URL}/${id}`, formData)
   },
 
   /** 删除焦点项目 — DELETE /admin/spotlight/{id} */

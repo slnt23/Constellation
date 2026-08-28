@@ -1,8 +1,8 @@
 import type { MenuItem } from '@/shared/types'
-import menuImagePriceQuery from '@/shared/assets/front/MENU_PRICE_SEARCH.png'
-import menuImageView from '@/shared/assets/front/MENU_VIEW.png'
-import menuImageAiChat from '@/shared/assets/front/MENU_AI_CHAT.png'
-import menuImageBlog from '@/shared/assets/front/MENU_BLOG.png'
+import menuImagePriceQuery from '@/shared/assets/ui/menu-price-search.png'
+import menuImageView from '@/shared/assets/ui/menu-view.png'
+import menuImageAiChat from '@/shared/assets/ui/menu-ai-chat.png'
+import menuImageBlog from '@/shared/assets/ui/menu-blog.png'
 
 // 每个菜单项包含标题、副标题、路径、图片和大小信息
 export const FRONT_MENU_ITEMS: MenuItem[] = [

@@ -39,11 +39,18 @@ import { CoffeeCup, Star, VideoCamera } from '@element-plus/icons-vue'
 
 <style scoped lang="scss">
 .site-footer {
+  /* 独立视觉：页脚保持原 Vercel 黑色样式，不继承全站主题。 */
+  --footer-ink: #171717;
+  --footer-on-primary: #ffffff;
+  --footer-muted: #888888;
+  --footer-radius-sm: 6px;
+  --footer-section-pad: 64px;
+
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
-  padding: var(--vercel-section-pad) 0 48px;
+  padding: var(--footer-section-pad) 0 48px;
   text-align: center;
-  background: var(--vercel-ink);
+  background: var(--footer-ink);
 }
 
 .footer-content {
@@ -58,7 +65,7 @@ import { CoffeeCup, Star, VideoCamera } from '@element-plus/icons-vue'
 
 .footer-title {
   margin: 0;
-  color: var(--vercel-on-primary);
+  color: var(--footer-on-primary);
   font-family: 'Inter', 'Geist', system-ui, sans-serif;
   font-size: 1.75rem;
   font-weight: 600;
@@ -79,17 +86,17 @@ import { CoffeeCup, Star, VideoCamera } from '@element-plus/icons-vue'
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--vercel-mute);
+  color: var(--footer-muted);
   text-decoration: none;
   font-size: 14px;
   font-weight: 500;
   letter-spacing: -0.02em;
   padding: 6px 10px;
-  border-radius: var(--vercel-rounded-sm);
+  border-radius: var(--footer-radius-sm);
   transition: color 0.15s ease;
 
   &:hover {
-    color: var(--vercel-on-primary);
+    color: var(--footer-on-primary);
   }
 }
 
@@ -107,7 +114,7 @@ import { CoffeeCup, Star, VideoCamera } from '@element-plus/icons-vue'
 
 .footer-info {
   font-size: 12px;
-  color: var(--vercel-mute);
+  color: var(--footer-muted);
   line-height: 1.4;
 }
 

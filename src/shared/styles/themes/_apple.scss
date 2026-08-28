@@ -1,0 +1,132 @@
+[data-ui-theme='apple'] {
+  color-scheme: light;
+
+  --theme-font-family: system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', sans-serif;
+  --theme-canvas: #f5f5f7;
+  --theme-surface: #ffffff;
+  --theme-surface-soft: #fafafc;
+  --theme-surface-strong: #f5f5f7;
+  --theme-text: #1d1d1f;
+  --theme-text-regular: #333333;
+  --theme-text-muted: #7a7a7a;
+  --theme-primary: #0066cc;
+  --theme-primary-strong: #0071e3;
+  --theme-primary-soft: #e8f2ff;
+  --theme-primary-on-dark: #2997ff;
+  --theme-border: #e0e0e0;
+  --theme-border-soft: #f0f0f0;
+  --theme-radius-control: 8px;
+  --theme-radius-card: 18px;
+  --theme-radius-large: 18px;
+  --theme-radius-action: 9999px;
+  --theme-shadow-card: none;
+  --theme-shadow-overlay: 0 12px 32px rgba(0, 0, 0, 0.12);
+  --theme-section-space: 80px;
+  --theme-control-height: 44px;
+  --theme-active-scale: 0.95;
+
+  --el-color-primary: #0066cc;
+  --el-color-primary-light-3: #3385d6;
+  --el-color-primary-light-5: #80b3e6;
+  --el-color-primary-light-7: #b3d1ef;
+  --el-color-primary-light-8: #cce0f5;
+  --el-color-primary-light-9: #e8f2ff;
+  --el-color-primary-dark-2: #0052a3;
+  --el-bg-color: #ffffff;
+  --el-bg-color-page: #f5f5f7;
+  --el-bg-color-overlay: #ffffff;
+  --el-text-color-primary: #1d1d1f;
+  --el-text-color-regular: #333333;
+  --el-text-color-secondary: #7a7a7a;
+  --el-border-color: #e0e0e0;
+  --el-border-color-light: #f0f0f0;
+  --el-fill-color: #f5f5f7;
+  --el-fill-color-light: #fafafc;
+  --el-border-radius-base: 8px;
+  --el-border-radius-small: 8px;
+  --el-border-radius-round: 9999px;
+  --el-box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  --el-box-shadow-light: none;
+}
+
+[data-ui-theme='apple'] {
+  .el-button {
+    min-height: 44px;
+    padding-inline: 22px;
+    border-radius: 9999px;
+    font-weight: 400;
+    transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+
+    &:active:not(:disabled) {
+      transform: scale(0.95);
+    }
+  }
+
+  .el-input__wrapper,
+  .el-select__wrapper {
+    min-height: 44px;
+    border-radius: 9999px;
+  }
+
+  .el-card,
+  .el-dialog {
+    border: 1px solid var(--theme-border);
+    border-radius: 18px;
+    box-shadow: none;
+  }
+
+  .el-table {
+    --el-table-header-bg-color: #fafafc;
+    --el-table-border-color: #f0f0f0;
+  }
+
+  .el-menu-item {
+    border-radius: 8px;
+  }
+
+  .admin-shell {
+    --admin-sidebar-bg: #000000;
+    --admin-sidebar-border: #252527;
+    --admin-sidebar-text: #ffffff;
+    --admin-sidebar-muted: #cccccc;
+    --admin-sidebar-active-bg: #272729;
+    --admin-primary: #0066cc;
+    --admin-content-bg: #f5f5f7;
+    --admin-card-bg: #ffffff;
+    --admin-card-border: #e0e0e0;
+    --admin-radius-sm: 8px;
+    --admin-radius-md: 8px;
+    --admin-radius-lg: 18px;
+    --admin-shadow-card: none;
+  }
+
+  .admin-page-header__title,
+  .admin-empty__title,
+  .profile-card h3 {
+    color: var(--theme-text);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .admin-page-header__subtitle,
+  .admin-empty__description,
+  .profile-card p {
+    color: var(--theme-text-muted);
+  }
+
+  .admin-page__card,
+  .manage-panel__card,
+  .profile-card,
+  .settings-workspace,
+  .article-hero {
+    background: var(--theme-surface);
+    border-color: var(--theme-border);
+    border-radius: var(--theme-radius-card);
+    box-shadow: none;
+  }
+
+  .admin-shell__header {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: saturate(180%) blur(20px);
+  }
+}

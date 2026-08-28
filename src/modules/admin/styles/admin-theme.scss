@@ -16,7 +16,8 @@
   --admin-radius-lg: 12px;
   --admin-shadow-card: 0 1px 2px rgba(16, 24, 40, 0.04), 0 0 0 1px rgba(16, 24, 40, 0.06);
 
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   display: flex;
   background: var(--admin-content-bg);
   color: #1f2937;
@@ -36,6 +37,7 @@
 .admin-shell__sidebar {
   width: var(--admin-sidebar-width);
   flex-shrink: 0;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -47,9 +49,10 @@
   &.is-collapsed {
     width: var(--admin-sidebar-collapsed-width);
 
-    .admin-shell__brand-text,
     .admin-shell__nav-label,
-    .admin-shell__profile-info {
+    .admin-shell__profile-info,
+    .admin-shell__profile-more,
+    .admin-shell__nav-chevron {
       opacity: 0;
       width: 0;
       overflow: hidden;
@@ -66,6 +69,11 @@
       padding-left: 0;
       padding-right: 0;
     }
+
+    .admin-shell__brand-logo {
+      width: 36px;
+      height: 36px;
+    }
   }
 }
 
@@ -78,32 +86,25 @@
 }
 
 .admin-shell__brand {
+  width: 100%;
+  min-height: 40px;
   display: flex;
   align-items: center;
-  gap: 10px;
   padding: 0 24px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  overflow: hidden;
 }
 
-.admin-shell__brand-mark {
-  width: 28px;
-  height: 28px;
-  border-radius: var(--admin-radius-md);
-  background: var(--admin-primary);
-  color: #fff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+.admin-shell__brand-logo {
+  display: block;
+  width: 148px;
+  height: 40px;
+  object-fit: contain;
+  object-position: left center;
   flex-shrink: 0;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.admin-shell__brand-text {
-  color: var(--admin-sidebar-text);
-  font-size: 18px;
-  font-weight: 700;
-  white-space: nowrap;
-  transition: opacity 0.2s ease;
+  transition: width 0.2s ease, height 0.2s ease;
 }
 
 .admin-shell__nav {
@@ -160,17 +161,83 @@
   transition: opacity 0.2s ease;
 }
 
+.admin-shell__nav-group-trigger {
+  width: 100%;
+  border: 0;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.admin-shell__nav-group.is-active > .admin-shell__nav-group-trigger {
+  color: var(--admin-sidebar-text);
+}
+
+.admin-shell__nav-chevron {
+  margin-left: auto;
+  transition: transform 0.2s ease;
+}
+
+.admin-shell__nav-group.is-open .admin-shell__nav-chevron {
+  transform: rotate(90deg);
+}
+
+.admin-shell__nav-children {
+  padding: 2px 0 4px;
+}
+
+.admin-shell__nav-child {
+  padding-left: 48px;
+}
+
 .admin-shell__sidebar-footer {
   padding-top: 16px;
   border-top: 1px solid var(--admin-sidebar-border);
   margin-top: 16px;
 }
 
+.admin-shell__account-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 12px;
+}
+
 .admin-shell__profile {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 8px 20px 0;
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: var(--admin-radius-lg);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background: var(--admin-sidebar-active-bg);
+  }
+}
+
+.admin-shell__settings-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--admin-radius-md);
+  color: var(--admin-sidebar-muted);
+  text-decoration: none;
+  transition: color 0.15s ease, background-color 0.15s ease;
+
+  &:hover,
+  &.router-link-active {
+    color: var(--admin-sidebar-text);
+    background: var(--admin-sidebar-active-bg);
+  }
 }
 
 .admin-shell__profile-avatar {
@@ -199,12 +266,9 @@
   white-space: nowrap;
 }
 
-.admin-shell__collapse-btn {
+.admin-shell__profile-more {
   color: var(--admin-sidebar-muted);
-
-  &:hover {
-    color: var(--admin-sidebar-text);
-  }
+  flex-shrink: 0;
 }
 
 .admin-shell__main {
@@ -212,6 +276,8 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .admin-shell__header {
@@ -260,13 +326,6 @@
   border: 1px solid var(--admin-card-border);
   border-radius: var(--admin-radius-md);
   background: #fff;
-}
-
-.admin-shell__header-user {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  cursor: pointer;
 }
 
 .admin-shell__content {

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import { appMeta } from '@/core/config/app.config'
-import heroVideo2 from '@/shared/assets/modules/HOME/HOME_V1.mp4'
-import heroVideo1 from '@/shared/assets/modules/HOME/HOME_V2.mp4'
-import poster404 from '@/shared/assets/status/404.png'
+import heroVideo2 from '@/shared/assets/home/hero-v1.mp4'
+import heroVideo1 from '@/shared/assets/home/hero-v2.mp4'
+import poster404 from '@/shared/assets/home/error-404.png'
 
 const videos = [heroVideo2, heroVideo1]
 const currentIndex = ref(0)

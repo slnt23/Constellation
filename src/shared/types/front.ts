@@ -14,15 +14,15 @@ export interface SpotlightItem {
   imageUrl: string
   sortOrder: number
   link?: string
-  target?: string
+  target?: '_self' | '_blank' | '_parent'
 }
 
 export interface FeatureItem {
-  icon?: string
+  id: number
+  icon: string
   title: string
   description: string
-  sortOrder?: number
-  id?: number
+  sortOrder: number
 }
 
 export interface SectionIntroData {
