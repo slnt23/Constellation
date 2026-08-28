@@ -3,23 +3,16 @@ node_modules/
 
 # Build
 dist/
-*.tsbuildinfo
 
 .env.development
 
 # Temp & backup
 *.tmp
-*.temp
-*.bak
-*.backup
 
-# Claude
+# Agent
 .claude/
-
-# Codex
 .codex/
-
-
+.trae/
 
 
 
