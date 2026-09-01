@@ -1,15 +1,12 @@
 <script setup lang="ts">
-
-import { FRONT_MENU_ITEMS } from '@/shared/constants'
-import { EXAMPLE_HOME_STATS, HOME_SECTION_INTROS } from '@/modules/home/constants'
+import { HOME_SECTION_INTROS } from '@/modules/home/constants'
 import FeatureGrid from '@/modules/home/components/FeatureGrid.vue'
+import HeroSection from '@/modules/home/components/HeroSection.vue'
 import SectionIntro from '@/modules/home/components/SectionIntro.vue'
 import SpotlightSection from '@/modules/home/components/SpotlightSection.vue'
-import StatsSection from '@/modules/home/components/StatsSection.vue'
-import CTASection from '@/modules/home/components/CTASection.vue'
-import { onMounted, ref } from "vue";
-import { featureApi, spotlightApi } from "@/modules/admin/api";
-import type { SpotlightItem, FeatureItem } from "@/shared/types";
+import { onMounted, ref } from 'vue'
+import { featureApi, spotlightApi } from '@/modules/admin/api'
+import type { SpotlightItem, FeatureItem } from '@/shared/types'
 
 const spotlightItems = ref<SpotlightItem[]>([])
 const featureItems = ref<FeatureItem[]>([])
@@ -42,7 +39,6 @@ const fetchData = async () => {
 onMounted(() => {
   fetchData()
 })
-
 </script>
 
 <template>
@@ -50,8 +46,6 @@ onMounted(() => {
     <section>
       <HeroSection />
     </section>
-
-    <StatsSection :items="EXAMPLE_HOME_STATS" />
 
     <section class="content-section content-stack">
       <SectionIntro v-bind="HOME_SECTION_INTROS[0]" />
@@ -61,11 +55,6 @@ onMounted(() => {
     <section class="content-section content-stack">
       <SectionIntro v-bind="HOME_SECTION_INTROS[1]" />
       <FeatureGrid :items="featureItems" />
-    </section>
-
-    <section class="content-section content-stack">
-      <SectionIntro v-bind="HOME_SECTION_INTROS[2]" />
-      <CTASection :items="FRONT_MENU_ITEMS" />
     </section>
   </div>
 </template>

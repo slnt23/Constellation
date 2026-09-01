@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ProfileAccessibilitySection from '@/modules/user/components/ProfileAccessibilitySection.vue'
-import ProfileAccountSection from '@/shared/components/ProfileAccountSection.vue'
+import ProfileAccountSection from '@/modules/user/components/ProfileAccountSection.vue'
 import ProfilePublicProfileSection from '@/modules/user/components/ProfilePublicProfileSection.vue'
 import { Setting, SwitchButton, User } from '@element-plus/icons-vue'
 import { PROFILE_ACCESSIBILITY_CARDS } from '@/modules/user/constants'
@@ -36,11 +36,15 @@ const handleMenuSelect = (id: string) => {
 
       <el-menu class="profile-sidebar__menu" :default-active="activeSectionId" @select="handleMenuSelect">
         <el-menu-item index="public">
-          <el-icon><User /></el-icon>
+          <el-icon>
+            <User />
+          </el-icon>
           <span>公开资料</span>
         </el-menu-item>
         <el-menu-item index="account">
-          <el-icon><Setting /></el-icon>
+          <el-icon>
+            <Setting />
+          </el-icon>
           <span>账户</span>
         </el-menu-item>
       </el-menu>
