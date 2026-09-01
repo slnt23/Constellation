@@ -25,7 +25,6 @@ let lastRefreshTs = 0
 const shiftDoublePressGap = 360
 const pinnedHeaderDuration = 5000
 const scrollRevealThreshold = 12
-const showCompactHeader = computed(() => !props.isHome || isScrolled.value)
 
 const accountRoute = computed(() => (currentUser.value ? '/profile' : '/login'))
 const accountLabel = computed(() => (currentUser.value ? '我的' : '登录'))
@@ -181,14 +180,10 @@ onBeforeUnmount(() => {
 
 <template>
     <header class="site-header" :class="{
-        'site-header--home-top': isHome && !showCompactHeader,
-        'site-header--compact': showCompactHeader,
         'site-header--hidden': !isHeaderVisible,
     }">
         <RouterLink class="site-brand" to="/" @click="emit('close-menu')">
-            <strong>
-                <img class="site-brand__logo" src="@/shared/assets/logos/brand-home-header.png" alt="主页" />
-            </strong>
+            <img class="site-brand__logo" src="@/shared/assets/logos/brand-home-header.png" alt="主页" />
             <span class="site-brand__name">主页中心</span>
         </RouterLink>
 
@@ -209,99 +204,70 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped lang="scss">
-$header-transition: 220ms ease;
-$button-transition: 180ms ease;
-$radius-pill: var(--radius-pill);
+/* Apple 液态玻璃风格 — 所有参数写死，不依赖外部变量 */
 
 .site-header {
     position: fixed;
     left: 50%;
+    top: 12px;
     z-index: 40;
-    width: var(--shell-width);
+    width: min(1120px, calc(100% - 32px));
     transform: translate(-50%, 0);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 18px;
-    padding: 10px 14px;
-    min-height: var(--site-header-height);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: calc(#{$radius-pill} - 2px);
-    background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(244, 248, 252, 0.66)),
-        rgba(255, 255, 255, 0.55);
+    gap: 16px;
+    padding: 8px 12px 8px 8px;
+    height: 52px;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 999px;
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.72) 0%,
+            rgba(255, 255, 255, 0.38) 100%);
     box-shadow:
-        0 18px 40px rgba(27, 44, 57, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.72);
-    backdrop-filter: blur(18px) saturate(140%);
-    transition: all $header-transition;
+        0 8px 32px rgba(0, 0, 0, 0.08),
+        0 2px 8px rgba(0, 0, 0, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    transition: opacity 220ms ease, transform 220ms ease;
 
     &--hidden {
         opacity: 0;
         pointer-events: none;
-        transform: translate(-50%, calc(-100% - 18px));
-    }
-
-    &--compact {
-        background:
-            linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(240, 246, 251, 0.88)),
-            rgba(255, 255, 255, 0.8);
-        border-color: rgba(185, 205, 221, 0.68);
-        box-shadow:
-            0 18px 42px rgba(18, 54, 82, 0.12),
-            inset 0 1px 0 rgba(255, 255, 255, 0.8);
-    }
-
-    &--home-top {
-        background: linear-gradient(135deg, rgba(14, 25, 37, 0.3), rgba(14, 25, 37, 0.08));
-        border-color: rgba(255, 255, 255, 0.18);
-        box-shadow:
-            0 16px 34px rgba(8, 15, 24, 0.18),
-            inset 0 1px 0 rgba(255, 255, 255, 0.14);
+        transform: translate(-50%, calc(-100% - 16px));
     }
 }
 
 .site-brand {
     display: inline-flex;
     align-items: center;
+    gap: 8px;
     flex-shrink: 0;
-    min-width: 0;
-    padding: 6px 10px 6px 6px;
+    padding: 4px 12px 4px 4px;
     border-radius: 999px;
     text-decoration: none;
-    transition: background $header-transition, transform $button-transition;
-
-    &:hover {
-        background: rgba(255, 255, 255, 0.22);
-        transform: translateY(-1px);
-    }
-
-    strong {
-        color: var(--color-text-deep);
-        font-size: 1.06rem;
-        font-weight: 600;
-        letter-spacing: 0.08em;
-    }
 
     &__logo {
+        height: 34px;
         width: auto;
-        height: 38px;
         display: block;
     }
 
-    .site-header--home-top & {
-        background: rgba(255, 255, 255, 0.06);
-
-        strong {
-            color: #ffffff;
-        }
+    &__name {
+        color: #1d1d1f;
+        font-size: 0.92rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        white-space: nowrap;
     }
 }
 
 .site-header__actions {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     margin-left: auto;
     flex-shrink: 0;
 }
@@ -311,113 +277,86 @@ $radius-pill: var(--radius-pill);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 110px;
-    min-height: 42px;
-    padding: 9px 20px;
+    min-height: 36px;
+    padding: 6px 16px;
     border: 1px solid transparent;
-    border-radius: $radius-pill;
+    border-radius: 999px;
+    font-size: 0.82rem;
     font-weight: 500;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.02em;
     text-decoration: none;
     white-space: nowrap;
-    overflow: hidden;
-    transition: all $header-transition;
+    cursor: pointer;
+    transition: all 200ms ease;
 
-    &:focus-visible,
-    .site-brand:focus-visible {
-        outline: 2px solid rgba(47, 111, 148, 0.4);
-        outline-offset: 3px;
+    &:focus-visible {
+        outline: 2px solid rgba(0, 102, 204, 0.4);
+        outline-offset: 2px;
     }
 
     &--menu {
-        background: #1a1a1a;
+        background: rgba(29, 29, 31, 0.92);
         color: #ffffff;
-        border: 1px solid #333333;
-        min-width: 160px;
+        border-color: rgba(29, 29, 31, 0.6);
+        min-width: 136px;
+        padding-right: 28px;
 
         &::after {
-            content: '•';
-            position: absolute;
-            right: 10px;
-            font-size: 1.4em;
-            line-height: 1;
-            color: #ffffff;
-            opacity: 1;
-            transition: opacity $header-transition;
-        }
-
-        &::before {
             content: '→';
             position: absolute;
-            left: 10px;
-            font-size: 1.2em;
-            opacity: 0;
-            transform: translateX(-10px);
-            transition: opacity $header-transition, transform $header-transition;
+            right: 12px;
+            font-size: 1rem;
+            opacity: 0.7;
+            transition: opacity 200ms ease, transform 200ms ease;
         }
 
         &:hover {
-            background: #0016ec;
-            color: #ffffff;
+            background: rgba(0, 102, 204, 0.95);
+            border-color: rgba(0, 102, 204, 0.8);
             transform: translateY(-1px);
-            padding-left: 34px;
-            padding-right: 22px;
-
-            &::before {
-                opacity: 1;
-                transform: translateX(0);
-            }
 
             &::after {
-                opacity: 0;
+                opacity: 1;
+                transform: translateX(2px);
             }
         }
     }
 
     &--login {
-        background: rgba(255, 255, 255, 0.68);
-        color: #18364a;
-        border-color: rgba(188, 205, 219, 0.9);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        background: rgba(255, 255, 255, 0.55);
+        color: #1d1d1f;
+        border-color: rgba(0, 0, 0, 0.08);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
         font-weight: 600;
 
         &:hover {
-            background: #ffffff;
-            color: #204e6a;
-            border-color: rgba(47, 111, 148, 0.5);
-            box-shadow: 0 10px 20px rgba(32, 78, 106, 0.12);
-            transform: translateY(-2px);
-        }
-
-        .site-header--home-top & {
-            background: rgba(255, 255, 255, 0.12);
-            color: #ffffff;
-            border-color: rgba(255, 255, 255, 0.28);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
-
-            &:hover {
-                background: rgba(255, 255, 255, 0.22);
-                color: #ffffff;
-                border-color: rgba(255, 255, 255, 0.38);
-            }
+            background: rgba(255, 255, 255, 0.85);
+            border-color: rgba(0, 0, 0, 0.12);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            transform: translateY(-1px);
         }
     }
 }
 
 @media (max-width: 760px) {
     .site-header {
-        width: var(--shell-width-mobile);
-        gap: 10px;
-        padding: 8px 10px;
+        width: calc(100% - 24px);
+        top: 8px;
+        height: 48px;
+        padding: 6px 8px 6px 6px;
+        gap: 8px;
     }
 
     .site-brand {
-        strong {
-            font-size: 1rem;
-        }
+        padding: 4px 8px 4px 4px;
+        gap: 6px;
 
         &__logo {
-            height: 32px;
+            height: 28px;
+        }
+
+        &__name {
+            font-size: 0.84rem;
         }
     }
 
@@ -426,39 +365,42 @@ $radius-pill: var(--radius-pill);
     }
 
     .site-header__button {
-        min-width: 0;
-        min-height: 38px;
-        padding: 8px 12px;
-        font-size: 13px;
+        min-height: 32px;
+        padding: 5px 12px;
+        font-size: 0.78rem;
 
         &--menu {
-            min-width: 132px;
-            padding-inline: 14px 28px;
-
-            &::after {
-                right: 12px;
-                font-size: 0.92rem;
-            }
+            min-width: 116px;
+            padding-right: 24px;
         }
     }
 }
 
 @media (max-width: 560px) {
-    .site-brand {
-        padding-right: 4px;
+    .site-header {
+        width: calc(100% - 16px);
+        top: 6px;
+        height: 44px;
+        padding: 4px 6px 4px 4px;
+    }
 
+    .site-brand {
         &__logo {
-            height: 28px;
+            height: 24px;
+        }
+
+        &__name {
+            display: none;
         }
     }
 
     .site-header__button {
         &--menu {
-            min-width: 116px;
+            min-width: 100px;
         }
 
         &--login {
-            min-width: 72px;
+            min-width: 64px;
         }
     }
 }
