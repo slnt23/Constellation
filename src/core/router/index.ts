@@ -28,11 +28,17 @@ router.beforeEach(async (to) => {
   // 获取当前认证状态和用户信息
   const authenticated = isAuthenticated()
   const currentUser = getCurrentUser()
+  const isAdmin = currentUser?.role?.toUpperCase() === 'ADMIN'
+
+  // 0. 管理员已登录，访问前端页面（包括首页）→ 强制跳转管理员界面
+  if (authenticated && isAdmin && to.path !== '/admin' && !to.path.startsWith('/admin/')) {
+    return { name: 'admin-home-dashboard' }
+  }
 
   // 1. 仅限未登录用户访问的页面，但用户已登录 → 自动跳转默认页面
   if (publicOnly && authenticated) {
     return {
-      name: currentUser?.role?.toUpperCase() === 'ADMIN' ? 'admin-home-dashboard' : 'front-profile'
+      name: isAdmin ? 'admin-home-dashboard' : 'front-profile'
     }
   }
 
@@ -46,7 +52,7 @@ router.beforeEach(async (to) => {
   }
 
   // 3. 需要管理员权限但不是管理员 → 跳转个人中心
-  if (requiresAdmin && currentUser?.role?.toUpperCase() !== 'ADMIN') {
+  if (requiresAdmin && !isAdmin) {
     return { name: 'front-profile' }
   }
 

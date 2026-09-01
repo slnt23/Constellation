@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { RouterLink, RouterView, useRoute } from 'vue-router'
-import { ArrowRight, Bell, Search, Setting } from '@element-plus/icons-vue'
+import { ArrowRight, Bell, Search, Setting, SwitchButton } from '@element-plus/icons-vue'
 import logoFold from '@/shared/assets/logos/project-fold.png'
 import logoUnfold from '@/shared/assets/logos/project-unfold.jpg'
 import { ADMIN_HOME_MENU_GROUP, ADMIN_MENU_ITEMS, ALL_ADMIN_MENU_ITEMS } from '@/modules/admin/constants'
 import { useAdminDashboard } from '@/modules/admin/composables'
 
 const route = useRoute()
-const sidebarCollapsed = ref(true)
-const homeMenuExpanded = ref(true)
-const { profileName, profileEmail, profileAvatar } = useAdminDashboard()
+const sidebarCollapsed = ref(false)
+const homeMenuExpanded = ref(false)
+const accountDropdownVisible = ref(false)
+const { profileName, profileEmail, profileAvatar, handleLogout } = useAdminDashboard()
 
 const activeMenu = computed(() => ALL_ADMIN_MENU_ITEMS.find((item) => item.path === route.path))
 const homeMenuActive = computed(() => ADMIN_HOME_MENU_GROUP.items.some((item) => item.path === route.path))
@@ -28,6 +29,13 @@ const toggleHomeMenu = () => {
     return
   }
   homeMenuExpanded.value = !homeMenuExpanded.value
+}
+
+const handleAccountCommand = (command: string) => {
+  accountDropdownVisible.value = false
+  if (command === 'logout') {
+    handleLogout()
+  }
 }
 
 watch(homeMenuActive, (active) => {
@@ -78,15 +86,25 @@ watch(homeMenuActive, (active) => {
 
       <div class="admin-shell__sidebar-footer">
         <div class="admin-shell__account-row">
-          <RouterLink class="admin-shell__profile" to="/profile" title="个人信息">
-            <el-avatar :size="36" :src="profileAvatar || undefined" class="admin-shell__profile-avatar">
-              {{ profileName.slice(0, 1).toUpperCase() }}
-            </el-avatar>
-            <div class="admin-shell__profile-info">
-              <div class="admin-shell__profile-name">{{ profileName }}</div>
-              <div v-if="profileEmail" class="admin-shell__profile-email">{{ profileEmail }}</div>
+          <el-dropdown trigger="click" @command="handleAccountCommand"
+            @visible-change="(val: boolean) => accountDropdownVisible = val">
+            <div class="admin-shell__profile" :class="{ 'is-dropdown-visible': accountDropdownVisible }" title="账户选项">
+              <el-avatar :size="36" :src="profileAvatar || undefined" class="admin-shell__profile-avatar">
+                {{ profileName.slice(0, 1).toUpperCase() }}
+              </el-avatar>
+              <div class="admin-shell__profile-info">
+                <div class="admin-shell__profile-name">{{ profileName }}</div>
+                <div v-if="profileEmail" class="admin-shell__profile-email">{{ profileEmail }}</div>
+              </div>
             </div>
-          </RouterLink>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item command="logout" :icon="SwitchButton">
+                  退出登录
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
           <RouterLink class="admin-shell__settings-button" to="/admin/dashboard/settings" title="系统设置"
             aria-label="系统设置">
             <el-icon>

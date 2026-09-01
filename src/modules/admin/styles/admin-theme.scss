@@ -197,9 +197,9 @@
 }
 
 .admin-shell__sidebar-footer {
-  padding-top: 16px;
+  padding-top: 12px;
   border-top: 1px solid var(--admin-sidebar-border);
-  margin-top: 16px;
+  margin-top: auto;
 }
 
 .admin-shell__account-row {
@@ -211,7 +211,7 @@
   .is-collapsed & {
     flex-direction: column-reverse;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
     padding: 0;
   }
 }
@@ -234,7 +234,8 @@
     padding: 8px;
   }
 
-  &:hover {
+  &:hover,
+  &.is-dropdown-visible {
     background: var(--admin-sidebar-active-bg);
   }
 }
