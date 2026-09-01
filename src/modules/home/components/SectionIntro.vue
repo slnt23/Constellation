@@ -35,13 +35,13 @@ defineProps({
     .section-intro__line {
       width: 28px;
       height: 1px;
-      background: var(--vercel-hairline-strong);
+      background: var(--theme-border);
       opacity: 0.5;
     }
 
     .eyebrow-label {
       margin: 0;
-      color: var(--vercel-mute);
+      color: var(--theme-text-muted);
       font-family: 'Inter', 'Geist', system-ui, sans-serif;
       font-size: 0.78rem;
       font-weight: 500;
@@ -52,7 +52,7 @@ defineProps({
 
   &__title {
     margin: 0;
-    color: var(--vercel-ink);
+    color: var(--theme-text);
     font-family: 'Inter', 'Geist', system-ui, sans-serif;
     font-size: clamp(2rem, 4vw, 2.75rem);
     font-weight: 600;
@@ -63,7 +63,7 @@ defineProps({
   &__body {
     margin: 18px 0 0;
     max-width: 460px;
-    color: var(--vercel-body);
+    color: var(--theme-text-regular);
     font-size: 1rem;
     line-height: 1.7;
   }

@@ -1,9 +1,20 @@
 .glass-panel {
-  border: 1px solid var(--color-border);
-  background: transparent;
-  box-shadow: var(--shadow-soft);
-  backdrop-filter: none;
-  border-radius: var(--border-radius-md);
+  border: 1px solid var(--theme-border);
+  background: var(--theme-surface);
+  backdrop-filter: blur(var(--glass-blur-amount, 40px)) saturate(180%);
+  box-shadow: var(--theme-shadow-card);
+  border-radius: var(--theme-radius-card);
+}
+
+.glass-panel--soft {
+  background: var(--theme-surface-soft);
+  backdrop-filter: blur(var(--glass-blur-soft, 20px)) saturate(160%);
+  border-color: var(--theme-border-soft);
+}
+
+.glass-panel--strong {
+  background: var(--theme-surface-strong);
+  backdrop-filter: blur(var(--glass-blur-amount, 40px)) saturate(200%);
 }
 
 // 用于文章标题、章节标题等的醒目标签

@@ -20,11 +20,11 @@ export const UI_THEMES = [
   },
   {
     id: 'apple',
-    name: 'Apple Gallery',
-    description: '依据 DESIGN.md 构建的留白、圆角胶囊和 Action Blue 视觉。',
+    name: 'Apple Liquid Glass',
+    description: 'Apple 液态玻璃风格，半透明磨砂玻璃、柔和折射与悬浮阴影。',
     preview: {
       background: '#f5f5f7',
-      surface: '#ffffff',
+      surface: 'rgba(255, 255, 255, 0.72)',
       primary: '#0066cc',
       text: '#1d1d1f',
     },

@@ -67,13 +67,13 @@ const gaugeOption = computed(() => {
           show: true, position: 'center' as const,
           formatter: () => `{big|${c.toFixed(1)}%}\n{small|可信度}`,
           rich: {
-            big: { fontSize: 22, fontWeight: 600, color: 'var(--vercel-ink)', lineHeight: 28 },
-            small: { fontSize: 12, color: 'var(--vercel-mute)', lineHeight: 20 },
+            big: { fontSize: 22, fontWeight: 600, color: 'var(--theme-text)', lineHeight: 28 },
+            small: { fontSize: 12, color: 'var(--theme-text-muted)', lineHeight: 20 },
           },
         },
         data: [
           { value: c, name: '可信度', itemStyle: { color: c >= 90 ? '#30d158' : c >= 80 ? '#f5a623' : '#ee0000' } },
-          { value: 100 - c, name: '', itemStyle: { color: 'var(--vercel-hairline)' }, label: { show: false } },
+          { value: 100 - c, name: '', itemStyle: { color: 'var(--theme-border-soft)' }, label: { show: false } },
         ],
       },
       {
@@ -85,8 +85,8 @@ const gaugeOption = computed(() => {
         data: Array.from({ length: 40 }, (_, i) => ({
           value: 1,
           itemStyle: {
-            color: i < (latestItem.value?.reliabilityLevel ?? 0) * 8 ? 'var(--vercel-ink)' : 'var(--vercel-hairline)',
-            borderColor: 'var(--vercel-canvas)',
+            color: i < (latestItem.value?.reliabilityLevel ?? 0) * 8 ? 'var(--theme-text)' : 'var(--theme-border-soft)',
+            borderColor: 'var(--theme-surface)',
             borderWidth: 1,
           },
         })),
@@ -162,11 +162,11 @@ const gaugeOption = computed(() => {
   align-items: center;
   justify-content: space-between;
   gap: 32px;
-  background: var(--vercel-canvas);
-  border: 1px solid var(--vercel-hairline);
-  border-radius: var(--vercel-rounded-lg);
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border-soft);
+  border-radius: var(--theme-radius-card);
   padding: 28px 32px;
-  box-shadow: var(--vercel-shadow-card);
+  box-shadow: var(--theme-shadow-card);
 
   &__left {
     flex: 1;
@@ -176,7 +176,7 @@ const gaugeOption = computed(() => {
     font-family: 'Inter', 'Geist', system-ui, sans-serif;
     font-size: 22px;
     font-weight: 600;
-    color: var(--vercel-ink);
+    color: var(--theme-text);
     letter-spacing: -0.04em;
     margin-bottom: 8px;
   }
@@ -187,7 +187,7 @@ const gaugeOption = computed(() => {
     gap: 12px;
     margin-bottom: 16px;
     font-size: 13px;
-    color: var(--vercel-mute);
+    color: var(--theme-text-muted);
   }
 
   &__price {
@@ -197,14 +197,14 @@ const gaugeOption = computed(() => {
       font-family: 'Inter', 'Geist', system-ui, sans-serif;
       font-size: 42px;
       font-weight: 700;
-      color: var(--vercel-ink);
+      color: var(--theme-text);
       font-variant-numeric: tabular-nums;
       letter-spacing: -0.04em;
     }
 
     .price-unit {
       font-size: 16px;
-      color: var(--vercel-mute);
+      color: var(--theme-text-muted);
       margin-left: 4px;
     }
   }
@@ -213,7 +213,7 @@ const gaugeOption = computed(() => {
     display: flex;
     gap: 20px;
     font-size: 13px;
-    color: var(--vercel-mute);
+    color: var(--theme-text-muted);
   }
 
   &__gauge {
@@ -225,7 +225,7 @@ const gaugeOption = computed(() => {
 
 .empty-hint {
   text-align: center;
-  color: var(--vercel-mute);
+  color: var(--theme-text-muted);
   font-size: 14px;
   padding: 48px 0;
 }

@@ -20,13 +20,11 @@ const handleSelect = (index: string) => {
     <div class="price-nav__header">
       <span class="price-nav__brand">价格行情</span>
     </div>
-    <el-menu
-      :default-active="activeIndex"
-      :mode="menuMode"
-      @select="handleSelect"
-    >
+    <el-menu :default-active="activeIndex" :mode="menuMode" @select="handleSelect">
       <el-menu-item v-for="item in PRICE_NAV_ITEMS" :key="item.index" :index="item.index">
-        <el-icon><component :is="item.icon" /></el-icon>
+        <el-icon>
+          <component :is="item.icon" />
+        </el-icon>
         <span>{{ item.label }}</span>
       </el-menu-item>
     </el-menu>
@@ -38,33 +36,33 @@ const handleSelect = (index: string) => {
   display: flex;
   flex-direction: column;
   width: 220px;
-  background: var(--vercel-canvas);
-  border-right: 1px solid var(--vercel-hairline);
+  background: var(--theme-surface);
+  border-right: 1px solid var(--theme-border-soft);
 }
 
 .price-nav__header {
   padding: 16px 16px 12px;
   margin: 4px 8px 0;
-  border-bottom: 1px solid var(--vercel-hairline);
+  border-bottom: 1px solid var(--theme-border-soft);
 }
 
 .price-nav__brand {
   font-family: 'Inter', 'Geist', system-ui, sans-serif;
   font-size: 15px;
   font-weight: 600;
-  color: var(--vercel-ink);
+  color: var(--theme-text);
   letter-spacing: -0.03em;
 }
 
 // el-menu 样式覆盖
 :deep(.el-menu) {
   border-right: none;
-  background: var(--vercel-canvas);
+  background: var(--theme-surface);
 
   .el-menu-item {
     margin: 2px 8px;
-    border-radius: var(--vercel-rounded-sm);
-    color: var(--vercel-body);
+    border-radius: var(--theme-radius-control);
+    color: var(--theme-text-regular);
     font-size: 14px;
     font-weight: 500;
     letter-spacing: -0.02em;
@@ -72,14 +70,14 @@ const handleSelect = (index: string) => {
     line-height: 38px;
 
     &:hover {
-      background: var(--vercel-canvas-soft);
-      color: var(--vercel-ink);
+      background: var(--theme-canvas);
+      color: var(--theme-text);
     }
 
     &.is-active {
-      color: var(--vercel-ink);
+      color: var(--theme-text);
       background: rgba(0, 0, 0, 0.04);
-      box-shadow: inset 3px 0 0 var(--vercel-ink);
+      box-shadow: inset 3px 0 0 var(--theme-text);
     }
   }
 }
@@ -88,7 +86,7 @@ const handleSelect = (index: string) => {
   .price-nav {
     width: 100%;
     border-right: none;
-    border-bottom: 1px solid var(--vercel-hairline);
+    border-bottom: 1px solid var(--theme-border-soft);
   }
 
   .price-nav__header {
@@ -103,7 +101,7 @@ const handleSelect = (index: string) => {
       line-height: 40px;
 
       &.is-active {
-        box-shadow: inset 0 -2px 0 var(--vercel-ink);
+        box-shadow: inset 0 -2px 0 var(--theme-text);
       }
     }
   }

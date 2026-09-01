@@ -70,6 +70,10 @@
       padding-right: 0;
     }
 
+    .admin-shell__nav-child {
+      padding-left: 0;
+    }
+
     .admin-shell__brand-logo {
       width: 36px;
       height: 36px;
@@ -104,7 +108,9 @@
   object-fit: contain;
   object-position: left center;
   flex-shrink: 0;
-  transition: width 0.2s ease, height 0.2s ease;
+  transition:
+    width 0.2s ease,
+    height 0.2s ease;
 }
 
 .admin-shell__nav {
@@ -201,6 +207,13 @@
   align-items: center;
   gap: 4px;
   padding: 0 12px;
+
+  .is-collapsed & {
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+  }
 }
 
 .admin-shell__profile {
@@ -215,6 +228,11 @@
   cursor: pointer;
   text-decoration: none;
   transition: background-color 0.15s ease;
+
+  .is-collapsed & {
+    flex: none;
+    padding: 8px;
+  }
 
   &:hover {
     background: var(--admin-sidebar-active-bg);
@@ -231,7 +249,9 @@
   border-radius: var(--admin-radius-md);
   color: var(--admin-sidebar-muted);
   text-decoration: none;
-  transition: color 0.15s ease, background-color 0.15s ease;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
 
   &:hover,
   &.router-link-active {

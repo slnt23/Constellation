@@ -122,7 +122,7 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: center;
   padding: 48px 0;
-  color: var(--vercel-mute);
+  color: var(--theme-text-muted);
   font-size: 14px;
 }
 
@@ -152,7 +152,7 @@ onBeforeUnmount(() => {
   align-items: center;
   gap: 8px;
   padding: 24px 0;
-  color: var(--vercel-mute);
+  color: var(--theme-text-muted);
   font-size: 14px;
   justify-content: center;
 }
@@ -165,16 +165,16 @@ onBeforeUnmount(() => {
 }
 
 .result-card {
-  background: var(--vercel-canvas);
-  border: 1px solid var(--vercel-hairline);
-  border-radius: var(--vercel-rounded-lg);
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border-soft);
+  border-radius: var(--theme-radius-card);
   padding: 14px 18px;
   cursor: pointer;
   transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
 
   &:hover {
-    border-color: var(--vercel-ink);
-    box-shadow: var(--vercel-shadow-card);
+    border-color: var(--theme-text);
+    box-shadow: var(--theme-shadow-card);
   }
 
   &--active {
@@ -193,7 +193,7 @@ onBeforeUnmount(() => {
   &__name {
     font-size: 16px;
     font-weight: 600;
-    color: var(--vercel-ink);
+    color: var(--theme-text);
     flex: 1;
   }
 
@@ -206,24 +206,24 @@ onBeforeUnmount(() => {
 
   &__meta {
     font-size: 13px;
-    color: var(--vercel-mute);
+    color: var(--theme-text-muted);
     display: flex;
     gap: 12px;
   }
 
   &__unit {
-    color: var(--vercel-mute);
+    color: var(--theme-text-muted);
   }
 }
 
 // ---- 已选物品详情卡片 ----
 .selected-card {
-  background: var(--vercel-canvas);
+  background: var(--theme-surface);
   border: 1px solid #30d158;
   border-left: 4px solid #30d158;
-  border-radius: var(--vercel-rounded-lg);
+  border-radius: var(--theme-radius-card);
   padding: 18px 22px;
-  box-shadow: var(--vercel-shadow-card);
+  box-shadow: var(--theme-shadow-card);
 
   &__header {
     display: flex;
@@ -249,7 +249,7 @@ onBeforeUnmount(() => {
     font-family: 'Inter', 'Geist', system-ui, sans-serif;
     font-size: 20px;
     font-weight: 600;
-    color: var(--vercel-ink);
+    color: var(--theme-text);
     letter-spacing: -0.04em;
   }
 
@@ -258,7 +258,7 @@ onBeforeUnmount(() => {
     align-items: center;
     gap: 10px;
     font-size: 13px;
-    color: var(--vercel-mute);
+    color: var(--theme-text-muted);
   }
 
   &__info {
@@ -266,11 +266,11 @@ onBeforeUnmount(() => {
     flex-direction: column;
     gap: 4px;
     font-size: 12px;
-    color: var(--vercel-mute);
+    color: var(--theme-text-muted);
   }
 
   &__id {
-    color: var(--vercel-mute);
+    color: var(--theme-text-muted);
   }
 }
 

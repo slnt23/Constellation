@@ -52,27 +52,9 @@
   --spacing-lg: 24px;
   --spacing-xl: 32px;
 
-  /* ═══ Vercel Inspired 设计 token ═══ */
-  --vercel-ink: #171717;
-  --vercel-on-primary: #ffffff;
-  --vercel-body: #4d4d4d;
-  --vercel-mute: #888888;
-  --vercel-canvas: #ffffff;
-  --vercel-canvas-soft: #fafafa;
-  --vercel-hairline: #ebebeb;
-  --vercel-hairline-strong: #a1a1a1;
-  --vercel-link: #0070f3;
-  --vercel-rounded-xs: 4px;
-  --vercel-rounded-sm: 6px;
-  --vercel-rounded-md: 8px;
-  --vercel-rounded-lg: 12px;
-  --vercel-rounded-xl: 16px;
-  --vercel-rounded-pill: 9999px;
-  --vercel-shadow-card: 0 0 0 1px rgba(0,0,0,0.08) inset,
-                        0px 1px 1px rgba(0,0,0,0.02),
-                        0px 2px 2px rgba(0,0,0,0.04);
-  --vercel-section-gap: 96px;
-  --vercel-section-pad: 64px;
+  /* ═══ 布局与间距 ═══ */
+  --theme-section-gap: 96px;
+  --theme-section-pad: 64px;
 
   font-family: var(--font-family-base);
   color: var(--color-text-deep);
@@ -82,8 +64,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.7;
-
-
 }
 
 @media (max-width: 760px) {

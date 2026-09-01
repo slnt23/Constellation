@@ -62,8 +62,8 @@ onMounted(() => {
 <style scoped lang="scss">
 .front-page {
   display: grid;
-  gap: var(--vercel-section-gap);
-  background: var(--vercel-canvas-soft);
+  gap: var(--theme-section-gap);
+  background: var(--theme-canvas);
 }
 
 @media (max-width: 760px) {

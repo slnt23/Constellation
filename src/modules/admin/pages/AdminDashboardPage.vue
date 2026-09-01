@@ -8,7 +8,7 @@ import { ADMIN_HOME_MENU_GROUP, ADMIN_MENU_ITEMS, ALL_ADMIN_MENU_ITEMS } from '@
 import { useAdminDashboard } from '@/modules/admin/composables'
 
 const route = useRoute()
-const sidebarCollapsed = ref(false)
+const sidebarCollapsed = ref(true)
 const homeMenuExpanded = ref(true)
 const { profileName, profileEmail, profileAvatar } = useAdminDashboard()
 

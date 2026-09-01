@@ -28,19 +28,19 @@ usePriceItemStore()
 .price-main-layout {
   display: flex;
   height: 100vh;
-  background: var(--vercel-canvas-soft);
+  background: var(--theme-canvas);
 }
 
 .price-sidebar {
   flex-shrink: 0;
   display: flex;
-  background: var(--vercel-canvas);
+  background: var(--theme-surface);
 }
 
 .price-content {
   flex: 1;
   overflow-y: auto;
-  background: var(--vercel-canvas-soft);
+  background: var(--theme-canvas);
 }
 
 @media (max-width: 760px) {

@@ -197,11 +197,11 @@ const bubbleOption = computed(() => {
 }
 
 .source-panel {
-  background: var(--vercel-canvas);
-  border: 1px solid var(--vercel-hairline);
-  border-radius: var(--vercel-rounded-lg);
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border-soft);
+  border-radius: var(--theme-radius-card);
   padding: 20px;
-  box-shadow: var(--vercel-shadow-card);
+  box-shadow: var(--theme-shadow-card);
 }
 
 .source-chart {
@@ -217,7 +217,7 @@ const bubbleOption = computed(() => {
 
 .empty-hint {
   text-align: center;
-  color: var(--vercel-mute);
+  color: var(--theme-text-muted);
   font-size: 14px;
   padding: 48px 0;
 }

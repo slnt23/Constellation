@@ -99,14 +99,14 @@ const { meditations, activeId, activeMeditation, selectMeditation } = useMeditat
   &__title {
     font-size: 2.5rem;
     font-weight: var(--font-weight-bold);
-    color: var(--vercel-ink);
+    color: var(--theme-text);
     margin: 0 0 12px;
     letter-spacing: -0.02em;
   }
 
   &__subtitle {
     font-size: 1.1rem;
-    color: var(--vercel-mute);
+    color: var(--theme-text-muted);
     max-width: 560px;
     margin: 0 auto;
     line-height: 1.7;
@@ -126,24 +126,24 @@ const { meditations, activeId, activeMeditation, selectMeditation } = useMeditat
     align-items: center;
     gap: 8px;
     padding: 10px 20px;
-    border: 1px solid var(--vercel-hairline);
-    border-radius: var(--vercel-rounded-pill);
-    background: var(--vercel-canvas);
-    color: var(--vercel-body);
+    border: 1px solid var(--theme-border-soft);
+    border-radius: var(--theme-radius-action);
+    background: var(--theme-surface);
+    color: var(--theme-text-regular);
     font-size: 0.9rem;
     font-family: inherit;
     cursor: pointer;
     transition: all 0.2s ease;
 
     &:hover {
-      border-color: var(--vercel-hairline-strong);
-      color: var(--vercel-ink);
+      border-color: var(--theme-border);
+      color: var(--theme-text);
     }
 
     &.is-active {
-      background: var(--vercel-ink);
-      color: var(--vercel-on-primary);
-      border-color: var(--vercel-ink);
+      background: var(--theme-text);
+      color: #ffffff;
+      border-color: var(--theme-text);
     }
   }
 
@@ -166,10 +166,10 @@ const { meditations, activeId, activeMeditation, selectMeditation } = useMeditat
   margin-bottom: 64px;
 
   &__card {
-    background: var(--vercel-canvas);
-    border-radius: var(--vercel-rounded-xl);
+    background: var(--theme-surface);
+    border-radius: var(--theme-radius-large);
     padding: 48px;
-    box-shadow: var(--vercel-shadow-card);
+    box-shadow: var(--theme-shadow-card);
     text-align: center;
   }
 
@@ -182,13 +182,13 @@ const { meditations, activeId, activeMeditation, selectMeditation } = useMeditat
   &__title {
     font-size: 1.75rem;
     font-weight: var(--font-weight-bold);
-    color: var(--vercel-ink);
+    color: var(--theme-text);
     margin: 0 0 16px;
   }
 
   &__description {
     font-size: 1.1rem;
-    color: var(--vercel-body);
+    color: var(--theme-text-regular);
     line-height: 1.8;
     max-width: 640px;
     margin: 0 auto 32px;
@@ -210,14 +210,14 @@ const { meditations, activeId, activeMeditation, selectMeditation } = useMeditat
 
   &__meta-label {
     font-size: 0.8rem;
-    color: var(--vercel-mute);
+    color: var(--theme-text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
 
   &__meta-value {
     font-size: 0.95rem;
-    color: var(--vercel-ink);
+    color: var(--theme-text);
     font-weight: var(--font-weight-medium);
   }
 
@@ -227,7 +227,7 @@ const { meditations, activeId, activeMeditation, selectMeditation } = useMeditat
     gap: 12px;
     padding: 20px 24px;
     background: #f8faf5;
-    border-radius: var(--vercel-rounded-lg);
+    border-radius: var(--theme-radius-card);
     max-width: 480px;
     margin: 0 auto;
     text-align: left;
@@ -256,7 +256,7 @@ const { meditations, activeId, activeMeditation, selectMeditation } = useMeditat
   &__heading {
     font-size: 1.25rem;
     font-weight: var(--font-weight-bold);
-    color: var(--vercel-ink);
+    color: var(--theme-text);
     margin: 0 0 24px;
   }
 
@@ -269,21 +269,21 @@ const { meditations, activeId, activeMeditation, selectMeditation } = useMeditat
 
 // Cards
 .meditation-card {
-  background: var(--vercel-canvas);
-  border: 1px solid var(--vercel-hairline);
-  border-radius: var(--vercel-rounded-xl);
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border-soft);
+  border-radius: var(--theme-radius-large);
   padding: 28px;
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    box-shadow: var(--vercel-shadow-card);
-    border-color: var(--vercel-hairline-strong);
+    box-shadow: var(--theme-shadow-card);
+    border-color: var(--theme-border);
   }
 
   &.is-active {
-    border-color: var(--vercel-ink);
-    box-shadow: var(--vercel-shadow-card);
+    border-color: var(--theme-text);
+    box-shadow: var(--theme-shadow-card);
   }
 
   &__icon {
@@ -295,13 +295,13 @@ const { meditations, activeId, activeMeditation, selectMeditation } = useMeditat
   &__title {
     font-size: 1.1rem;
     font-weight: var(--font-weight-bold);
-    color: var(--vercel-ink);
+    color: var(--theme-text);
     margin: 0 0 8px;
   }
 
   &__description {
     font-size: 0.9rem;
-    color: var(--vercel-body);
+    color: var(--theme-text-regular);
     line-height: 1.7;
     margin: 0 0 16px;
     display: -webkit-box;
@@ -315,7 +315,7 @@ const { meditations, activeId, activeMeditation, selectMeditation } = useMeditat
     justify-content: space-between;
     align-items: center;
     font-size: 0.8rem;
-    color: var(--vercel-mute);
+    color: var(--theme-text-muted);
   }
 
   &__duration {

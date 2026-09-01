@@ -250,88 +250,71 @@ onMounted(() => {
 
 <template>
   <div class="manage-panel">
-    <AdminPageHeader
-      title="用户管理"
-      subtitle="后台用户查询、创建与状态维护"
-      action-label="新增用户"
-      @action="openCreate"
-    />
+    <AdminPageHeader title="用户管理" subtitle="后台用户查询、创建与状态维护" action-label="新增用户" @action="openCreate" />
 
     <div class="manage-panel__card">
-    <div class="manage-panel__filters">
-      <el-input v-model="query.keyword" placeholder="用户名 / 昵称 / 手机号 / 邮箱" clearable class="manage-panel__keyword"
-        @keyup.enter="handleSearch">
-        <template #prefix>
-          <el-icon><Search /></el-icon>
-        </template>
-      </el-input>
-      <el-select v-model="query.status" placeholder="状态" clearable class="manage-panel__filter">
-        <el-option label="正常" :value="0" />
-        <el-option label="封禁" :value="1" />
-      </el-select>
-      <el-select v-model="query.roleName" placeholder="角色" clearable class="manage-panel__filter">
-        <el-option v-for="role in roles" :key="role.id" :label="role.roleName" :value="role.roleName" />
-      </el-select>
-      <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
-    </div>
-
-    <div class="manage-panel__table-wrap">
-      <el-table v-if="!loading || list.length" :data="list" class="manage-panel__table">
-        <el-table-column prop="id" label="ID" width="80" />
-        <el-table-column prop="userCode" label="编号" min-width="130" show-overflow-tooltip />
-        <el-table-column prop="username" label="用户名" min-width="120" show-overflow-tooltip />
-        <el-table-column prop="nickname" label="昵称" min-width="120" show-overflow-tooltip />
-        <el-table-column prop="phone" label="手机号" min-width="130" show-overflow-tooltip />
-        <el-table-column prop="email" label="邮箱" min-width="180" show-overflow-tooltip />
-        <el-table-column prop="roleName" label="角色" min-width="120" show-overflow-tooltip />
-        <el-table-column label="状态" width="90">
-          <template #default="{ row }">
-            <el-tag
-              class="manage-panel__status-tag"
-              :type="row.status === 0 ? 'success' : 'danger'"
-              effect="light"
-            >
-              {{ row.status === 0 ? '正常' : '封禁' }}
-            </el-tag>
+      <div class="manage-panel__filters">
+        <el-input v-model="query.keyword" placeholder="用户名 / 昵称 / 手机号 / 邮箱" clearable class="manage-panel__keyword"
+          @keyup.enter="handleSearch">
+          <template #prefix>
+            <el-icon>
+              <Search />
+            </el-icon>
           </template>
-        </el-table-column>
-        <el-table-column prop="createTime" label="创建时间" min-width="170" show-overflow-tooltip />
-        <el-table-column label="操作" width="230" fixed="right">
-          <template #default="{ row }">
-            <el-button link type="primary" :icon="EditPen" @click="openEdit(row)">编辑</el-button>
-            <el-button link :icon="Key" @click="openResetPassword(row)">重置密码</el-button>
-            <el-button link :type="row.status === 0 ? 'warning' : 'success'" @click="toggleStatus(row)">
-              {{ row.status === 0 ? '封禁' : '启用' }}
-            </el-button>
-            <el-button link type="danger" :icon="Delete" @click="remove(row)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+        </el-input>
+        <el-select v-model="query.status" placeholder="状态" clearable class="manage-panel__filter">
+          <el-option label="正常" :value="0" />
+          <el-option label="封禁" :value="1" />
+        </el-select>
+        <el-select v-model="query.roleName" placeholder="角色" clearable class="manage-panel__filter">
+          <el-option v-for="role in roles" :key="role.id" :label="role.roleName" :value="role.roleName" />
+        </el-select>
+        <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
+      </div>
 
-      <el-skeleton v-else-if="loading" :rows="5" animated class="manage-panel__skeleton" />
+      <div class="manage-panel__table-wrap">
+        <el-table v-if="!loading || list.length" :data="list" class="manage-panel__table">
+          <el-table-column prop="id" label="ID" width="80" />
+          <el-table-column prop="userCode" label="编号" min-width="130" show-overflow-tooltip />
+          <el-table-column prop="username" label="用户名" min-width="120" show-overflow-tooltip />
+          <el-table-column prop="nickname" label="昵称" min-width="120" show-overflow-tooltip />
+          <el-table-column prop="phone" label="手机号" min-width="130" show-overflow-tooltip />
+          <el-table-column prop="email" label="邮箱" min-width="180" show-overflow-tooltip />
+          <el-table-column prop="roleName" label="角色" min-width="120" show-overflow-tooltip />
+          <el-table-column label="状态" width="90">
+            <template #default="{ row }">
+              <el-tag class="manage-panel__status-tag" :type="row.status === 0 ? 'success' : 'danger'" effect="light">
+                {{ row.status === 0 ? '正常' : '封禁' }}
+              </el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column prop="createTime" label="创建时间" min-width="170" show-overflow-tooltip />
+          <el-table-column label="操作" width="300" fixed="right">
+            <template #default="{ row }">
+              <el-button link type="primary" :icon="EditPen" @click="openEdit(row)">编辑</el-button>
+              <el-button link :icon="Key" @click="openResetPassword(row)">重置密码</el-button>
+              <el-button link :type="row.status === 0 ? 'warning' : 'success'" @click="toggleStatus(row)">
+                {{ row.status === 0 ? '封禁' : '启用' }}
+              </el-button>
+              <el-button link type="danger" :icon="Delete" @click="remove(row)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
 
-      <el-empty v-else description="暂无用户" />
+        <el-skeleton v-else-if="loading" :rows="5" animated class="manage-panel__skeleton" />
+
+        <el-empty v-else description="暂无用户" />
+      </div>
+
+      <div class="manage-panel__pagination">
+        <el-pagination v-model:current-page="query.pageNum" v-model:page-size="query.pageSize" :total="total"
+          :page-sizes="[10, 20, 50, 100]" layout="total, sizes, prev, pager, next, jumper"
+          @current-change="handlePageChange" @size-change="handleSizeChange" />
+      </div>
     </div>
 
-    <div class="manage-panel__pagination">
-      <el-pagination
-        v-model:current-page="query.pageNum"
-        v-model:page-size="query.pageSize"
-        :total="total"
-        :page-sizes="[10, 20, 50, 100]"
-        layout="total, sizes, prev, pager, next, jumper"
-        @current-change="handlePageChange"
-        @size-change="handleSizeChange"
-      />
-    </div>
-    </div>
-
-    <el-dialog
-      v-model="dialogVisible"
-      :title="editingId !== null ? '编辑用户' : '新增用户'"
-      width="min(640px, 92vw)"
-      destroy-on-close
-    >
+    <el-dialog v-model="dialogVisible" :title="editingId !== null ? '编辑用户' : '新增用户'" width="min(640px, 92vw)"
+      destroy-on-close>
       <el-form ref="formRef" :model="form" :rules="rules" label-width="96px">
         <el-form-item label="用户名" prop="username">
           <el-input v-model="form.username" maxlength="50" show-word-limit />
@@ -371,12 +354,7 @@ onMounted(() => {
       </template>
     </el-dialog>
 
-    <el-dialog
-      v-model="passwordDialogVisible"
-      title="重置密码"
-      width="min(480px, 92vw)"
-      destroy-on-close
-    >
+    <el-dialog v-model="passwordDialogVisible" title="重置密码" width="min(480px, 92vw)" destroy-on-close>
       <el-form label-width="96px">
         <el-form-item label="新密码">
           <el-input v-model="passwordForm.newPassword" type="password" show-password maxlength="64" show-word-limit
@@ -391,5 +369,3 @@ onMounted(() => {
     </el-dialog>
   </div>
 </template>
-
-

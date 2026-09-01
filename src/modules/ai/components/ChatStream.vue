@@ -18,11 +18,8 @@ function renderMarkdown(content: string): string {
     <article v-for="message in messages" :key="message.id" class="chat-stream__item"
       :class="{ 'chat-stream__item--user': message.role === 'user' }">
       <div class="chat-stream__meta">{{ message.role === 'user' ? '你' : 'AI' }}</div>
-      <div
-        class="chat-stream__content"
-        :class="{ 'chat-stream__content--md': message.role === 'assistant' }"
-        v-html="message.role === 'assistant' ? renderMarkdown(message.content) : message.content"
-      ></div>
+      <div class="chat-stream__content" :class="{ 'chat-stream__content--md': message.role === 'assistant' }"
+        v-html="message.role === 'assistant' ? renderMarkdown(message.content) : message.content"></div>
       <div class="chat-stream__time">
         {{
           message.timestamp.toLocaleTimeString('zh-CN', {
@@ -106,21 +103,39 @@ function renderMarkdown(content: string): string {
 .chat-stream__content--md {
   :deep(p) {
     margin: 0 0 8px;
-    &:last-child { margin-bottom: 0; }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
-  :deep(h1), :deep(h2), :deep(h3), :deep(h4) {
+  :deep(h1),
+  :deep(h2),
+  :deep(h3),
+  :deep(h4) {
     margin: 12px 0 6px;
     font-weight: 600;
     line-height: 1.3;
-    &:first-child { margin-top: 0; }
+
+    &:first-child {
+      margin-top: 0;
+    }
   }
 
-  :deep(h1) { font-size: 20px; }
-  :deep(h2) { font-size: 18px; }
-  :deep(h3) { font-size: 16px; }
+  :deep(h1) {
+    font-size: 20px;
+  }
 
-  :deep(ul), :deep(ol) {
+  :deep(h2) {
+    font-size: 18px;
+  }
+
+  :deep(h3) {
+    font-size: 16px;
+  }
+
+  :deep(ul),
+  :deep(ol) {
     margin: 6px 0;
     padding-left: 20px;
   }
@@ -171,7 +186,7 @@ function renderMarkdown(content: string): string {
 
   :deep(hr) {
     border: none;
-    border-top: 1px solid var(--vercel-hairline);
+    border-top: 1px solid var(--theme-border-soft);
     margin: 14px 0;
   }
 
@@ -182,8 +197,9 @@ function renderMarkdown(content: string): string {
     font-size: 14px;
   }
 
-  :deep(th), :deep(td) {
-    border: 1px solid var(--vercel-hairline);
+  :deep(th),
+  :deep(td) {
+    border: 1px solid var(--theme-border-soft);
     padding: 8px 12px;
     text-align: left;
   }
@@ -193,8 +209,13 @@ function renderMarkdown(content: string): string {
     font-weight: 600;
   }
 
-  :deep(strong) { font-weight: 600; }
-  :deep(em) { font-style: italic; }
+  :deep(strong) {
+    font-weight: 600;
+  }
+
+  :deep(em) {
+    font-style: italic;
+  }
 }
 
 .chat-stream__typing {
