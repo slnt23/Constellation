@@ -1,8 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { MOCK_BLOG_SETTINGS } from '@/modules/blog/constants/mock'
+import { computed, onMounted } from 'vue'
+import { useBlogSettings } from '@/modules/blog/composables'
 
-const educations = ref(MOCK_BLOG_SETTINGS.educations)
+const { settings, fetchSettings } = useBlogSettings()
+
+onMounted(fetchSettings)
+
+const educations = computed(() => {
+  return settings.value?.educations || []
+})
 </script>
 
 <template>

@@ -2,10 +2,12 @@
 import { computed, ref, onMounted } from 'vue'
 import { getCurrentUser } from '@/core/permission'
 import { EXAMPLE_PUBLIC_PROFILE_DEFAULTS } from '@/shared/constants'
-import { MOCK_BLOG_SETTINGS } from '@/modules/blog/constants/mock'
+import { useBlogSettings } from '@/modules/blog/composables'
 
 const currentUser = getCurrentUser()
-const aboutData = ref(MOCK_BLOG_SETTINGS.about)
+const { settings, fetchSettings } = useBlogSettings()
+
+onMounted(fetchSettings)
 
 const avatarUrl = computed(() => {
   const url = (currentUser?.avatarUrl ?? '').trim()
@@ -14,6 +16,17 @@ const avatarUrl = computed(() => {
 
 const displayName = computed(() => {
   return currentUser?.nickname || currentUser?.userName || 'Arthals'
+})
+
+const aboutData = computed(() => {
+  return settings.value?.about || {
+    tagLine: '',
+    bio: [],
+    location: '',
+    githubUrl: '',
+    codetimeUrl: '',
+    poem: '',
+  }
 })
 </script>
 
@@ -54,14 +67,10 @@ const displayName = computed(() => {
         <div class="codetime-badge">
           <img alt="CodeTime Badge" :src="aboutData.codetimeUrl" />
         </div>
-        <a class="more-link" href="/about">
-          More about me
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-            stroke-linecap="round" stroke-linejoin="round">
-            <line x1="5" y1="12" x2="19" y2="12" class="arrow-line" />
-            <polyline points="12 5 19 12 12 19" class="arrow-head" />
-          </svg>
-        </a>
+        <div class="more-link-decoration">
+          <span class="decoration-dot"></span>
+          <span class="decoration-text">Explore more</span>
+        </div>
       </div>
     </div>
   </section>
@@ -196,42 +205,42 @@ const displayName = computed(() => {
   }
 }
 
-.more-link {
+.more-link-decoration {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
   align-self: flex-end;
-  padding: 4px 8px;
+  padding: 6px 16px;
   border: 1px solid var(--color-border);
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.03);
+  border-radius: 999px;
+  background: var(--color-background);
+}
+
+.decoration-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.decoration-text {
+  font-size: 0.8rem;
   color: var(--color-muted-foreground);
-  font-size: 0.875rem;
-  text-decoration: none;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background: var(--color-background);
-    color: var(--color-primary);
-  }
-
-  .arrow-line {
-    transition: all 0.3s ease;
-    transform: translateX(4px) scaleX(0);
-  }
-
-  .arrow-head {
-    transition: all 0.3s ease;
-    transform: translateX(0);
-  }
-
-  &:hover .arrow-line {
-    transform: translateX(1px) scaleX(1);
-  }
-
-  &:hover .arrow-head {
-    transform: translateX(1px);
-  }
+  font-style: italic;
+  letter-spacing: 0.5px;
 }
 
 @media (max-width: 768px) {

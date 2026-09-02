@@ -1,11 +1,24 @@
 import { ref } from 'vue'
-import { BLOG_POSTS, BLOG_POSTS_TOTAL, BLOG_POSTS_TOTAL_PAGES } from '@/modules/blog/constants'
+import { blogApi } from '@/modules/blog/api'
+import type { BlogPostVO } from '@/modules/blog/types'
+
+export interface BlogPostItem {
+  id: number
+  title: string
+  excerpt: string
+  date: string
+  datetime: string
+  tags: string[]
+  readTime: string
+  lang: string
+  href: string
+}
 
 export function useBlogList() {
-  const posts = ref(BLOG_POSTS)
+  const posts = ref<BlogPostItem[]>([])
   const currentPage = ref(1)
-  const totalPages = ref(BLOG_POSTS_TOTAL_PAGES)
-  const totalPosts = ref(BLOG_POSTS_TOTAL)
+  const totalPages = ref(0)
+  const totalPosts = ref(0)
   const loading = ref(false)
 
   function formatDate(dateStr: string): string {
@@ -13,12 +26,30 @@ export function useBlogList() {
     return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
   }
 
-  async function fetchPosts() {
+  function mapPostToItem(post: BlogPostVO): BlogPostItem {
+    return {
+      id: post.id,
+      title: post.title,
+      excerpt: post.excerpt,
+      date: post.createTime,
+      datetime: post.createTime,
+      tags: post.tags,
+      readTime: '5 min read',
+      lang: '中文',
+      href: `/blog/posts/${post.id}`,
+    }
+  }
+
+  async function fetchPosts(pageNum = 1, pageSize = 10) {
     loading.value = true
     try {
-      posts.value = BLOG_POSTS
-      totalPages.value = BLOG_POSTS_TOTAL_PAGES
-      totalPosts.value = BLOG_POSTS_TOTAL
+      const res = await blogApi.page(pageNum, pageSize)
+      if (res.code === 200 && res.data) {
+        posts.value = res.data.records.map(mapPostToItem)
+        currentPage.value = res.data.currentPage
+        totalPages.value = res.data.totalPage
+        totalPosts.value = res.data.total
+      }
     } finally {
       loading.value = false
     }

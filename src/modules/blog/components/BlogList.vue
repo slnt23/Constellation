@@ -1,7 +1,16 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import { useBlogList } from '@/modules/blog/composables'
 
-const { posts, currentPage, totalPages, totalPosts, formatDate } = useBlogList()
+const { posts, currentPage, totalPages, totalPosts, loading, formatDate, fetchPosts } = useBlogList()
+
+onMounted(() => fetchPosts(1, 10))
+
+function loadMore() {
+  if (currentPage.value < totalPages.value && !loading.value) {
+    fetchPosts(currentPage.value + 1, 10)
+  }
+}
 </script>
 
 <template>
@@ -17,7 +26,7 @@ const { posts, currentPage, totalPages, totalPosts, formatDate } = useBlogList()
       <div class="blog-main">
         <ul class="posts-list">
           <li v-for="post in posts" :key="post.id" class="post-preview group/card">
-            <a class="post-link group/link" :href="post.href">
+            <RouterLink class="post-link group/link" :to="post.href">
               <!-- Date -->
               <time class="post-date" :datetime="post.datetime">
                 {{ formatDate(post.date) }}
@@ -27,16 +36,8 @@ const { posts, currentPage, totalPages, totalPosts, formatDate } = useBlogList()
                 <!-- Title row -->
                 <div class="post-title-row">
                   <span class="post-title">{{ post.title }}</span>
-                  <svg
-                    class="post-arrow"
-                    width="16" height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
+                  <svg class="post-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12" class="arrow-line" />
                     <polyline points="12 5 19 12 12 19" class="arrow-head" />
                   </svg>
@@ -46,7 +47,8 @@ const { posts, currentPage, totalPages, totalPosts, formatDate } = useBlogList()
                 <!-- Meta row: read time + language -->
                 <div class="post-meta">
                   <svg class="meta-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z"/>
+                    <path
+                      d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z" />
                   </svg>
                   <span>{{ post.readTime }}</span>
                   <span class="meta-sep">·</span>
@@ -54,15 +56,10 @@ const { posts, currentPage, totalPages, totalPosts, formatDate } = useBlogList()
                 </div>
                 <!-- Tags -->
                 <div class="post-tags">
-                  <a
-                    v-for="tag in post.tags"
-                    :key="tag"
-                    class="post-tag"
-                    href="#"
-                  >{{ tag }}</a>
+                  <span v-for="tag in post.tags" :key="tag" class="post-tag">{{ tag }}</span>
                 </div>
               </div>
-            </a>
+            </RouterLink>
           </li>
         </ul>
       </div>
@@ -75,15 +72,8 @@ const { posts, currentPage, totalPages, totalPosts, formatDate } = useBlogList()
           </p>
           <a class="sidebar-link" href="#">
             View all posts by years
-            <svg
-              width="16" height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
               <line x1="5" y1="12" x2="19" y2="12" class="arrow-line" />
               <polyline points="12 5 19 12 12 19" class="arrow-head" />
             </svg>
@@ -95,6 +85,8 @@ const { posts, currentPage, totalPages, totalPosts, formatDate } = useBlogList()
 </template>
 
 <style scoped lang="scss">
+@use '@/modules/blog/styles/blog-common' as *;
+
 .blog-list {
   max-width: 1120px;
   margin: 0 auto;
@@ -135,42 +127,22 @@ const { posts, currentPage, totalPages, totalPosts, formatDate } = useBlogList()
 }
 
 .post-preview {
-  position: relative;
-  border: 1px solid transparent;
-  border-radius: 16px;
-  background: var(--color-background);
-  transition: all 0.2s ease;
-
-  &:hover {
-    background: rgba(0, 0, 0, 0.03);
-    border-color: var(--color-border);
-  }
+  @extend .post-preview;
 }
 
 .post-link {
-  display: flex;
-  flex-direction: column;
+  @extend .post-link;
   padding: 16px 20px;
-  text-decoration: none;
-  color: inherit;
-  transition: color 0.2s ease;
 
   @media (min-width: 640px) {
     flex-direction: row;
   }
-
-  &:hover {
-    color: var(--color-primary);
-  }
 }
 
 .post-date {
-  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
-  font-size: 0.75rem;
-  color: var(--color-muted-foreground);
+  @extend .post-date;
   min-width: 100px;
   padding: 4px 0;
-  flex-shrink: 0;
 
   @media (min-width: 640px) {
     min-width: 110px;
@@ -187,44 +159,15 @@ const { posts, currentPage, totalPages, totalPosts, formatDate } = useBlogList()
 
 /* ── Title row ── */
 .post-title-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 8px;
+  @extend .post-title-row;
 }
 
 .post-title {
-  font-size: 0.95rem;
-  font-weight: 500;
+  @extend .post-title;
 }
 
 .post-arrow {
-  flex-shrink: 0;
-  margin-top: 4px;
-  stroke: var(--color-muted-foreground);
-  transition: stroke 0.2s ease;
-
-  .post-link:hover & {
-    stroke: var(--color-primary);
-  }
-
-  .arrow-line {
-    transition: all 0.3s ease;
-    transform: translateX(4px) scaleX(0);
-  }
-
-  .arrow-head {
-    transition: all 0.3s ease;
-    transform: translateX(0);
-  }
-
-  .post-link:hover & .arrow-line {
-    transform: translateX(1px) scaleX(1);
-  }
-
-  .post-link:hover & .arrow-head {
-    transform: translateX(1px);
-  }
+  @extend .post-arrow;
 }
 
 /* ── Excerpt ── */
@@ -278,20 +221,7 @@ const { posts, currentPage, totalPages, totalPosts, formatDate } = useBlogList()
 }
 
 .post-tag {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 8px;
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
-  font-size: 0.75rem;
-  color: var(--color-muted-foreground);
-  text-decoration: none;
-  transition: all 0.2s ease;
-
-  &:hover {
-    border-color: rgba(0, 0, 0, 0.25);
-    color: var(--color-text-deep);
-  }
+  @extend .post-tag;
 }
 
 /* ── Sidebar ── */

@@ -1,8 +1,8 @@
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import type { FormInstance } from 'element-plus'
-import { MOCK_BLOG_SETTINGS } from '@/modules/blog/constants/mock'
-import type { BlogSettingsData, BlogAboutData } from '@/modules/blog/constants/mock'
+import { blogApi } from '@/modules/blog/api'
+import type { BlogSettingsDTO } from '@/modules/blog/types'
 import type { EducationItem, SkillCategory } from '@/modules/blog/types'
 
 interface AboutForm {
@@ -55,21 +55,24 @@ export function useBlogSettings() {
         items: '',
     })
 
-    const loadSettings = () => {
+    const loadSettings = async () => {
         loading.value = true
         try {
-            const data = MOCK_BLOG_SETTINGS
-            aboutForm.tagLine = data.about.tagLine
-            aboutForm.bio = data.about.bio.join('\n')
-            aboutForm.location = data.about.location
-            aboutForm.githubUrl = data.about.githubUrl
-            aboutForm.codetimeUrl = data.about.codetimeUrl
-            aboutForm.poem = data.about.poem
-            educations.value = [...data.educations]
-            skills.value = data.skills.map(s => ({
-                category: s.category,
-                items: [...s.items],
-            }))
+            const res = await blogApi.getSettings()
+            if (res.code === 200 && res.data) {
+                const data = res.data
+                aboutForm.tagLine = data.about.tagLine
+                aboutForm.bio = data.about.bio.join('\n')
+                aboutForm.location = data.about.location
+                aboutForm.githubUrl = data.about.githubUrl
+                aboutForm.codetimeUrl = data.about.codetimeUrl
+                aboutForm.poem = data.about.poem
+                educations.value = [...data.educations]
+                skills.value = data.skills.map(s => ({
+                    category: s.category,
+                    items: [...s.items],
+                }))
+            }
         } catch {
             ElMessage.error('加载博客设置失败')
         } finally {
@@ -88,7 +91,7 @@ export function useBlogSettings() {
                 .map(line => line.trim())
                 .filter(Boolean)
 
-            const settings: BlogSettingsData = {
+            const settings: BlogSettingsDTO = {
                 about: {
                     tagLine: aboutForm.tagLine,
                     bio: bioArray,
@@ -101,8 +104,12 @@ export function useBlogSettings() {
                 skills: skills.value,
             }
 
-            console.log('Save blog settings:', settings)
-            ElMessage.success('博客设置已保存')
+            const res = await blogApi.updateSettings(settings)
+            if (res.code === 200) {
+                ElMessage.success('博客设置已保存')
+            } else {
+                ElMessage.error(res.message || '保存失败')
+            }
         } catch {
             ElMessage.error('保存失败，请稍后重试')
         } finally {

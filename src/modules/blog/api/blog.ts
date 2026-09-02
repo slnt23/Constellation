@@ -20,17 +20,56 @@ export interface BlogPostCreateDTO {
     content: string
     cover?: File
     tags?: string[]
-    sortOrder: number
+    sortOrder?: number
 }
 
 export interface BlogPostUpdateDTO {
-    id: number
-    title: string
+    title?: string
     excerpt?: string
-    content: string
+    content?: string
     cover?: File
     tags?: string[]
-    sortOrder: number
+    sortOrder?: number
+}
+
+export interface BlogSettingsVO {
+    about: {
+        tagLine: string
+        bio: string[]
+        location: string
+        githubUrl: string
+        codetimeUrl: string
+        poem: string
+    }
+    educations: {
+        school: string
+        degree: string
+        period: string
+    }[]
+    skills: {
+        category: string
+        items: string[]
+    }[]
+}
+
+export interface BlogSettingsDTO {
+    about?: {
+        tagLine?: string
+        bio?: string[]
+        location?: string
+        githubUrl?: string
+        codetimeUrl?: string
+        poem?: string
+    }
+    educations?: {
+        school: string
+        degree: string
+        period: string
+    }[]
+    skills?: {
+        category: string
+        items: string[]
+    }[]
 }
 
 const BLOG_BASE_URL = '/blog'
@@ -69,7 +108,7 @@ export const blogApi = {
     update(id: number, data: BlogPostUpdateDTO): Promise<Result<null>> {
         const formData = new FormData()
         Object.entries(data).forEach(([key, value]) => {
-            if (key !== 'id' && value !== undefined && value !== null) {
+            if (value !== undefined && value !== null) {
                 if (key === 'tags' && Array.isArray(value)) {
                     formData.append(key, JSON.stringify(value))
                 } else {
@@ -82,5 +121,13 @@ export const blogApi = {
 
     deleteById(id: number): Promise<Result<null>> {
         return request.delete(`${BLOG_BASE_URL}/${id}`)
+    },
+
+    getSettings(): Promise<Result<BlogSettingsVO>> {
+        return request.get(`${BLOG_BASE_URL}/settings`)
+    },
+
+    updateSettings(data: BlogSettingsDTO): Promise<Result<null>> {
+        return request.put(`${BLOG_BASE_URL}/settings`, data)
     },
 }

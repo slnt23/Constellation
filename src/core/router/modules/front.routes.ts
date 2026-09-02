@@ -4,7 +4,7 @@ import { PriceMainPage } from '@/modules/price'
 import { UserProfilePage } from '@/modules/user'
 import { HomePage } from '@/modules/home'
 import { GalleryPage } from '@/modules/gallery'
-import { PostsPage, ResumePage } from '@/modules/blog'
+import { PostsPage, ResumePage, PostDetailPage } from '@/modules/blog'
 import { MeditationPage } from '@/modules/meditation'
 
 
@@ -54,6 +54,14 @@ const frontRoutes = [
         path: 'blog/posts',  //虽然展示，但是界面并不完善，后续会继续完善
         name: 'front-blog-posts',
         component: PostsPage,
+        meta: {
+          // requiresAuth: true,
+        },
+      },
+      {
+        path: 'blog/posts/:id',
+        name: 'front-blog-post-detail',
+        component: PostDetailPage,
         meta: {
           // requiresAuth: true,
         },

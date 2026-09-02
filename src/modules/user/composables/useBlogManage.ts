@@ -123,7 +123,6 @@ export function useBlogManage() {
             if (editingId.value !== null) {
                 const updatePayload: BlogPostUpdateDTO = {
                     ...payload,
-                    id: editingId.value,
                 }
                 if (uploadFile.value) {
                     updatePayload.cover = uploadFile.value

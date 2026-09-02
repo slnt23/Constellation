@@ -1,15 +1,10 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import { useBlogList } from '@/modules/blog/composables'
 
-const { posts, loading, fetchPosts } = useBlogList()
+const { posts, loading, fetchPosts, formatDate } = useBlogList()
 
 onMounted(fetchPosts)
-
-function formatDate(dateStr: string): string {
-  const d = new Date(dateStr)
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-}
 </script>
 
 <template>
@@ -20,7 +15,7 @@ function formatDate(dateStr: string): string {
     <div class="section-content">
       <ul class="posts-list">
         <li v-for="post in posts" :key="post.id" class="post-preview">
-          <a class="post-link" href="#">
+          <RouterLink class="post-link" :to="`/blog/posts/${post.id}`">
             <time class="post-date" :datetime="post.datetime">
               {{ formatDate(post.date) }}
             </time>
@@ -32,7 +27,7 @@ function formatDate(dateStr: string): string {
                 <polyline points="12 5 19 12 12 19" class="arrow-head" />
               </svg>
             </div>
-          </a>
+          </RouterLink>
         </li>
       </ul>
       <RouterLink class="view-all" to="/blog/posts">
@@ -48,6 +43,8 @@ function formatDate(dateStr: string): string {
 </template>
 
 <style scoped lang="scss">
+@use '@/modules/blog/styles/blog-common' as *;
+
 .posts-section {
   display: flex;
   flex-direction: column;
@@ -89,40 +86,21 @@ function formatDate(dateStr: string): string {
 }
 
 .post-preview {
-  position: relative;
-  border: 1px solid transparent;
-  border-radius: 16px;
-  background: var(--color-background);
-  transition: all 0.2s ease;
-
-  &:hover {
-    background: rgba(0, 0, 0, 0.03);
-    border-color: var(--color-border);
-  }
+  @extend .post-preview;
 }
 
 .post-link {
-  display: flex;
-  flex-direction: column;
+  @extend .post-link;
   padding: 10px 20px;
-  text-decoration: none;
-  color: inherit;
-  transition: color 0.2s ease;
 
   @media (min-width: 640px) {
     flex-direction: row;
     align-items: center;
   }
-
-  &:hover {
-    color: var(--color-primary);
-  }
 }
 
 .post-date {
-  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
-  font-size: 0.75rem;
-  color: var(--color-muted-foreground);
+  @extend .post-date;
   min-width: 95px;
   padding: 4px 0;
 
@@ -132,44 +110,17 @@ function formatDate(dateStr: string): string {
 }
 
 .post-title-row {
+  @extend .post-title-row;
   flex: 1;
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 8px;
 }
 
 .post-title {
-  font-size: 0.95rem;
-  font-weight: 500;
+  @extend .post-title;
 }
 
 .post-arrow {
-  flex-shrink: 0;
-  stroke: var(--color-muted-foreground);
-  transition: stroke 0.2s ease;
-
-  .post-link:hover & {
-    stroke: var(--color-primary);
-  }
-
-  .arrow-line {
-    transition: all 0.3s ease;
-    transform: translateX(4px) scaleX(0);
-  }
-
-  .arrow-head {
-    transition: all 0.3s ease;
-    transform: translateX(0);
-  }
-
-  .post-link:hover & .arrow-line {
-    transform: translateX(1px) scaleX(1);
-  }
-
-  .post-link:hover & .arrow-head {
-    transform: translateX(1px);
-  }
+  @extend .post-arrow;
 }
 
 /* ── View All ── */

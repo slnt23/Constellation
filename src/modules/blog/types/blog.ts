@@ -17,15 +17,54 @@ export interface BlogPostCreateDTO {
     content: string
     cover?: File
     tags?: string[]
-    sortOrder: number
+    sortOrder?: number
 }
 
 export interface BlogPostUpdateDTO {
-    id: number
-    title: string
+    title?: string
     excerpt?: string
-    content: string
+    content?: string
     cover?: File
     tags?: string[]
-    sortOrder: number
+    sortOrder?: number
+}
+
+export interface BlogSettingsVO {
+    about: {
+        tagLine: string
+        bio: string[]
+        location: string
+        githubUrl: string
+        codetimeUrl: string
+        poem: string
+    }
+    educations: {
+        school: string
+        degree: string
+        period: string
+    }[]
+    skills: {
+        category: string
+        items: string[]
+    }[]
+}
+
+export interface BlogSettingsDTO {
+    about?: {
+        tagLine?: string
+        bio?: string[]
+        location?: string
+        githubUrl?: string
+        codetimeUrl?: string
+        poem?: string
+    }
+    educations?: {
+        school: string
+        degree: string
+        period: string
+    }[]
+    skills?: {
+        category: string
+        items: string[]
+    }[]
 }
