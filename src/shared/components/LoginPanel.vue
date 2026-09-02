@@ -195,7 +195,7 @@ const closeDialog = () => {
                                 <el-form-item prop="mail">
                                     <div class="email-input-group">
                                         <el-input v-model="loginForm.email" placeholder="请输入邮箱地址" clearable
-                                            class="el-input__inner"></el-input>
+                                            autocomplete="email" class="el-input__inner"></el-input>
                                         <el-button @click="sendCode">发送验证码</el-button>
                                     </div>
                                 </el-form-item>
@@ -220,11 +220,11 @@ const closeDialog = () => {
                             <el-form :model="loginForm">
                                 <el-form-item prop="mail">
                                     <el-input v-model="loginForm.email" placeholder="请输入邮箱地址" clearable
-                                        class="el-input__inner" />
+                                        autocomplete="email" class="el-input__inner" />
                                 </el-form-item>
                                 <el-form-item prop="password">
                                     <el-input v-model="loginForm.password" type="password" show-password clearable
-                                        placeholder="请输入密码" class="el-input__inner" />
+                                        placeholder="请输入密码" autocomplete="current-password" class="el-input__inner" />
                                 </el-form-item>
                                 <div class="form-button-group">
                                     <el-button type="primary" :loading="submitting"
@@ -245,7 +245,7 @@ const closeDialog = () => {
                             <el-form-item prop="mail">
                                 <div class="email-input-group">
                                     <el-input v-model="resetForm.email" placeholder="请输入邮箱地址" clearable
-                                        class="el-input__inner" />
+                                        autocomplete="email" class="el-input__inner" />
                                     <el-button :loading="resetSubmitting" @click="sendResetCode">发送验证码</el-button>
                                 </div>
                             </el-form-item>
