@@ -31,6 +31,8 @@ export type DashboardSectionId =
   | 'notifications'
   | 'access-billing'
   | 'gallery'
+  | 'blog'
+  | 'blog-settings'
 
 export interface NavSection {
   title?: string

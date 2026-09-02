@@ -6,10 +6,22 @@ export function useBlogList() {
   const currentPage = ref(1)
   const totalPages = ref(BLOG_POSTS_TOTAL_PAGES)
   const totalPosts = ref(BLOG_POSTS_TOTAL)
+  const loading = ref(false)
 
   function formatDate(dateStr: string): string {
     const d = new Date(dateStr)
     return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+  }
+
+  async function fetchPosts() {
+    loading.value = true
+    try {
+      posts.value = BLOG_POSTS
+      totalPages.value = BLOG_POSTS_TOTAL_PAGES
+      totalPosts.value = BLOG_POSTS_TOTAL
+    } finally {
+      loading.value = false
+    }
   }
 
   return {
@@ -17,6 +29,8 @@ export function useBlogList() {
     currentPage,
     totalPages,
     totalPosts,
+    loading,
     formatDate,
+    fetchPosts,
   }
 }

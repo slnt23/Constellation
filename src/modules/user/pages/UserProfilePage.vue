@@ -3,9 +3,12 @@ import ProfileAccessibilitySection from '@/modules/user/components/ProfileAccess
 import ProfileAccountSection from '@/modules/user/components/ProfileAccountSection.vue'
 import ProfilePublicProfileSection from '@/modules/user/components/ProfilePublicProfileSection.vue'
 import GalleryManageSection from '@/modules/user/components/GalleryManageSection.vue'
-import { Setting, SwitchButton, User, Picture } from '@element-plus/icons-vue'
+import BlogManageSection from '@/modules/user/components/BlogManageSection.vue'
+import BlogSettingsSection from '@/modules/user/components/BlogSettingsSection.vue'
+import { ArrowRight, Setting, SwitchButton, User, Picture, Document } from '@element-plus/icons-vue'
 import { PROFILE_ACCESSIBILITY_CARDS } from '@/modules/user/constants'
 import { useUserProfile } from '@/modules/user/composables'
+import { ref, watch } from 'vue'
 
 const {
   activeSectionId,
@@ -19,9 +22,23 @@ const {
   handleAvatarUpdated,
 } = useUserProfile()
 
+const blogMenuExpanded = ref(false)
+
 const handleMenuSelect = (id: string) => {
-  if (id === 'public' || id === 'account' || id === 'gallery') activeSectionId.value = id
+  if (id === 'public' || id === 'account' || id === 'gallery' || id === 'blog' || id === 'blog-settings') {
+    activeSectionId.value = id
+  }
 }
+
+const toggleBlogMenu = () => {
+  blogMenuExpanded.value = !blogMenuExpanded.value
+}
+
+watch(activeSectionId, (val) => {
+  if (val === 'blog' || val === 'blog-settings') {
+    blogMenuExpanded.value = true
+  }
+})
 </script>
 
 <template>
@@ -51,16 +68,37 @@ const handleMenuSelect = (id: string) => {
             </el-icon>
             <span>画廊管理</span>
           </el-menu-item>
-          <el-menu-item index="account">
-            <el-icon>
-              <Setting />
-            </el-icon>
-            <span>账户</span>
-          </el-menu-item>
+
+          <div class="user-shell__menu-group" :class="{ 'is-open': blogMenuExpanded }">
+            <div class="user-shell__menu-group-trigger" @click="toggleBlogMenu">
+              <el-icon>
+                <Document />
+              </el-icon>
+              <span>博客管理</span>
+              <el-icon class="user-shell__menu-chevron">
+                <ArrowRight />
+              </el-icon>
+            </div>
+            <div v-show="blogMenuExpanded" class="user-shell__menu-children">
+              <el-menu-item index="blog" class="user-shell__menu-child">
+                <span>博客内容</span>
+              </el-menu-item>
+              <el-menu-item index="blog-settings" class="user-shell__menu-child">
+                <span>博客设置</span>
+              </el-menu-item>
+            </div>
+          </div>
         </el-menu>
       </div>
 
       <div class="user-shell__sidebar-footer">
+        <div class="user-shell__account-item" :class="{ 'is-active': activeSectionId === 'account' }"
+          @click="handleMenuSelect('account')">
+          <el-icon>
+            <Setting />
+          </el-icon>
+          <span>账户</span>
+        </div>
         <el-button class="user-shell__logout" text type="danger" :icon="SwitchButton" @click="handleLogout">
           退出登录
         </el-button>
@@ -84,6 +122,8 @@ const handleMenuSelect = (id: string) => {
           @save="handleSavePublicProfile" @avatar-updated="handleAvatarUpdated"
           @email-settings="activeSectionId = 'account'" />
         <GalleryManageSection v-else-if="activeSectionId === 'gallery'" />
+        <BlogManageSection v-else-if="activeSectionId === 'blog'" />
+        <BlogSettingsSection v-else-if="activeSectionId === 'blog-settings'" />
         <ProfileAccountSection v-else-if="activeSectionId === 'account'" />
         <ProfileAccessibilitySection v-else-if="activeSectionId === 'accessibility'"
           :cards="PROFILE_ACCESSIBILITY_CARDS" />

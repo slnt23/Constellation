@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { SKILLS } from '@/modules/blog/constants'
+import { MOCK_BLOG_SETTINGS } from '@/modules/blog/constants/mock'
 
-const skills = ref(SKILLS)
+const skills = ref(MOCK_BLOG_SETTINGS.skills)
+const poem = ref(MOCK_BLOG_SETTINGS.about.poem)
 </script>
 
 <template>
@@ -24,7 +25,7 @@ const skills = ref(SKILLS)
 
       <div class="poem-box">
         <span class="poem-dot"></span>
-        <span class="poem-text">春潮带雨晚来急，野渡无人舟自横。</span>
+        <span class="poem-text">{{ poem }}</span>
       </div>
     </div>
   </section>
@@ -124,8 +125,15 @@ const skills = ref(SKILLS)
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
 }
 
 .poem-text {

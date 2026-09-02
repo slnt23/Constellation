@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { EDUCATIONS } from '@/modules/blog/constants'
+import { MOCK_BLOG_SETTINGS } from '@/modules/blog/constants/mock'
 
-const educations = ref(EDUCATIONS)
+const educations = ref(MOCK_BLOG_SETTINGS.educations)
 </script>
 
 <template>

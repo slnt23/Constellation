@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { BLOG_POST_PREVIEWS } from '@/modules/blog/constants'
+import { ref, onMounted } from 'vue'
+import { useBlogList } from '@/modules/blog/composables'
 
-const posts = ref(BLOG_POST_PREVIEWS)
+const { posts, loading, fetchPosts } = useBlogList()
+
+onMounted(fetchPosts)
 
 function formatDate(dateStr: string): string {
   const d = new Date(dateStr)
@@ -24,17 +26,8 @@ function formatDate(dateStr: string): string {
             </time>
             <div class="post-title-row">
               <span class="post-title">{{ post.title }}</span>
-              <svg
-                class="post-arrow"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
+              <svg class="post-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12" class="arrow-line" />
                 <polyline points="12 5 19 12 12 19" class="arrow-head" />
               </svg>
@@ -44,16 +37,8 @@ function formatDate(dateStr: string): string {
       </ul>
       <RouterLink class="view-all" to="/blog/posts">
         View All
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
           <line x1="5" y1="12" x2="19" y2="12" class="arrow-line" />
           <polyline points="12 5 19 12 12 19" class="arrow-head" />
         </svg>

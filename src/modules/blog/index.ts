@@ -1,5 +1,5 @@
-export { default as BlogPage } from './pages/BlogPage.vue'
-export { default as BlogListPage } from './pages/BlogListPage.vue'
+export { default as ResumePage } from './pages/ResumePage.vue'
+export { default as PostsPage } from './pages/PostsPage.vue'
 export * from './types'
 export * from './constants'
 export { useBlogList } from './composables/useBlogList'
