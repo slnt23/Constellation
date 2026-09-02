@@ -2,7 +2,8 @@
 import ProfileAccessibilitySection from '@/modules/user/components/ProfileAccessibilitySection.vue'
 import ProfileAccountSection from '@/modules/user/components/ProfileAccountSection.vue'
 import ProfilePublicProfileSection from '@/modules/user/components/ProfilePublicProfileSection.vue'
-import { Setting, SwitchButton, User } from '@element-plus/icons-vue'
+import GalleryManageSection from '@/modules/user/components/GalleryManageSection.vue'
+import { Setting, SwitchButton, User, Picture } from '@element-plus/icons-vue'
 import { PROFILE_ACCESSIBILITY_CARDS } from '@/modules/user/constants'
 import { useUserProfile } from '@/modules/user/composables'
 
@@ -19,7 +20,7 @@ const {
 } = useUserProfile()
 
 const handleMenuSelect = (id: string) => {
-  if (id === 'public' || id === 'account') activeSectionId.value = id
+  if (id === 'public' || id === 'account' || id === 'gallery') activeSectionId.value = id
 }
 </script>
 
@@ -43,6 +44,12 @@ const handleMenuSelect = (id: string) => {
               <User />
             </el-icon>
             <span>公开资料</span>
+          </el-menu-item>
+          <el-menu-item index="gallery">
+            <el-icon>
+              <Picture />
+            </el-icon>
+            <span>画廊管理</span>
           </el-menu-item>
           <el-menu-item index="account">
             <el-icon>
@@ -76,6 +83,7 @@ const handleMenuSelect = (id: string) => {
         <ProfilePublicProfileSection v-if="activeSectionId === 'public'" :profile="publicProfile"
           @save="handleSavePublicProfile" @avatar-updated="handleAvatarUpdated"
           @email-settings="activeSectionId = 'account'" />
+        <GalleryManageSection v-else-if="activeSectionId === 'gallery'" />
         <ProfileAccountSection v-else-if="activeSectionId === 'account'" />
         <ProfileAccessibilitySection v-else-if="activeSectionId === 'accessibility'"
           :cards="PROFILE_ACCESSIBILITY_CARDS" />

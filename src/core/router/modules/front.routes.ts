@@ -3,7 +3,7 @@ import { AiChatPage } from '@/modules/ai'
 import { PriceMainPage } from '@/modules/price'
 import { UserProfilePage } from '@/modules/user'
 import { HomePage } from '@/modules/home'
-import { StoryPage } from '@/modules/story'
+import { GalleryPage } from '@/modules/gallery'
 import { BlogListPage, BlogPage } from '@/modules/blog'
 import { MeditationPage } from '@/modules/meditation'
 
@@ -27,9 +27,9 @@ const frontRoutes = [
         },
       },
       {
-        path: 'story',  //虽然展示，但是界面并不完善，后续会继续完善
+        path: 'story',
         name: 'front-story',
-        component: StoryPage,
+        component: GalleryPage,
         meta: {
           requiresAuth: true,
         },
