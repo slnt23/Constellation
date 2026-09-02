@@ -1,5 +1,6 @@
 export interface GalleryItemVO {
     id: number
+    userId: number
     title: string
     description: string
     imageUrl: string

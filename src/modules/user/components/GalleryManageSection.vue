@@ -42,8 +42,8 @@ onMounted(fetchList)
             <el-table v-if="!loading || list.length" :data="list" class="gallery-manage-section__table">
                 <el-table-column label="封面" width="120">
                     <template #default="{ row }">
-                        <el-image class="gallery-manage-section__thumb" :src="row.thumbnailUrl" fit="cover"
-                            :preview-src-list="[row.imageUrl]" preview-teleported />
+                        <el-image class="gallery-manage-section__thumb" :src="row.thumbnailUrl || row.imageUrl"
+                            fit="cover" :preview-src-list="[row.imageUrl]" preview-teleported />
                     </template>
                 </el-table-column>
                 <el-table-column prop="id" label="ID" width="80" />

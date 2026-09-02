@@ -1,12 +1,23 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
+import { User, Picture } from '@element-plus/icons-vue'
 import GalleryLightbox from '@/modules/gallery/components/GalleryLightbox.vue'
 import { useGalleryList } from '@/modules/gallery/composables'
 
 const activeIndex = ref(0)
 const previewOpen = ref(false)
 
-const { galleryItems, isLoading, fetchGalleryItems } = useGalleryList()
+const {
+    galleryItems,
+    isLoading,
+    isPersonalMode,
+    pageNum,
+    pageSize,
+    total,
+    fetchGalleryItems,
+    toggleMode,
+    handlePageChange,
+} = useGalleryList()
 
 const activeItem = computed(() => galleryItems.value[activeIndex.value] ?? null)
 
@@ -41,7 +52,7 @@ onMounted(() => {
         <section v-else-if="galleryItems.length" class="gallery-grid">
             <button v-for="(item, index) in galleryItems" :key="item.id" type="button" class="gallery-grid__item"
                 @click="openPreview(index)">
-                <img class="gallery-grid__image" :src="item.thumbnailUrl" :alt="item.title" />
+                <img class="gallery-grid__image" :src="item.thumbnailUrl || item.imageUrl" :alt="item.title" />
                 <span class="gallery-grid__overlay" />
                 <span class="gallery-grid__content">
                     <strong class="gallery-grid__label">{{ item.title }}</strong>
@@ -60,6 +71,19 @@ onMounted(() => {
         <section v-if="activeItem" class="gallery-page__hint">
             <p>点击任意图片可放大浏览，支持左右切换与 `Esc` 关闭。</p>
         </section>
+
+        <section v-if="galleryItems.length && total > pageSize" class="gallery-page__pagination">
+            <el-pagination v-model:current-page="pageNum" :page-size="20" :total="total" layout="prev, pager, next"
+                @current-change="handlePageChange" />
+        </section>
+
+        <button type="button" class="gallery-page__mode-toggle" @click="toggleMode">
+            <el-icon :size="20">
+                <User v-if="isPersonalMode" />
+                <Picture v-else />
+            </el-icon>
+            <span>{{ isPersonalMode ? '我的图片' : '全部图片' }}</span>
+        </button>
     </div>
 </template>
 
@@ -192,6 +216,45 @@ onMounted(() => {
     letter-spacing: 0.04em;
 }
 
+.gallery-page__pagination {
+    display: flex;
+    justify-content: center;
+    padding: 24px 20px;
+}
+
+.gallery-page__mode-toggle {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 24px;
+    background: rgba(17, 21, 28, 0.92);
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 0.92rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.24);
+    transition:
+        background 220ms ease,
+        transform 180ms ease;
+}
+
+.gallery-page__mode-toggle:hover {
+    background: rgba(17, 21, 28, 0.98);
+    transform: translateY(-2px);
+}
+
+.gallery-page__mode-toggle:active {
+    transform: translateY(0);
+}
+
 @media (max-width: 960px) {
     .gallery-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -236,6 +299,13 @@ onMounted(() => {
     .gallery-grid__description {
         font-size: 0.8rem;
         line-height: 1.5;
+    }
+
+    .gallery-page__mode-toggle {
+        right: 16px;
+        bottom: 16px;
+        padding: 10px 16px;
+        font-size: 0.86rem;
     }
 }
 </style>

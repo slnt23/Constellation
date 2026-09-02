@@ -13,6 +13,10 @@ export const galleryApi = {
         return request.get(`${GALLERY_BASE_URL}/page`, { params: { pageNum, pageSize } })
     },
 
+    allPage(pageNum = 1, pageSize = 10): Promise<Result<PageResult<GalleryItemVO>>> {
+        return request.get(`${GALLERY_BASE_URL}/all/page`, { params: { pageNum, pageSize } })
+    },
+
     getById(id: number): Promise<Result<GalleryItemVO>> {
         return request.get(`${GALLERY_BASE_URL}/${id}`)
     },

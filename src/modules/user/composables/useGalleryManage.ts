@@ -35,7 +35,12 @@ export function useGalleryManage() {
         loading.value = true
         try {
             const res = await galleryApi.page(pageNum.value, pageSize.value)
-            list.value = res.data?.records ?? []
+            const records = res.data?.records ?? []
+            list.value = records.map(item => ({
+                ...item,
+                imageUrl: item.imageUrl?.replace(/^`|`$/g, '') ?? '',
+                thumbnailUrl: item.thumbnailUrl?.replace(/^`|`$/g, '') ?? '',
+            }))
             total.value = res.data?.total ?? 0
         } catch {
             ElMessage.error('加载画廊列表失败，请稍后重试')
