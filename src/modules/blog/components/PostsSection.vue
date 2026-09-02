@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useBlogList } from '@/modules/blog/composables'
+import { useRouteLink } from '@/core/composables/useRouteLink'
 
 const { posts, loading, fetchPosts, formatDate } = useBlogList()
 
 onMounted(fetchPosts)
+
+function getPostLink(postId: number) {
+  return useRouteLink({ to: `/blog/posts/${postId}` })
+}
 </script>
 
 <template>
@@ -15,7 +20,7 @@ onMounted(fetchPosts)
     <div class="section-content">
       <ul class="posts-list">
         <li v-for="post in posts" :key="post.id" class="post-preview">
-          <RouterLink class="post-link" :to="`/blog/posts/${post.id}`">
+          <a class="post-link" v-bind="getPostLink(post.id)">
             <time class="post-date" :datetime="post.datetime">
               {{ formatDate(post.date) }}
             </time>
@@ -27,7 +32,7 @@ onMounted(fetchPosts)
                 <polyline points="12 5 19 12 12 19" class="arrow-head" />
               </svg>
             </div>
-          </RouterLink>
+          </a>
         </li>
       </ul>
       <RouterLink class="view-all" to="/blog/posts">

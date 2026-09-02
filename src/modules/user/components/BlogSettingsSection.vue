@@ -52,7 +52,7 @@ onMounted(loadSettings)
                         <el-input v-model="aboutForm.githubUrl" placeholder="https://github.com/xxx" />
                     </el-form-item>
                     <el-form-item label="CodeTime Badge URL">
-                        <el-input v-model="aboutForm.codetimeUrl" placeholder="CodeTime 统计链接" />
+                        <el-input v-model="aboutForm.codetimeUrl" placeholder="CodeTime 统计链接（可选）" />
                     </el-form-item>
                     <el-form-item label="诗句">
                         <el-input v-model="aboutForm.poem" placeholder="一句喜欢的诗" />

@@ -63,7 +63,7 @@ const frontRoutes = [
         name: 'front-blog-post-detail',
         component: PostDetailPage,
         meta: {
-          // requiresAuth: true,
+          openInNewTab: true,
         },
       },
       {

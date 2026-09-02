@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useBlogList } from '@/modules/blog/composables'
+import { useRouteLink } from '@/core/composables/useRouteLink'
 
 const { posts, currentPage, totalPages, totalPosts, loading, formatDate, fetchPosts } = useBlogList()
 
@@ -10,6 +11,10 @@ function loadMore() {
   if (currentPage.value < totalPages.value && !loading.value) {
     fetchPosts(currentPage.value + 1, 10)
   }
+}
+
+function getPostLink(href: string) {
+  return useRouteLink({ to: href })
 }
 </script>
 
@@ -26,7 +31,7 @@ function loadMore() {
       <div class="blog-main">
         <ul class="posts-list">
           <li v-for="post in posts" :key="post.id" class="post-preview group/card">
-            <RouterLink class="post-link group/link" :to="post.href">
+            <a class="post-link group/link" v-bind="getPostLink(post.href)">
               <!-- Date -->
               <time class="post-date" :datetime="post.datetime">
                 {{ formatDate(post.date) }}
@@ -59,7 +64,7 @@ function loadMore() {
                   <span v-for="tag in post.tags" :key="tag" class="post-tag">{{ tag }}</span>
                 </div>
               </div>
-            </RouterLink>
+            </a>
           </li>
         </ul>
       </div>

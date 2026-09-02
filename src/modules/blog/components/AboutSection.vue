@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import { getCurrentUser } from '@/core/permission'
 import { EXAMPLE_PUBLIC_PROFILE_DEFAULTS } from '@/shared/constants'
 import { useBlogSettings } from '@/modules/blog/composables'
+import GitHubStats from './GitHubStats.vue'
 
 const currentUser = getCurrentUser()
 const { settings, fetchSettings } = useBlogSettings()
@@ -27,6 +28,13 @@ const aboutData = computed(() => {
     codetimeUrl: '',
     poem: '',
   }
+})
+
+const githubUsername = computed(() => {
+  const url = aboutData.value.githubUrl
+  if (!url) return 'slnt23'
+  const match = url.match(/github\.com\/([^/]+)/)
+  return match ? match[1] : 'slnt23'
 })
 </script>
 
@@ -64,9 +72,7 @@ const aboutData = computed(() => {
         <div class="bio-text">
           <p v-for="(line, index) in aboutData.bio" :key="index" v-html="line"></p>
         </div>
-        <div class="codetime-badge">
-          <img alt="CodeTime Badge" :src="aboutData.codetimeUrl" />
-        </div>
+        <GitHubStats :username="githubUsername" />
         <div class="more-link-decoration">
           <span class="decoration-dot"></span>
           <span class="decoration-text">Explore more</span>
@@ -193,15 +199,6 @@ const aboutData = computed(() => {
 
   del {
     opacity: 0.5;
-  }
-}
-
-.codetime-badge {
-  margin-top: 4px;
-
-  img {
-    border-radius: 6px;
-    border: 1px solid var(--color-border);
   }
 }
 
