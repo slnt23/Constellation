@@ -7,38 +7,71 @@ defineProps<{
 </script>
 
 <template>
-  <section class="profile-stack">
-    <article v-for="card in cards" :key="card.title" class="profile-card">
-      <h3>{{ card.title }}</h3>
-      <p>{{ card.description }}</p>
-    </article>
-  </section>
+  <el-card class="profile-accessibility" shadow="never">
+    <template #header>
+      <h3 class="profile-accessibility__title">辅助功能</h3>
+    </template>
+
+    <div class="profile-accessibility__list">
+      <el-card v-for="card in cards" :key="card.title" class="profile-accessibility__item" shadow="hover">
+        <h4 class="profile-accessibility__item-title">{{ card.title }}</h4>
+        <p class="profile-accessibility__item-desc">{{ card.description }}</p>
+      </el-card>
+    </div>
+  </el-card>
 </template>
 
 <style scoped lang="scss">
-.profile-stack {
+.profile-accessibility {
+  border: none;
+  background: transparent;
+
+  :deep(.el-card__header) {
+    padding: 0 0 20px;
+    border-bottom: none;
+  }
+
+  :deep(.el-card__body) {
+    padding: 0;
+  }
+}
+
+.profile-accessibility__title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--el-text-color-primary);
+}
+
+.profile-accessibility__list {
   display: grid;
   gap: 16px;
 }
 
-.profile-card {
-  padding: 24px;
-  border-radius: 8px;
-  background: #fafafa;
-  border: 1px solid #ebebeb;
+.profile-accessibility__item {
+  border: 1px solid var(--el-border-color-light);
+
+  :deep(.el-card__header) {
+    padding: 0;
+    border-bottom: none;
+  }
+
+  :deep(.el-card__body) {
+    padding: 0;
+  }
 }
 
-.profile-card h3 {
+.profile-accessibility__item-title {
   margin: 0 0 8px;
-  color: #171717;
+  color: var(--el-text-color-primary);
   font-size: 16px;
   font-weight: 500;
   line-height: 24px;
 }
 
-.profile-card p {
+.profile-accessibility__item-desc {
   margin: 0;
-  color: #4d4d4d;
+  color: var(--el-text-color-secondary);
   font-size: 14px;
   line-height: 20px;
 }

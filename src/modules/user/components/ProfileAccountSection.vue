@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { ElButton, ElForm, ElFormItem, ElInput, ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { sendCodeApi } from '@/modules/user/api/auth'
 import { bindEmailApi, getUserInfoApi, updatePasswordApi, updateUserInfoApi } from '@/modules/user/api/profile'
 import { setCurrentUser } from '@/core/permission'
@@ -109,70 +109,109 @@ const handleUpdatePassword = async () => {
 </script>
 
 <template>
-    <ElForm class="account-settings-form" label-position="top">
-        <ElFormItem label="手机号" class="form-field">
-            <div class="input-group">
-                <ElInput v-model="phone" type="tel" placeholder="请输入新手机号" class="custom-input" />
-                <ElButton type="primary" class="update-btn" :loading="phoneLoading" @click="handleUpdatePhone">
-                    更新
-                </ElButton>
-            </div>
-            <p class="field-hint">更新后将用于登录和接收通知</p>
-        </ElFormItem>
+    <el-card class="account-settings" shadow="never">
+        <template #header>
+            <h3 class="account-settings__title">账户设置</h3>
+        </template>
 
-        <ElFormItem label="邮箱" class="form-field">
-            <div class="input-group">
-                <ElInput v-model="newEmail" type="email" placeholder="请输入新邮箱" class="custom-input" />
-                <ElButton class="update-btn update-btn--secondary" :loading="emailCodeLoading"
-                    @click="handleSendEmailCode">
-                    发送验证码
-                </ElButton>
-            </div>
-            <div class="input-group email-code-group">
-                <ElInput v-model="emailCode" placeholder="请输入验证码" class="custom-input" />
-                <ElButton type="primary" class="update-btn" :loading="emailBindingLoading" @click="handleBindEmail">
-                    绑定
-                </ElButton>
-            </div>
-            <p class="field-hint">绑定后使用新邮箱登录和接收通知邮件</p>
-        </ElFormItem>
+        <el-form class="account-settings__form" label-position="top">
+            <el-form-item label="手机号">
+                <div class="account-settings__input-group">
+                    <el-input v-model="phone" type="tel" placeholder="请输入新手机号" class="account-settings__input" />
+                    <el-button type="primary" :loading="phoneLoading" @click="handleUpdatePhone">
+                        更新
+                    </el-button>
+                </div>
+                <div class="account-settings__hint">更新后将用于登录和接收通知</div>
+            </el-form-item>
 
-        <ElFormItem label="密码" class="form-field">
-            <div class="input-group">
-                <ElInput v-model="oldPassword" type="password" show-password placeholder="请输入旧密码（未设置可留空）"
-                    class="custom-input" />
-            </div>
-            <div class="input-group">
-                <ElInput v-model="newPassword" type="password" show-password placeholder="请输入新密码（8-64 位，含字母和数字）"
-                    class="custom-input" />
-                <ElButton type="primary" class="update-btn" :loading="passwordLoading" @click="handleUpdatePassword">
-                    更新
-                </ElButton>
-            </div>
-            <p class="field-hint">更新后将用于登录</p>
-        </ElFormItem>
-    </ElForm>
+            <el-form-item label="邮箱">
+                <div class="account-settings__input-group">
+                    <el-input v-model="newEmail" type="email" placeholder="请输入新邮箱" class="account-settings__input" />
+                    <el-button :loading="emailCodeLoading" @click="handleSendEmailCode">
+                        发送验证码
+                    </el-button>
+                </div>
+                <div class="account-settings__input-group">
+                    <el-input v-model="emailCode" placeholder="请输入验证码" class="account-settings__input" />
+                    <el-button type="primary" :loading="emailBindingLoading" @click="handleBindEmail">
+                        绑定
+                    </el-button>
+                </div>
+                <div class="account-settings__hint">绑定后使用新邮箱登录和接收通知邮件</div>
+            </el-form-item>
+
+            <el-form-item label="密码">
+                <div class="account-settings__input-group">
+                    <el-input v-model="oldPassword" type="password" show-password placeholder="请输入旧密码（未设置可留空）"
+                        class="account-settings__input" />
+                </div>
+                <div class="account-settings__input-group">
+                    <el-input v-model="newPassword" type="password" show-password placeholder="请输入新密码（8-64 位，含字母和数字）"
+                        class="account-settings__input" />
+                    <el-button type="primary" :loading="passwordLoading" @click="handleUpdatePassword">
+                        更新
+                    </el-button>
+                </div>
+                <div class="account-settings__hint">更新后将用于登录</div>
+            </el-form-item>
+        </el-form>
+    </el-card>
 </template>
 
 <style scoped lang="scss">
-/* 表单控件保持 Element Plus 原生视觉，仅保留必要布局。 */
-.input-group {
+.account-settings {
+    border: none;
+    background: transparent;
+
+    :deep(.el-card__header) {
+        padding: 0 0 20px;
+        border-bottom: none;
+    }
+
+    :deep(.el-card__body) {
+        padding: 0;
+    }
+}
+
+.account-settings__title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--el-text-color-primary);
+}
+
+.account-settings__form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    :deep(.el-form-item) {
+        margin-bottom: 0;
+    }
+
+    :deep(.el-form-item__label) {
+        font-weight: 500;
+    }
+}
+
+.account-settings__input-group {
     display: flex;
     align-items: center;
     gap: 12px;
     width: 100%;
+
+    &:not(:last-child) {
+        margin-bottom: 12px;
+    }
 }
 
-.email-code-group {
-    margin-top: 12px;
-}
-
-.custom-input {
+.account-settings__input {
     flex: 1;
 }
 
-.field-hint {
-    margin: 8px 0 0;
+.account-settings__hint {
+    margin-top: 8px;
     color: var(--el-text-color-secondary);
     font-size: 12px;
 }

@@ -5,11 +5,8 @@ import { ElMessage } from 'element-plus'
 import { updateAvatarApi } from '@/modules/user/api/profile'
 import type { UserInfoVO } from '@/shared/types'
 
-
 import {
   EXAMPLE_PUBLIC_PROFILE_EMAIL_OPTIONS,
-  // EXAMPLE_PUBLIC_PROFILE_HINTS,
-  // EXAMPLE_PUBLIC_PROFILE_PRONOUNS_OPTIONS,
 } from '@/modules/user/constants'
 
 const hints = {
@@ -17,8 +14,6 @@ const hints = {
   displayName: '你的昵称可能会显示在站点中你参与协作或被提及的位置，可随时修改或清空。',
   publicEmail: '你已将邮箱设为私密。要调整展示方式，请到「邮箱设置」中取消勾选「对外隐藏邮箱」。',
   bio: '可以记录一些个人简介信息，',
-  // pronouns: '',
-  // websiteUrl: '',
 }
 
 const props = defineProps<{
@@ -49,7 +44,6 @@ const formState = reactive<UserInfoVO>({
 })
 
 const emailOptionsBase = EXAMPLE_PUBLIC_PROFILE_EMAIL_OPTIONS
-// const pronounsOptions = EXAMPLE_PUBLIC_PROFILE_PRONOUNS_OPTIONS
 
 const emailOptionsResolved = computed(() => {
   const val = formState.email
@@ -123,149 +117,96 @@ const goPersonalProfile = () => {
 </script>
 
 <template>
-  <section class="public-profile">
-    <header class="public-profile__head">
-      <div class="public-profile__head-text">
+  <el-card class="public-profile" shadow="never">
+    <template #header>
+      <div class="public-profile__header">
         <h3 class="public-profile__title">公开资料</h3>
-        <div class="public-profile__rule" />
       </div>
-      <!--      <button type="button" class="public-profile__ghost-btn" @click="goPersonalProfile">-->
-      <!--        前往个人主页-->
-      <!--      </button>-->
-    </header>
+    </template>
 
     <div class="public-profile__grid">
-      <div class="public-profile__form">
+      <el-form class="public-profile__form" label-position="top" label-width="auto">
+        <el-form-item label="用户名">
+          <el-input v-model="formState.userName" placeholder="请输入用户名" clearable />
+          <div class="public-profile__hint">{{ hints.displayUserName }}</div>
+        </el-form-item>
 
-        <div class="field">
-          <label class="field__label" for="pp-display-name">用户名</label>
-          <input id="pp-display-name" v-model="formState.userName" type="text" class="field__control"
-            autocomplete="name" />
-          <p class="field__hint">{{ hints.displayUserName }}</p>
-        </div>
+        <el-form-item label="昵称">
+          <el-input v-model="formState.nickname" placeholder="请输入昵称" clearable />
+          <div class="public-profile__hint">{{ hints.displayName }}</div>
+        </el-form-item>
 
-        <div class="field">
-          <label class="field__label" for="pp-display-name">昵称</label>
-          <input id="pp-display-name" v-model="formState.nickname" type="text" class="field__control"
-            autocomplete="name" />
-          <p class="field__hint">{{ hints.displayName }}</p>
-        </div>
-
-        <div class="field">
-          <label class="field__label" for="pp-public-email">公开邮箱</label>
-          <select id="pp-public-email" v-model="formState.email" class="field__control field__select">
-            <option v-for="opt in emailOptionsResolved" :key="`${opt.value}-${opt.label}`" :value="opt.value">
-              {{ opt.label }}
-            </option>
-          </select>
-          <p class="field__hint">
+        <el-form-item label="公开邮箱">
+          <el-select v-model="formState.email" placeholder="选择已验证邮箱以展示" style="width: 100%">
+            <el-option v-for="opt in emailOptionsResolved" :key="`${opt.value}-${opt.label}`" :value="opt.value"
+              :label="opt.label" />
+          </el-select>
+          <div class="public-profile__hint">
             {{ hints.publicEmail }}
-            <button type="button" class="field__hint-link" @click="emit('email-settings')">邮箱设置</button>
-          </p>
-        </div>
+            <el-button type="primary" link @click="emit('email-settings')">邮箱设置</el-button>
+          </div>
+        </el-form-item>
 
-        <div class="field">
-          <label class="field__label" for="pp-url">手机号</label>
-          <input id="pp-url" v-model="formState.phone" class="field__control" autocomplete="url"
-            placeholder="https://" />
-        </div>
+        <el-form-item label="手机号">
+          <el-input v-model="formState.phone" placeholder="请输入手机号" clearable />
+        </el-form-item>
 
-        <div class="field">
-          <label class="field__label" for="pp-bio">备注/个人简介</label>
-          <textarea id="pp-bio" v-model="formState.remark" class="field__control field__textarea" rows="5" />
-          <p class="field__hint">{{ hints.bio }}</p>
-        </div>
+        <el-form-item label="备注/个人简介">
+          <el-input v-model="formState.remark" type="textarea" :rows="5" placeholder="请输入个人简介" />
+          <div class="public-profile__hint">{{ hints.bio }}</div>
+        </el-form-item>
 
-        <!--        <div class="field">-->
-        <!--          <label class="field__label" for="pp-pronouns">人称代词</label>-->
-        <!--          <select id="pp-pronouns" v-model="formState.pronouns" class="field__control field__select">-->
-        <!--            <option v-for="opt in pronounsOptions" :key="opt.label" :value="opt.value">-->
-        <!--              {{ opt.label }}-->
-        <!--            </option>-->
-        <!--    type="url"      </select>-->
-        <!--        </div>-->
-
-        <div class="public-profile__actions">
-          <button type="button" class="public-profile__submit" @click="handleConfirmUpdate">
+        <el-form-item>
+          <el-button type="primary" @click="handleConfirmUpdate">
             确认更新
-          </button>
-        </div>
-      </div>
+          </el-button>
+        </el-form-item>
+      </el-form>
 
       <aside class="public-profile__aside">
-        <span class="field__label public-profile__aside-label">头像</span>
+        <span class="public-profile__aside-label">头像</span>
         <div class="public-profile__avatar-wrap">
-          <div v-if="formState.avatarUrl" class="public-profile__avatar-ring">
-            <img :src="formState.avatarUrl" alt="默认头像" class="public-profile__avatar-img" />
-          </div>
-          <div v-else class="public-profile__avatar-ring public-profile__avatar-ring--placeholder">
+          <el-avatar :size="200" :src="formState.avatarUrl || undefined" class="public-profile__avatar">
             {{ formState.nickname?.trim().slice(0, 1) || formState.userName?.trim().slice(0, 1) || '用' }}
-          </div>
+          </el-avatar>
           <input ref="avatarInput" type="file" accept="image/jpeg,image/png,image/webp"
             class="public-profile__avatar-input" @change="handleAvatarChange" />
-          <button type="button" class="public-profile__edit-avatar" :disabled="avatarUploading"
-            @click="avatarInput?.click()">
+          <el-button class="public-profile__edit-avatar" :loading="avatarUploading" @click="avatarInput?.click()">
             {{ avatarUploading ? '上传中...' : '更换' }}
-          </button>
+          </el-button>
         </div>
       </aside>
     </div>
-  </section>
+  </el-card>
 </template>
 
 <style scoped lang="scss">
 .public-profile {
-  --pp-border: #ebebeb;
-  --pp-bg: #fafafa;
-  --pp-hint: #888888;
-  --pp-primary: #171717;
-  --pp-primary-hover: #171717;
-  --pp-link: #0070f3;
+  border: none;
+  background: transparent;
 
-  min-width: 0;
+  :deep(.el-card__header) {
+    padding: 0 0 20px;
+    border-bottom: none;
+  }
+
+  :deep(.el-card__body) {
+    padding: 0;
+  }
 }
 
-.public-profile__head {
+.public-profile__header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 20px;
 }
 
 .public-profile__title {
-  margin: 0 0 8px;
-  font-size: 24px;
+  margin: 0;
+  font-size: 20px;
   font-weight: 600;
-  line-height: 32px;
-  color: #171717;
-  letter-spacing: -0.96px;
-}
-
-.public-profile__rule {
-  height: 1px;
-  background: var(--pp-border);
-  max-width: 100%;
-}
-
-.public-profile__ghost-btn {
-  flex-shrink: 0;
-  margin-top: 2px;
-  padding: 0 12px;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
-  color: #171717;
-  background: #ffffff;
-  border: 1px solid var(--pp-border);
-  border-radius: 100px;
-  cursor: pointer;
-  white-space: nowrap;
-  height: 28px;
-
-  &:hover {
-    background: var(--pp-bg);
-  }
+  color: var(--el-text-color-primary);
 }
 
 .public-profile__grid {
@@ -278,97 +219,27 @@ const goPersonalProfile = () => {
 .public-profile__form {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
   min-width: 0;
-}
 
-.field__label {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #171717;
-  line-height: 20px;
-}
+  :deep(.el-form-item) {
+    margin-bottom: 0;
+  }
 
-.field__control {
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 0 12px;
-  font-size: 14px;
-  line-height: 20px;
-  color: #171717;
-  background: #ffffff;
-  border: 1px solid var(--pp-border);
-  border-radius: 6px;
-  outline: none;
-  height: 40px;
-
-  &:focus {
-    border-color: #171717;
-    box-shadow: 0 0 0 3px rgba(23, 23, 23, 0.1);
+  :deep(.el-form-item__label) {
+    font-weight: 500;
   }
 }
 
-.field__textarea {
-  min-height: 120px;
-  resize: vertical;
-  font-family: inherit;
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
-.field__select {
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2365768a' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  padding-right: 32px;
-}
-
-.field__hint {
-  margin: 8px 0 0;
+.public-profile__hint {
+  margin-top: 8px;
   font-size: 12px;
   line-height: 16px;
-  color: var(--pp-hint);
-}
+  color: var(--el-text-color-secondary);
 
-.field__hint-link {
-  margin: 0;
-  padding: 0;
-  border: none;
-  background: none;
-  font: inherit;
-  font-size: inherit;
-  color: var(--pp-link);
-  cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-
-  &:hover {
-    color: #0761d1;
-  }
-}
-
-.public-profile__actions {
-  margin-top: 4px;
-}
-
-.public-profile__submit {
-  padding: 0 16px;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
-  color: #ffffff;
-  background: var(--pp-primary);
-  border: none;
-  border-radius: 100px;
-  cursor: pointer;
-  height: 32px;
-
-  &:hover {
-    opacity: 0.9;
+  .el-button {
+    padding: 0;
+    margin-left: 4px;
   }
 }
 
@@ -376,45 +247,25 @@ const goPersonalProfile = () => {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 10px;
+  gap: 12px;
   min-width: 0;
 }
 
 .public-profile__aside-label {
-  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--el-text-color-primary);
 }
 
 .public-profile__avatar-wrap {
   position: relative;
-  width: 100%;
-  max-width: 280px;
+  width: 200px;
+  height: 200px;
 }
 
-.public-profile__avatar-ring {
-  width: 100%;
-  max-width: 280px;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 1px solid var(--pp-border);
-  background: var(--pp-bg);
-}
-
-.public-profile__avatar-ring--placeholder {
-  display: grid;
-  place-items: center;
-  font-size: 4.5rem;
-  font-weight: 600;
-  color: #ffffff;
-  background: linear-gradient(135deg, #007cf0 0%, #00dfd8 100%);
-  border: none;
-}
-
-.public-profile__avatar-img {
+.public-profile__avatar {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  display: block;
 }
 
 .public-profile__avatar-input {
@@ -425,23 +276,6 @@ const goPersonalProfile = () => {
   position: absolute;
   left: 8px;
   bottom: 8px;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 8px;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 16px;
-  color: #171717;
-  background: #ffffff;
-  border: 1px solid var(--pp-border);
-  border-radius: 6px;
-  cursor: pointer;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05), 0 2px 2px rgba(0, 0, 0, 0.1);
-
-  &:hover {
-    background: var(--pp-bg);
-  }
 }
 
 @media (max-width: 900px) {
@@ -450,18 +284,8 @@ const goPersonalProfile = () => {
   }
 
   .public-profile__avatar-wrap {
-    max-width: 220px;
-  }
-}
-
-@media (max-width: 600px) {
-  .public-profile__head {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .public-profile__ghost-btn {
-    width: fit-content;
+    width: 160px;
+    height: 160px;
   }
 }
 </style>

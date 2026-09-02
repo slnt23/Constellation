@@ -1,32 +1,66 @@
-<script setup>
+<script setup lang="ts">
 import { RouterLink } from 'vue-router'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 
-defineProps({
-  open: {
-    type: Boolean,
-    default: false,
-  },
+interface MenuItem {
+  path: string
+  title: string
+  subtitle: string
+  image: string
+  size?: 'large' | 'normal' | 'small'
+}
 
-  items: {
-    type: Array,
-    default: () => [],
-  },
-})
+interface Props {
+  open: boolean
+  items: MenuItem[]
+}
+
+defineProps<Props>()
 
 const emit = defineEmits(['close'])
+
+const imageLoadStates = ref<Record<string, 'loading' | 'loaded' | 'error'>>({})
+
+function handleImageLoad(path: string) {
+  imageLoadStates.value[path] = 'loaded'
+}
+
+function handleImageError(path: string) {
+  imageLoadStates.value[path] = 'error'
+}
+
+function handleBackdropClick(event: MouseEvent) {
+  if ((event.target as HTMLElement).classList.contains('menu-panel')) {
+    emit('close')
+  }
+}
+
+function handleKeydown(event: KeyboardEvent) {
+  if (event.key === 'Escape') {
+    emit('close')
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('keydown', handleKeydown)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('keydown', handleKeydown)
+})
 </script>
 
 <template>
   <Teleport to="body">
     <Transition name="menu-panel">
-      <div v-if="open" class="menu-panel">
-        <section class="menu-panel__sheet glass-panel u-scrollbar-hidden">
+      <div v-if="open" class="menu-panel" role="dialog" aria-modal="true" aria-label="导航菜单"
+        @click="handleBackdropClick">
+        <section class="menu-panel__sheet glass-panel">
           <div class="menu-panel__header">
             <h2 class="menu-panel__title">菜单</h2>
             <button class="ui-icon-close-button ui-icon-close-button--close ui-icon-close-button--right" type="button"
-              @click="emit('close')">
-              <img src="/src/shared/assets/icons/close.svg" alt="关闭" width="20" height="20" />
-              <span class="visually-hidden">关闭</span>
+              aria-label="关闭菜单" @click="emit('close')">
+              <img src="/src/shared/assets/icons/close.svg" alt="" width="20" height="20" aria-hidden="true" />
             </button>
           </div>
 
@@ -35,7 +69,9 @@ const emit = defineEmits(['close'])
           <div class="menu-panel__masonry">
             <RouterLink v-for="item in items" :key="item.path" :to="item.path" class="menu-panel__card"
               :class="`menu-panel__card--${item.size || 'normal'}`" @click="emit('close')">
-              <img :src="item.image" :alt="item.title" />
+              <div v-if="imageLoadStates[item.path] !== 'loaded'" class="menu-panel__card-placeholder"></div>
+              <img v-show="imageLoadStates[item.path] === 'loaded'" :src="item.image" :alt="item.title"
+                @load="handleImageLoad(item.path)" @error="handleImageError(item.path)" />
 
               <div class="menu-panel__card-overlay">
                 <p>{{ item.title }}</p>
@@ -51,7 +87,6 @@ const emit = defineEmits(['close'])
 
 <style scoped lang="scss">
 .menu-panel {
-  /* 独立视觉：菜单面板不跟随全局主题变化。 */
   --menu-panel-radius: 32px;
   --menu-panel-surface: rgba(255, 255, 255, 0.92);
 
@@ -71,6 +106,28 @@ const emit = defineEmits(['close'])
     background: var(--menu-panel-surface);
     backdrop-filter: blur(20px);
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+      margin: 8px 0;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.15);
+      border-radius: 3px;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.25);
+      }
+    }
+
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
 
     @media (max-width: 960px) {
       width: min(92vw, 1380px);
@@ -116,8 +173,6 @@ const emit = defineEmits(['close'])
       font-size: 1.35rem;
     }
   }
-
-
 
   &__divider {
     height: 1px;
@@ -189,6 +244,15 @@ const emit = defineEmits(['close'])
     }
   }
 
+  &__card-placeholder {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, #f0f0f0 8%, #e8e8e8 18%, #f0f0f0 33%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s linear infinite;
+    border-radius: 16px;
+  }
+
   &__card-overlay {
     position: absolute;
     inset: 0;
@@ -205,6 +269,11 @@ const emit = defineEmits(['close'])
       font-weight: 600;
       letter-spacing: -0.02em;
       line-height: 1.3;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     span {
@@ -212,6 +281,11 @@ const emit = defineEmits(['close'])
       font-size: 0.85rem;
       line-height: 1.4;
       font-weight: 400;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     @media (max-width: 760px) {
@@ -229,31 +303,27 @@ const emit = defineEmits(['close'])
   }
 }
 
-// 辅助类
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
 }
 
-// 动画
-// :global(.menu-panel-enter-active),
-// :global(.menu-panel-leave-active) {
-//   transition: opacity 240ms ease;
-// }
+:global(.menu-panel-enter-active),
+:global(.menu-panel-leave-active) {
+  transition: opacity 240ms ease;
+}
 
-// :global(.menu-panel-enter-from),
-// :global(.menu-panel-leave-to) {
-//   opacity: 0;
-// }
+:global(.menu-panel-enter-from),
+:global(.menu-panel-leave-to) {
+  opacity: 0;
+}
 
-// :global(.menu-panel-enter-active .menu-panel__sheet),
+:global(.menu-panel-enter-active .menu-panel__sheet),
 :global(.menu-panel-leave-active .menu-panel__sheet) {
   transition: transform 280ms cubic-bezier(0.2, 0, 0, 1), opacity 240ms ease;
 }
