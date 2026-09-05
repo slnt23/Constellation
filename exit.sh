@@ -3,28 +3,25 @@
 cd ./rabbitmq/rabbitmq-owl
 docker compose down
 cd ../..
-# source init.sh
 
 
-cd ./redis/redis-sentinel
+cd ./redis/redis-alone
 docker compose down
 cd ../..
-# source init.sh
 
 
 cd ./nacos/nacos-owl
 docker compose down
 cd ../..
-# source init.sh
 
 
 cd ./minio/minio-owl
 docker compose down
 cd ../..
-# source init.sh
+
 
 cd ./mysql/mysql-owl
 docker compose down
-cd ..
+cd ../..
 
 docker ps -a
