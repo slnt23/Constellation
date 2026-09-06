@@ -15,3 +15,11 @@ services:
       - ./config:/root/.minio
     command: server /data --console-address ":9001"
     restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M

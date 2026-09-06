@@ -11,4 +11,12 @@ services:
       - ./data:/data
       - ./redis.conf:/etc/redis/redis.conf
     command: redis-server /etc/redis/redis.conf
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
         

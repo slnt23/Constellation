@@ -13,6 +13,8 @@ services:
       - ./data:/var/lib/mysql
       - ./conf.d:/etc/mysql/conf.d
       - ./logs:/var/log/mysql
+      # 首次初始化(空数据目录)时自动执行 owl/init.sh + init.sql
+      - ./owl:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD","mysqladmin","ping","-h","localhost","-u","root","-p123456qin"]
       interval: 30s

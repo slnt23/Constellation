@@ -33,3 +33,11 @@ services:
       - "8848:8848"
       - "9848:9848"
       - "8080:8080"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.75'
+          memory: 768M
+        reservations:
+          cpus: '0.25'
+          memory: 256M

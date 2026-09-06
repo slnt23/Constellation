@@ -12,6 +12,14 @@ services:
     networks:
       - redis-net
     command: redis-server /etc/redis/redis.conf
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 64M
 
 
 
@@ -28,6 +36,14 @@ services:
     depends_on:
       - redis1
     command: redis-server /etc/redis/redis.conf
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 64M
 
 
 
@@ -44,6 +60,14 @@ services:
     depends_on:
       - redis1
     command: redis-server /etc/redis/redis.conf
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 64M
 
 
 
@@ -56,12 +80,20 @@ services:
     command: redis-sentinel /etc/redis/sentinel.conf
     ports:
       - "27001:27001"
-    networks: 
+    networks:
       - redis-net
     depends_on:
       - redis1
       - redis2
       - redis3
+    deploy:
+      resources:
+        limits:
+          cpus: '0.1'
+          memory: 128M
+        reservations:
+          cpus: '0.05'
+          memory: 64M
 
 
   sentinel2:
@@ -73,12 +105,20 @@ services:
     command: redis-sentinel /etc/redis/sentinel.conf
     ports:
       - "27002:27002"
-    networks: 
+    networks:
       - redis-net
     depends_on:
       - redis1
       - redis2
       - redis3
+    deploy:
+      resources:
+        limits:
+          cpus: '0.1'
+          memory: 128M
+        reservations:
+          cpus: '0.05'
+          memory: 64M
 
 
   sentinel3:
@@ -90,12 +130,20 @@ services:
     command: redis-sentinel /etc/redis/sentinel.conf
     ports:
       - "27003:27003"
-    networks: 
+    networks:
       - redis-net
     depends_on:
       - redis1
       - redis2
       - redis3
+    deploy:
+      resources:
+        limits:
+          cpus: '0.1'
+          memory: 128M
+        reservations:
+          cpus: '0.05'
+          memory: 64M
 
 
 networks: 
