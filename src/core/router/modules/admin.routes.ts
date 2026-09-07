@@ -1,14 +1,4 @@
 import AdminLayout from '@/layouts/AdminLayout.vue'
-import {
-  AdminDashboardPage,
-  ContentPage,
-  DashboardOverviewPage,
-  FeaturesPage,
-  RolesPage,
-  SettingsPage,
-  SpotlightPage,
-  UsersPage,
-} from '@/modules/admin'
 
 const adminRoutes = [
   {
@@ -25,7 +15,7 @@ const adminRoutes = [
       },
       {
         path: 'dashboard',
-        component: AdminDashboardPage,
+        component: () => import('@/modules/admin/pages/AdminDashboardPage.vue'),
         children: [
           {
             path: '',
@@ -34,37 +24,37 @@ const adminRoutes = [
           {
             path: 'overview',
             name: 'admin-home-dashboard',
-            component: DashboardOverviewPage,
+            component: () => import('@/modules/admin/pages/DashboardOverviewPage.vue'),
           },
           {
             path: 'content',
             name: 'admin-content',
-            component: ContentPage,
+            component: () => import('@/modules/admin/pages/ContentPage.vue'),
           },
           {
             path: 'users',
             name: 'admin-users',
-            component: UsersPage,
+            component: () => import('@/modules/admin/pages/UsersPage.vue'),
           },
           {
             path: 'roles',
             name: 'admin-roles',
-            component: RolesPage,
+            component: () => import('@/modules/admin/pages/RolesPage.vue'),
           },
           {
             path: 'spotlight',
             name: 'admin-spotlight',
-            component: SpotlightPage,
+            component: () => import('@/modules/admin/pages/SpotlightPage.vue'),
           },
           {
             path: 'features',
             name: 'admin-features',
-            component: FeaturesPage,
+            component: () => import('@/modules/admin/pages/FeaturesPage.vue'),
           },
           {
             path: 'settings',
             name: 'admin-settings',
-            component: SettingsPage,
+            component: () => import('@/modules/admin/pages/SettingsPage.vue'),
           },
         ],
       },

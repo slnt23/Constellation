@@ -1,12 +1,4 @@
 import FrontLayout from '@/layouts/FrontLayout.vue'
-import { AiChatPage } from '@/modules/ai'
-import { PriceMainPage } from '@/modules/price'
-import { UserProfilePage } from '@/modules/user'
-import { HomePage } from '@/modules/home'
-import { GalleryPage } from '@/modules/gallery'
-import { PostsPage, ResumePage, PostDetailPage } from '@/modules/blog'
-import { MeditationPage } from '@/modules/meditation'
-
 
 const frontRoutes = [
   {
@@ -16,12 +8,12 @@ const frontRoutes = [
       {
         path: '',
         name: 'front-home',
-        component: HomePage,
+        component: () => import('@/modules/home/pages/HomePage.vue'),
       },
       {
         path: 'price-query',
         name: 'front-price-query',
-        component: PriceMainPage,
+        component: () => import('@/modules/price/pages/PriceMainPage.vue'),
         meta: {
           requiresAuth: true,
         },
@@ -29,7 +21,7 @@ const frontRoutes = [
       {
         path: 'story',
         name: 'front-story',
-        component: GalleryPage,
+        component: () => import('@/modules/gallery/pages/GalleryPage.vue'),
         meta: {
           requiresAuth: true,
         },
@@ -37,23 +29,23 @@ const frontRoutes = [
       {
         path: 'ai-ai',
         name: 'front-ai-ai',
-        component: AiChatPage,
+        component: () => import('@/modules/ai/pages/AiChatPage.vue'),
         meta: {
           requiresAuth: true,
         },
       },
       {
-        path: 'blog',  //虽然展示，但是界面并不完善，后续会继续完善
+        path: 'blog',
         name: 'front-blog',
-        component: ResumePage,
+        component: () => import('@/modules/blog/pages/ResumePage.vue'),
         meta: {
           // requiresAuth: true,
         },
       },
       {
-        path: 'blog/posts',  //虽然展示，但是界面并不完善，后续会继续完善
+        path: 'blog/posts',
         name: 'front-blog-posts',
-        component: PostsPage,
+        component: () => import('@/modules/blog/pages/PostsPage.vue'),
         meta: {
           // requiresAuth: true,
         },
@@ -61,15 +53,15 @@ const frontRoutes = [
       {
         path: 'blog/posts/:id',
         name: 'front-blog-post-detail',
-        component: PostDetailPage,
+        component: () => import('@/modules/blog/pages/PostDetailPage.vue'),
         meta: {
           openInNewTab: true,
         },
       },
       {
-        path: 'meditations', //暂时不展示
+        path: 'meditations',
         name: 'front-meditations',
-        component: MeditationPage,
+        component: () => import('@/modules/meditation/pages/MeditationPage.vue'),
         meta: {
           requiresAuth: true,
         },
@@ -77,7 +69,7 @@ const frontRoutes = [
       {
         path: 'profile',
         name: 'front-profile',
-        component: UserProfilePage,
+        component: () => import('@/modules/user/pages/UserProfilePage.vue'),
         meta: {
           requiresAuth: true,
         },
