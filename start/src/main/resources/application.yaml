@@ -4,36 +4,36 @@ spring:
   #  profiles:
   #    active: dev          # 默认开发环境，可通过启动参数切换
 
-  config:
-    import:
-      - optional:nacos:common.yaml?group=DEFAULT_GROUP&refreshEnabled=true
-      - optional:nacos:database.yaml?group=DEFAULT_GROUP&refreshEnabled=true
-      - optional:nacos:cache.yaml?group=DEFAULT_GROUP&refreshEnabled=true
-      - optional:nacos:message.yaml?group=DEFAULT_GROUP&refreshEnabled=true
-      - optional:nacos:email.yaml?group=DEFAULT_GROUP&refreshEnabled=true
-      - optional:nacos:ai.yaml?group=DEFAULT_GROUP&refreshEnabled=true
-      - optional:nacos:sensitive.yaml?group=DEFAULT_GROUP&refreshEnabled=true
-
-  cloud:
-    nacos:
-      server-addr: 192.168.0.43:8848
-      username: nacos
-      password: nacos
-      namespace: OWL
+#  config:
+#    import:
+#      - optional:nacos:common.yaml?group=DEFAULT_GROUP&refreshEnabled=true
+#      - optional:nacos:database.yaml?group=DEFAULT_GROUP&refreshEnabled=true
+#      - optional:nacos:cache.yaml?group=DEFAULT_GROUP&refreshEnabled=true
+#      - optional:nacos:message.yaml?group=DEFAULT_GROUP&refreshEnabled=true
+#      - optional:nacos:email.yaml?group=DEFAULT_GROUP&refreshEnabled=true
+#      - optional:nacos:ai.yaml?group=DEFAULT_GROUP&refreshEnabled=true
+#      - optional:nacos:sensitive.yaml?group=DEFAULT_GROUP&refreshEnabled=true
+#
+#  cloud:
+#    nacos:
+#      server-addr: 192.168.0.43:8848
+#      username: nacos
+#      password: nacos
+#      namespace: OWL
 
 #spring:
 #  application:
 #    name: OWL
 #
-#  config:
-#    import:
-#      - optional:nacos:infra.yaml?group=DEFAULT_GROUP&refreshEnabled=true
-#      - optional:nacos:tools.yaml?group=DEFAULT_GROUP&refreshEnabled=true
-#
-#  cloud:
-#    nacos:
-##      server-addr: 192.168.131.128:8848
-#      server-addr: 192.168.0.43:8848
-#      username: nacos
-#      password: nacos
-#      namespace: dev2
+  config:
+    import:
+      - optional:nacos:infra.yaml?group=DEFAULT_GROUP&refreshEnabled=true
+      - optional:nacos:tools.yaml?group=DEFAULT_GROUP&refreshEnabled=true
+
+  cloud:
+    nacos:
+#      server-addr: 192.168.131.128:8848
+      server-addr: 192.168.58.130:8848
+      username: nacos
+      password: nacos
+      namespace: OWL
