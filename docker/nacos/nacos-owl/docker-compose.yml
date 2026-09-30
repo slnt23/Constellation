@@ -1,0 +1,43 @@
+
+services:
+  nacos:
+    image: nacos/nacos-server:v3.2.4
+    container_name: owl-nacos
+    restart: always
+    environment:
+      - MODE=standalone
+      - PREFER_HOST_MODE=hostname
+
+      # JVM 配置
+      - JVM_XMS=256m
+      - JVM_XMX=256m
+      - JVM_XMN=128m
+      - JVM_MS=32m
+      - JVM_MMS=80m
+
+      # 认证配置
+      - NACOS_AUTH_ENABLE=false
+      - NACOS_AUTH_TOKEN=SecretKey012345678901234567890123456789012345678901234567890123456789
+      - NACOS_AUTH_IDENTITY_KEY=serverIdentity
+      - NACOS_AUTH_IDENTITY_VALUE=security
+
+      # 使用内置数据库
+      - SPRING_DATASOURCE_PLATFORM=derby
+
+    volumes:
+      - ./logs/:/home/nacos/logs
+      - ./data/:/home/nacos/data
+      - ./init.d/custom.properties:/home/nacos/init.d/custom.properties
+
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+      - "8080:8080"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.75'
+          memory: 768M
+        reservations:
+          cpus: '0.25'
+          memory: 256M

@@ -1,0 +1,22 @@
+
+
+services:
+  redis6:
+    image: redis:7.4.6
+    container_name: redis-alone
+    restart: always 
+    ports:
+      - "6379:6379"  
+    volumes:
+      - ./data:/data
+      - ./redis.conf:/etc/redis/redis.conf
+    command: redis-server /etc/redis/redis.conf
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+        

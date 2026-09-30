@@ -1,0 +1,151 @@
+
+
+services: 
+  redis1: 
+    image: redis:6.2.7
+    container_name: redis-to1
+    volumes:
+      - ./redis1/redis.conf:/etc/redis/redis.conf
+      - ./redis1/data:/data
+    ports:
+      - "7001:7001"
+    networks:
+      - redis-net
+    command: redis-server /etc/redis/redis.conf
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 64M
+
+
+
+  redis2: 
+    image: redis:6.2.7
+    container_name: redis-to2
+    volumes:
+      - ./redis2/redis.conf:/etc/redis/redis.conf
+      - ./redis2/data:/data
+    ports:
+      - "7002:7002"
+    networks:
+      - redis-net
+    depends_on:
+      - redis1
+    command: redis-server /etc/redis/redis.conf
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 64M
+
+
+
+  redis3: 
+    image: redis:6.2.7
+    container_name: redis-to3
+    volumes:
+      - ./redis3/redis.conf:/etc/redis/redis.conf
+      - ./redis3/data:/data
+    ports:
+      - "7003:7003"
+    networks:
+      - redis-net
+    depends_on:
+      - redis1
+    command: redis-server /etc/redis/redis.conf
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 64M
+
+
+
+  sentinel1:
+    image: redis:6.2.7
+    container_name: sentinel-to1
+    volumes:
+      - ./sentinel1/sentinel.conf:/etc/redis/sentinel.conf
+      - ./sentinel1/data:/data
+    command: redis-sentinel /etc/redis/sentinel.conf
+    ports:
+      - "27001:27001"
+    networks:
+      - redis-net
+    depends_on:
+      - redis1
+      - redis2
+      - redis3
+    deploy:
+      resources:
+        limits:
+          cpus: '0.1'
+          memory: 128M
+        reservations:
+          cpus: '0.05'
+          memory: 64M
+
+
+  sentinel2:
+    image: redis:6.2.7
+    container_name: sentinel-to2
+    volumes:
+      - ./sentinel2/sentinel.conf:/etc/redis/sentinel.conf
+      - ./sentinel2/data:/data
+    command: redis-sentinel /etc/redis/sentinel.conf
+    ports:
+      - "27002:27002"
+    networks:
+      - redis-net
+    depends_on:
+      - redis1
+      - redis2
+      - redis3
+    deploy:
+      resources:
+        limits:
+          cpus: '0.1'
+          memory: 128M
+        reservations:
+          cpus: '0.05'
+          memory: 64M
+
+
+  sentinel3:
+    image: redis:6.2.7
+    container_name: sentinel-to3
+    volumes:
+      - ./sentinel3/sentinel.conf:/etc/redis/sentinel.conf
+      - ./sentinel3/data:/data
+    command: redis-sentinel /etc/redis/sentinel.conf
+    ports:
+      - "27003:27003"
+    networks:
+      - redis-net
+    depends_on:
+      - redis1
+      - redis2
+      - redis3
+    deploy:
+      resources:
+        limits:
+          cpus: '0.1'
+          memory: 128M
+        reservations:
+          cpus: '0.05'
+          memory: 64M
+
+
+networks: 
+  redis-net: 
+    driver: bridge 
