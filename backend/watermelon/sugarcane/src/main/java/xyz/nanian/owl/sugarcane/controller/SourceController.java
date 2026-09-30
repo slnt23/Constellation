@@ -1,0 +1,21 @@
+package xyz.nanian.owl.sugarcane.controller;
+
+import org.springframework.web.bind.annotation.*;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+/**
+ * <p>
+ * 价格来源表 前端控制器
+ * </p>
+ *
+ * @author slnt23
+ * @since 2026-04-12 20:43:32
+ */
+@RestController
+@RequestMapping("/api/source")
+@Tag(name = "价格来源")
+public class SourceController {
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id){}
+}

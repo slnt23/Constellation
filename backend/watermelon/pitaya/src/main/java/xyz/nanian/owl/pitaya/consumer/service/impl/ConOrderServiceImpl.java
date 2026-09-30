@@ -1,0 +1,208 @@
+package xyz.nanian.owl.pitaya.consumer.service.impl;
+
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.SneakyThrows;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
+import xyz.nanian.owl.log.annotation.OperationLog;
+import xyz.nanian.owl.pitaya.consumer.mapper.ConOrderMapper;
+import xyz.nanian.owl.pitaya.consumer.service.ConOrderService;
+import xyz.nanian.owl.pitaya.domain.entity.OrderDO;
+import xyz.nanian.owl.pitaya.domain.entity.OrderDetailDO;
+import xyz.nanian.owl.pitaya.mapstruct.OrderConvert;
+import xyz.nanian.owl.pitaya.domain.query.OrderDTO;
+import xyz.nanian.owl.pitaya.domain.vo.OrderDetailVO;
+import xyz.nanian.owl.pitaya.domain.vo.OrderItemVO;
+import xyz.nanian.owl.pitaya.domain.vo.OrderListVO;
+import xyz.nanian.owl.common.result.ResultPage;
+import xyz.nanian.owl.common.security.CurrentUserContext;
+import xyz.nanian.owl.user.domain.vo.AddressVO;
+import xyz.nanian.owl.user.service.UserAddressService;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
+import static xyz.nanian.owl.infra.rabbitmq.constant.RabbitMQConstants.ORDER_QUEUE;
+import static xyz.nanian.owl.infra.rabbitmq.constant.RabbitMQConstants.ORDER_ROUTING_KEY;
+import static xyz.nanian.owl.pitaya.constant.ShopConstant.ORDER_KEY;
+import static xyz.nanian.owl.pitaya.constant.ShopConstant.ORDER_TIME_OUT;
+
+/**
+ * 消费者订单ServiceImpl
+ *
+ * @author slnt23
+ * @since 2026/1/17
+ */
+
+@Service
+public class ConOrderServiceImpl implements ConOrderService {
+
+    private final ConOrderMapper conOrderMapper;
+    private final OrderConvert orderConvert;
+    private final RedisTemplate<String ,Object> redisTemplate;
+    private final RabbitTemplate rabbitTemplate;
+    private final UserAddressService userAddressService;
+    private final ObjectMapper objectMapper;
+
+    public ConOrderServiceImpl(ConOrderMapper conOrderMapper,
+                               OrderConvert orderConvert,
+                               RedisTemplate redisTemplate,
+                               RabbitTemplate rabbitTemplate,
+                               UserAddressService userAddressService,
+                               ObjectMapper objectMapper) {
+        this.conOrderMapper = conOrderMapper;
+        this.orderConvert = orderConvert;
+        this.redisTemplate = redisTemplate;
+        this.rabbitTemplate = rabbitTemplate;
+        this.userAddressService = userAddressService;
+        this.objectMapper = objectMapper;
+    }
+
+    /**
+     * 新增订单
+     * @param orderDTO
+     * @return
+     */
+    @Override
+    @SneakyThrows
+    @OperationLog(module = "订单", action = "新增订单", persist = true)
+    public Boolean saveOrder(xyz.nanian.owl.pitaya.domain.dto.OrderDTO orderDTO) {
+
+//        对于不同的来源是怎么处理？
+        Long arId = orderDTO.getAddressId();
+        Long userId = CurrentUserContext.getUserId();
+        AddressVO addressVO = userAddressService.getOwned(userId, arId);
+
+        OrderDO orderDO = new OrderDO();
+        List<OrderDetailDO> orderDetailDO = orderConvert.
+                orderItemToOrderDetailDOList(orderDTO.getItems());
+
+//        [UPGRADE] 地址快照保存完整收件信息 JSON，不再使用地址 id 顶替
+        orderDO.setAddressSnapshot(objectMapper.writeValueAsString(addressVO));
+
+        String orderCode = UUID.randomUUID().toString();
+        orderDO.setOrderNo(orderCode);
+        orderDO.setUserId(userId);
+        OrderDTO orderQuery = new OrderDTO();
+        orderQuery.setOrderCode(orderCode);
+
+        Integer int1 = conOrderMapper.insertOrder(orderDO);
+
+//        插入后再通过Code 查询订单的id,
+        OrderDO order = conOrderMapper.selectOrder(orderQuery);
+        Long orderId = order.getId();
+
+        for(OrderDetailDO detail : orderDetailDO) {
+            detail.setOrderId(orderId);
+        }
+
+        Integer int2 = conOrderMapper.insertOrderDetailList(orderDetailDO);
+
+//        发送订单创建消息，
+        sendOrderCreate(orderId);
+
+        return int1>0 || int2>0;
+    }
+
+
+    public void sendOrderCreate(Long orderId) {
+        rabbitTemplate.convertAndSend(
+                ORDER_QUEUE,
+                ORDER_ROUTING_KEY,
+                orderId);
+    }
+
+    /**
+     * 更新订单
+     * @param orderId
+     * @param orderStatus
+     * @return
+     */
+    @Override
+    @OperationLog(module = "订单", action = "更新订单", persist = true)
+    public Boolean updateOrder(Long orderId, Integer orderStatus) {
+
+        Integer intUpdate = conOrderMapper.updateOrder(orderId,orderStatus);
+        return intUpdate>0;
+    }
+
+    /**
+     * 查询订单详情
+     * @param orderId
+     * @return
+     */
+    @Override
+    @SneakyThrows
+    @OperationLog(module = "订单", action = "查询订单详情")
+    public OrderDetailVO getOrderDetail(Long orderId) {
+
+//        order detail
+        List<OrderDetailDO> orderDetailDO = conOrderMapper.selectOrderDetail(orderId);
+        List<OrderItemVO> orderItemVOS= orderConvert.orderDetailDOToItemVOList(orderDetailDO);
+
+//        order center
+        OrderDTO orderQuery = new OrderDTO();
+        orderQuery.setId(orderId);
+        OrderDO orderDO = conOrderMapper.selectOrder(orderQuery);
+
+//        注入
+        OrderDetailVO orderDetailVO = orderConvert.OrderDOToOrderDetailVO(orderDO);
+        AddressVO addressVO = objectMapper.readValue(
+                orderDO.getAddressSnapshot(), AddressVO.class);
+        orderDetailVO.setAddress(addressVO);
+        orderDetailVO.setItems(orderItemVOS);
+
+        return orderDetailVO;
+    }
+
+    /**
+     * 查询订单列表
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @Override
+    @OperationLog(module = "订单", action = "用户订单列表")
+    public ResultPage<OrderListVO> listOrders(Integer pageNum, Integer pageSize) {
+
+        Long userId = CurrentUserContext.getUserId();
+        if(pageSize> 50){
+            pageSize = 50;
+        }
+
+        String key = ORDER_KEY + userId;
+//        先查Redis，
+        ResultPage<OrderListVO> cache =
+                (ResultPage<OrderListVO>) redisTemplate.opsForValue().get(key);
+
+        if(cache!=null){
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
+
+            ResultPage<OrderListVO> result =
+                    mapper.convertValue(cache,new TypeReference<ResultPage<OrderListVO>>() {});
+
+            return result;
+        }
+
+//        Redis没有，查Mysql，
+        Page<OrderListVO> page = new  Page<>(pageNum,pageSize);
+        IPage<OrderListVO> result = conOrderMapper.pageOrderList(page,userId);
+
+        ResultPage<OrderListVO> resultPage = ResultPage.create(result);
+
+//        写入Redis
+        redisTemplate.opsForValue().set(key, resultPage,ORDER_TIME_OUT, TimeUnit.MINUTES);
+
+        return resultPage;
+    }
+
+
+}

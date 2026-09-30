@@ -1,0 +1,19 @@
+# Maven build outputs
+/target/
+**/target/
+
+# IDEs
+/.idea/
+.vscode/
+
+# Build folders from other tools
+/build/
+.github/
+.claude/
+.trae/
+
+
+.github/qodana.yaml
+AGENTS.md
+CLAUDE.md
+.codex
