@@ -1,0 +1,9 @@
+package com.relax.owl.log.mapper;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import com.relax.owl.log.domain.entity.UserLogDO;
+
+@Mapper
+public interface UserLogMapper extends BaseMapper<UserLogDO> {
+}

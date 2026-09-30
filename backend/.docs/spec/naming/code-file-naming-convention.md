@@ -105,7 +105,7 @@ xyz.nanian.owl.caishen.client       → MarketDataClient
 
 ### 跨模块同名类处理
 
-当不同模块需要同名 DO 时（如 `UserDO` 在 `user` 和 `admin` 模块），使用不同包路径区分（`xyz.nanian.owl.user.domain.entity.UserDO` 与 `xyz.nanian.owl.admin.domain.entity.UserDO`），不采用前缀。
+当不同模块需要同名 DO 时（如 `UserDO` 在 `user` 和 `admin` 模块），使用不同包路径区分（`entity.domain.user.com.relax.owl.UserDO` 与 `entity.domain.com.relax.owl.admin.UserDO`），不采用前缀。
 
 但如果同一模块内需要区分不同数据源的实体，可使用模块前缀，例如：
 

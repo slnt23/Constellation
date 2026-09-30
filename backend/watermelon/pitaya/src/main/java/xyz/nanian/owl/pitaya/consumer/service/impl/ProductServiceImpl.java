@@ -23,8 +23,6 @@ import xyz.nanian.owl.common.result.ResultPage;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static xyz.nanian.owl.pitaya.constant.ShopConstant.*;
-
 /**
  * 商品Service
  *

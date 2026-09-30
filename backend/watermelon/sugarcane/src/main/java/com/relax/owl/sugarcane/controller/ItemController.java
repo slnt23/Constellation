@@ -1,0 +1,40 @@
+package com.relax.owl.sugarcane.controller;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+import com.relax.owl.common.result.Result;
+import com.relax.owl.common.result.ResultPage;
+import com.relax.owl.sugarcane.domain.dto.ItemIntroDTO;
+import com.relax.owl.sugarcane.domain.vo.PriceItemVO;
+import com.relax.owl.sugarcane.service.ItemService;
+
+/**
+ * <p>
+ * 被定价物品表 前端控制器
+ * </p>
+ *
+ * @author slnt23
+ * @since 2026-04-12 20:43:32
+ */
+@RestController
+@RequestMapping("/api/item")
+@Tag(name = "价格物品")
+@RequiredArgsConstructor
+public class ItemController {
+
+    private final ItemService itemService;
+
+//     分页查询
+    @PostMapping("/page")
+    @Operation(summary = "所查物品列表")
+    public Result<ResultPage<PriceItemVO>> page(@RequestBody ItemIntroDTO dto){
+        return Result.success(ResultPage.create(itemService.getItemIntroList(dto)));
+    }
+
+    // 删除
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id){
+    }
+}

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="xyz.nanian.owl.sugarcane.mapper.RecordMapper">
+<mapper namespace="com.relax.owl.sugarcane.mapper.RecordMapper">
 
-    <select id="selectLatest" resultType="xyz.nanian.owl.sugarcane.domain.vo.PriceLatestVO">
+    <select id="selectLatest" resultType="com.relax.owl.sugarcane.domain.vo.PriceLatestVO">
         SELECT
             pi.id AS item_id,
             pi.item_name,
@@ -29,7 +29,7 @@
         LIMIT 1
     </select>
 
-    <resultMap id="PriceTrendVOMap" type="xyz.nanian.owl.sugarcane.domain.vo.PriceTrendVO">
+    <resultMap id="PriceTrendVOMap" type="com.relax.owl.sugarcane.domain.vo.PriceTrendVO">
         <id column="item_id" property="itemId"/>
         <id column="location_id" property="locationId"/>
         <result column="item_name" property="itemName"/>
@@ -37,7 +37,7 @@
         <result column="specification" property="specification"/>
         <result column="category_name" property="categoryName"/>
         <result column="location_name" property="locationName"/>
-        <collection property="trend" ofType="xyz.nanian.owl.sugarcane.domain.vo.PriceTrendPointVO">
+        <collection property="trend" ofType="com.relax.owl.sugarcane.domain.vo.PriceTrendPointVO">
             <result column="time" property="time"/>
             <result column="price" property="price"/>
         </collection>
@@ -85,7 +85,7 @@
         ORDER BY pi.id, gl.id, time
     </select>
 
-    <select id="selectLocationPrices" resultType="xyz.nanian.owl.sugarcane.domain.vo.LocationPriceVO">
+    <select id="selectLocationPrices" resultType="com.relax.owl.sugarcane.domain.vo.LocationPriceVO">
         SELECT
             gl.location_name AS locationName,
             pr.price
@@ -109,7 +109,7 @@
         ORDER BY gl.id
     </select>
 
-    <select id="selectSourcePrices" resultType="xyz.nanian.owl.sugarcane.domain.vo.SourceCompareVO">
+    <select id="selectSourcePrices" resultType="com.relax.owl.sugarcane.domain.vo.SourceCompareVO">
         SELECT
             ps.source_name AS sourceName,
             pr.price,

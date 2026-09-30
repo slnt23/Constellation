@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="xyz.nanian.owl.crow.mapper.MessageMapper">
+<mapper namespace="com.relax.owl.crow.mapper.MessageMapper">
 
     <!-- 先定义 resultMap -->
     <resultMap id="MessageVOResultMap"
-               type="xyz.nanian.owl.crow.domain.vo.MessageVO">
+               type="com.relax.owl.crow.domain.vo.MessageVO">
         <id property="id" column="id"/>
         <result property="role" column="role"/>
         <result property="content" column="content"/>
@@ -25,7 +25,7 @@
         ORDER BY create_time ASC
     </select>
 
-    <select id="selectRecentMessages" resultType="xyz.nanian.owl.crow.domain.entity.MessageDO">
+    <select id="selectRecentMessages" resultType="com.relax.owl.crow.domain.entity.MessageDO">
         SELECT
             id,
             conversation_id AS conversationId,

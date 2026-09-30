@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="xyz.nanian.owl.caishen.mapper.CaishenFundWatchMapper">
+<mapper namespace="com.relax.owl.caishen.mapper.CaishenFundWatchMapper">
 
     <!-- 用户关注列表：一次查询拿基金名称 + 最新净值/日收益率 + 提醒规则数 -->
-    <select id="selectWatchVOs" resultType="xyz.nanian.owl.caishen.domain.vo.FundWatchVO">
+    <select id="selectWatchVOs" resultType="com.relax.owl.caishen.domain.vo.FundWatchVO">
         SELECT w.id            AS id,
                w.fund_code     AS fundCode,
                f.fund_name     AS fundName,

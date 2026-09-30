@@ -1,0 +1,27 @@
+package com.relax.owl.admin.service;
+
+import com.relax.owl.admin.domain.dto.SpotlightDTO;
+import com.relax.owl.admin.domain.entity.SpotlightDO;
+import com.baomidou.mybatisplus.spring.service.IService;
+import com.relax.owl.admin.domain.vo.SpotlightVO;
+import com.relax.owl.common.result.ResultPage;
+
+import java.util.List;
+
+/**
+ * <p>
+ * 首页焦点展示项目表 服务类
+ * </p>
+ *
+ * @author slnt23
+ * @since 2026-04-24 17:13:37
+ */
+public interface SpotlightService extends IService<SpotlightDO> {
+    List<SpotlightVO> listByOrder();
+    ResultPage<SpotlightVO> page(long pageNum, long pageSize);
+    SpotlightVO getById(Long id);
+    int create(SpotlightDTO dto);
+    Boolean update(SpotlightDTO dto);
+    Boolean deleteById(Long id);
+
+}
