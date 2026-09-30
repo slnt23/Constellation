@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build
+dist/
+
+.env.development
+
+# Temp & backup
+*.tmp
+
+# Agent
+.claude/
+.codex/
+.trae/
+
+
+
+# 自定义
+example/
+frontend-api.md
+AGENTS.md
+CLOUDE.md
+.prettierrc
+
+# 自动生成的文件（不提交）
+auto-imports.d.ts
+components.d.ts
+src/assets/
+dist.zip

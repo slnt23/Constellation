@@ -1,0 +1,20 @@
+/* 默认主题保留 Element Plus 官方视觉；主题覆盖统一放在 styles/themes。 */
+.el-form-item {
+  margin-bottom: var(--spacing-lg);
+}
+
+body.el-popup-parent--hidden {
+  width: 100% !important;
+  padding-right: 0 !important;
+}
+
+.el-pagination {
+  justify-content: flex-end;
+}
+
+@media (max-width: 760px) {
+  .el-dialog {
+    width: 90% !important;
+    margin: 5vh auto !important;
+  }
+}

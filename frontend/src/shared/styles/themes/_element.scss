@@ -1,0 +1,27 @@
+:root,
+[data-ui-theme='element'] {
+  color-scheme: light;
+
+  --theme-font-family: var(--el-font-family, 'Helvetica Neue', Arial, sans-serif);
+  --theme-canvas: var(--el-bg-color-page, #f2f3f5);
+  --theme-surface: var(--el-bg-color, #ffffff);
+  --theme-surface-soft: var(--el-fill-color-light, #f5f7fa);
+  --theme-surface-strong: var(--el-fill-color, #f0f2f5);
+  --theme-text: var(--el-text-color-primary, #303133);
+  --theme-text-regular: var(--el-text-color-regular, #606266);
+  --theme-text-muted: var(--el-text-color-secondary, #909399);
+  --theme-primary: var(--el-color-primary, #409eff);
+  --theme-primary-strong: var(--el-color-primary-dark-2, #337ecc);
+  --theme-primary-soft: var(--el-color-primary-light-9, #ecf5ff);
+  --theme-border: var(--el-border-color, #dcdfe6);
+  --theme-border-soft: var(--el-border-color-light, #e4e7ed);
+  --theme-radius-control: var(--el-border-radius-base, 4px);
+  --theme-radius-card: var(--el-border-radius-base, 4px);
+  --theme-radius-large: var(--el-border-radius-round, 20px);
+  --theme-radius-action: var(--el-border-radius-base, 4px);
+  --theme-shadow-card: var(--el-box-shadow-light);
+  --theme-shadow-overlay: var(--el-box-shadow);
+  --theme-section-space: 64px;
+  --theme-control-height: 32px;
+  --theme-active-scale: 1;
+}

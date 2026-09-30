@@ -1,0 +1,194 @@
+.glass-panel {
+  border: 1px solid var(--theme-border);
+  background: var(--theme-surface);
+  backdrop-filter: blur(var(--glass-blur-amount, 40px)) saturate(180%);
+  box-shadow: var(--theme-shadow-card);
+  border-radius: var(--theme-radius-card);
+}
+
+.glass-panel--soft {
+  background: var(--theme-surface-soft);
+  backdrop-filter: blur(var(--glass-blur-soft, 20px)) saturate(160%);
+  border-color: var(--theme-border-soft);
+}
+
+.glass-panel--strong {
+  background: var(--theme-surface-strong);
+  backdrop-filter: blur(var(--glass-blur-amount, 40px)) saturate(200%);
+}
+
+// 用于文章标题、章节标题等的醒目标签
+.eyebrow-label {
+  margin: 0 0 14px;
+  color: var(--theme-text-muted);
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+// 内容堆叠 - 用于组织页面内容的网格布局
+.content-stack {
+  display: grid;
+  gap: 28px;
+}
+
+.u-scrollbar-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.u-scrollbar-hidden::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+// 主要关闭按钮 - 用于全局模态框、抽屉等的显著关闭按钮
+.ui-close-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 96px;
+  min-height: 42px;
+  padding: 10px 18px;
+  border: 1px solid var(--theme-border);
+  border-radius: var(--radius-pill);
+  background: var(--theme-surface);
+  box-shadow: var(--theme-shadow-card);
+  color: var(--theme-text);
+  font-size: 15px;
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.ui-close-button:hover {
+  transform: translateY(-1px);
+  background: var(--theme-surface-strong);
+  border-color: var(--theme-text-muted);
+  box-shadow: var(--theme-shadow-card);
+  color: var(--theme-text);
+}
+
+.ui-close-button:active {
+  transform: translateY(0);
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.88);
+}
+
+.ui-close-button:focus-visible {
+  outline: none;
+  border-color: rgba(0, 0, 0, 0.42);
+  box-shadow:
+    0 0 0 4px rgba(0, 0, 0, 0.1),
+    0 12px 28px rgba(0, 0, 0, 0.1);
+}
+
+.ui-close-button--corner {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 2;
+}
+
+// 图标关闭按钮 - 用于模态框、面板等的小型关闭按钮
+.ui-icon-close-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &--close {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.04);
+    color: #666;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.08);
+      color: #333;
+      transform: scale(1.02);
+    }
+
+    &:active {
+      transform: scale(0.96);
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    @media (max-width: 760px) {
+      width: 32px;
+      height: 32px;
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+
+  &--left {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 2;
+  }
+
+  &--right {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 2;
+  }
+}
+
+// 首页滚动捕捉 - 适用于需要全屏滚动体验的主页
+body.body-home-scrollsnap,
+html.body-home-scrollsnap {
+  scroll-snap-type: y mandatory;
+}
+
+.content-section {
+  padding: 12px 0 24px;
+}
+
+.front-page {
+  display: grid;
+  gap: 28px;
+}
+
+.article-hero {
+  margin-top: 110px;
+  padding: 28px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  background: transparent;
+  box-shadow: var(--shadow-soft);
+}
+
+.article-hero__body {
+  margin: 0;
+  color: var(--color-muted-deep);
+}
+
+@media (max-width: 760px) {
+  .article-hero {
+    padding: 20px;
+  }
+}

@@ -1,0 +1,75 @@
+:root {
+  /* 圆角体系 */
+  --radius-pill: var(--theme-radius-action);
+  --radius-soft-sm: var(--theme-radius-card);
+  --radius-soft-md: var(--theme-radius-card);
+  --radius-soft-lg: var(--theme-radius-large);
+  --radius-ui: var(--theme-radius-control);
+
+  /* 语义化圆角变量 */
+  --border-radius-sm: var(--radius-soft-sm);
+  --border-radius-md: var(--radius-soft-md);
+  --border-radius-lg: var(--radius-soft-lg);
+
+  /* 全局主题色 */
+  --color-primary: var(--theme-primary);
+  --color-primary-strong: var(--theme-primary-strong);
+  --color-accent: var(--theme-primary-soft);
+  --color-surface: var(--theme-surface);
+  --color-surface-strong: var(--theme-surface-strong);
+  --color-surface-soft: var(--theme-surface-soft);
+  --color-border: var(--theme-border);
+
+  --color-text: var(--theme-text);
+  --color-text-soft: var(--theme-text-regular);
+  --color-text-deep: var(--theme-text);
+  --color-muted-deep: var(--theme-text-regular);
+  --color-muted-foreground: var(--theme-text-muted);
+  --color-background: var(--theme-canvas);
+  --color-foreground: var(--theme-text);
+
+  --shadow-soft: var(--theme-shadow-card);
+  --shadow-medium: var(--theme-shadow-overlay);
+  //  gap统一规定
+  //  --gap
+  /* 页面内容与导航安全留白 */
+  --base-site-gap: 10px; // 基础gap，
+  --shell-width: min(13200px, calc(100% - (var(--base-site-gap) * 5)));
+  --shell-width-mobile: min(1320px, calc(100% - (var(--base-site-gap) * 2)));
+  --site-header-offset: 0px; // 顶部预留空间（如有固定头部时设置为头部高度）
+  --site-header-height: 54px; // 头部高度（如有固定头部时设置为头部实际高度）
+  --chat-nav-gap: var(--base-site-gap);
+  --chat-edge-gap: var(--base-site-gap);
+
+  --font-family-base: var(--theme-font-family);
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 600;
+
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  /* ═══ 布局与间距 ═══ */
+  --theme-section-gap: 96px;
+  --theme-section-pad: 64px;
+
+  font-family: var(--font-family-base);
+  color: var(--color-text-deep);
+  background: var(--theme-canvas);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.7;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --site-header-offset: 10px;
+    --site-header-height: 54px;
+    --chat-nav-gap: 14px;
+  }
+}

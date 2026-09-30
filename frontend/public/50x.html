@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>服务异常 - Energy' me</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        background: #f5f7fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        color: #303133;
+      }
+      .error-card {
+        text-align: center;
+        background: #fff;
+        border-radius: 12px;
+        padding: 60px 48px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        max-width: 480px;
+        width: 90%;
+      }
+      .error-icon {
+        width: 72px;
+        height: 72px;
+        margin: 0 auto 24px;
+        background: #fef0f0;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .error-icon svg {
+        width: 36px;
+        height: 36px;
+      }
+      .error-title {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
+      .error-desc {
+        font-size: 14px;
+        color: #909399;
+        line-height: 1.8;
+        margin-bottom: 32px;
+      }
+      .error-action {
+        display: inline-block;
+        padding: 10px 28px;
+        background: #409eff;
+        color: #fff;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 14px;
+        transition: background 0.2s;
+      }
+      .error-action:hover {
+        background: #337ecc;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="error-card">
+      <div class="error-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#f56c6c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
+      </div>
+      <div class="error-title">服务暂时不可用</div>
+      <div class="error-desc">服务器暂时无法处理您的请求，<br />请稍后刷新页面重试。</div>
+      <a class="error-action" href="/">返回首页</a>
+    </div>
+  </body>
+</html>
