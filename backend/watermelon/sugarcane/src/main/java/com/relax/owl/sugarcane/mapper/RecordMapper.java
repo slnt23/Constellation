@@ -8,7 +8,7 @@ import com.relax.owl.sugarcane.domain.dto.PriceTrendQueryDTO;
 import com.relax.owl.sugarcane.domain.entity.RecordDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import xyz.nanian.owl.sugarcane.domain.vo.*;
+import com.relax.owl.sugarcane.domain.vo.*;
 
 import java.util.List;
 

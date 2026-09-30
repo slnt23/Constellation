@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>xyz.nanian</groupId>
+        <groupId>com.relax</groupId>
         <artifactId>OWL</artifactId>
         <version>${revision}</version>
     </parent>
@@ -21,11 +21,11 @@
 
 <!--        自建模块-->
         <dependency>
-            <groupId>xyz.nanian</groupId>
+            <groupId>com.relax</groupId>
             <artifactId>common</artifactId>
         </dependency>
         <dependency>
-            <groupId>xyz.nanian</groupId>
+            <groupId>com.relax</groupId>
             <artifactId>infra</artifactId>
         </dependency>
 

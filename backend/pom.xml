@@ -9,7 +9,7 @@
         <relativePath/> <!-- 最新正式版 4.1.0；Spring Framework 7.0.8 / Spring Security 7.1.0 由 Boot BOM 管理 -->
     </parent>
 
-    <groupId>xyz.nanian</groupId>
+    <groupId>com.relax</groupId>
     <artifactId>OWL</artifactId>
     <version>${revision}</version>
     <packaging>pom</packaging>
@@ -63,57 +63,57 @@
             <!--            依赖模块-->
             <!--            自建模块-->
             <dependency>
-                <groupId>xyz.nanian</groupId>
+                <groupId>com.relax</groupId>
                 <artifactId>common</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
-                <groupId>xyz.nanian</groupId>
+                <groupId>com.relax</groupId>
                 <artifactId>api</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
-                <groupId>xyz.nanian</groupId>
+                <groupId>com.relax</groupId>
                 <artifactId>user</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
-                <groupId>xyz.nanian</groupId>
+                <groupId>com.relax</groupId>
                 <artifactId>log</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
-                <groupId>xyz.nanian</groupId>
+                <groupId>com.relax</groupId>
                 <artifactId>watermelon</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
-                <groupId>xyz.nanian</groupId>
+                <groupId>com.relax</groupId>
                 <artifactId>sugarcane</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
-                <groupId>xyz.nanian</groupId>
+                <groupId>com.relax</groupId>
                 <artifactId>crow</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
-                <groupId>xyz.nanian</groupId>
+                <groupId>com.relax</groupId>
                 <artifactId>administration</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
-                <groupId>xyz.nanian</groupId>
+                <groupId>com.relax</groupId>
                 <artifactId>mango</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
-                <groupId>xyz.nanian</groupId>
+                <groupId>com.relax</groupId>
                 <artifactId>caishen</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
-                <groupId>xyz.nanian</groupId>
+                <groupId>com.relax</groupId>
                 <artifactId>infra</artifactId>
                 <version>${revision}</version>
             </dependency>

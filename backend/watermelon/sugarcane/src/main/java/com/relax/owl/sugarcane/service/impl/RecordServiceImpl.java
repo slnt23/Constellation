@@ -10,7 +10,7 @@ import com.relax.owl.sugarcane.domain.dto.PriceCompareSourceDTO;
 import com.relax.owl.sugarcane.domain.dto.PriceLatestQueryDTO;
 import com.relax.owl.sugarcane.domain.dto.PriceTrendQueryDTO;
 import com.relax.owl.sugarcane.domain.entity.RecordDO;
-import xyz.nanian.owl.sugarcane.domain.vo.*;
+import com.relax.owl.sugarcane.domain.vo.*;
 import com.relax.owl.sugarcane.mapper.RecordMapper;
 import com.relax.owl.sugarcane.service.RecordService;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;

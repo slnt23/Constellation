@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>xyz.nanian</groupId>
+        <groupId>com.relax</groupId>
         <artifactId>OWL</artifactId>
         <version>${revision}</version>
         <relativePath>../../pom.xml</relativePath>
@@ -21,7 +21,7 @@
     <dependencies>
         <!-- 接入依赖链：api → log → infra → common（含 MyBatis-Plus / Spring AI / Mail / MapStruct / Security） -->
         <dependency>
-            <groupId>xyz.nanian</groupId>
+            <groupId>com.relax</groupId>
             <artifactId>api</artifactId>
         </dependency>
     </dependencies>
