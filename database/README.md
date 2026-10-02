@@ -29,7 +29,7 @@
 
 - `user`：`user_role`、`user_account`、`user_address`。
 - `log`：`user_log`、`biz_log`、`admin_log`。
-- `admin`：`admin_spotlight`、`admin_feature`。
+- `admin`：`admin_spotlight`、`admin_feature`、`admin_hero_video`。
 - `crow`：`agent_conversation`、`agent_message`。
 - `sugarcane`：`price_category`、`price_item`、`price_source`、`geo_location`、`price_record`、`price_item_media`。
 - `mango`：`blog_category`、`blog_tag`、`blog_post`、`blog_post_tag`、`blog_profile`、`blog_education`、`blog_skill_category`、`blog_skill_item`。`blog_post` 依赖 `user_account` 表，示例数据依赖 `user_init_data.sql` 中的 `admin` 用户。

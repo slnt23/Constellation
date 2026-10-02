@@ -31,6 +31,7 @@ import com.relax.owl.common.security.handler.RestAuthenticationEntryPoint;
  *   <li>使用无状态会话（STATELESS），不创建 HttpSession</li>
  *   <li>配置接口白名单（登录、公开接口、文档、静态资源）</li>
  *   <li>博客公开读接口 GET 免登录，写接口需认证</li>
+ *   <li>首页展示读接口（/api/admin/spotlight、/api/admin/feature）GET 免登录，写接口要求 ADMIN</li>
  *   <li>后台管理接口（/api/admin/**）要求 ADMIN 角色</li>
  *   <li>其余接口默认要求登录</li>
  *   <li>注册 {@link JwtAuthenticationFilter} 在 UsernamePasswordAuthenticationFilter 之前执行</li>
@@ -104,10 +105,12 @@ public class SecurityConfig {
                                 "/swagger-resources/**",
                                 "/v3/api-docs/**",
                                 "/error",
-                                "/favicon.ico",
-                                "/api/admin/feature/**",
-                                "/api/admin/spotlight/**"
+                                "/favicon.ico"
                         ).permitAll()
+                        // 首页展示读接口：仅 GET 免登录，同前缀下的新增/修改/删除会落到下方
+                        // /api/admin/** 规则要求 ADMIN。注意顺序——permitAll 必须排在 hasRole 之前才能生效，
+                        // 但也仅限 GET，不能整段放开，否则写接口会对所有人开放。
+                        .requestMatchers(HttpMethod.GET, "/api/admin/spotlight/**", "/api/admin/feature/**").permitAll()
                         // [mango] 博客公开读接口：GET 免登录，写接口保持默认要求登录
                         .requestMatchers(HttpMethod.GET, "/api/blog/**").permitAll()
                         .requestMatchers("/api/admin/**").hasRole(RoleConstants.ADMIN)

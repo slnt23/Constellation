@@ -31,8 +31,8 @@ async function fetchSourceCompare() {
       targetTime: targetTime.value ?? new Date().toISOString().slice(0, 19),
     })
     sourceData.value = res.data ?? []
-  } catch {
-    ElMessage.error('查询失败，请稍后再试')
+  } catch (error) {
+    ElMessage.error((error as Error).message || '查询失败，请稍后再试')
   } finally { loading.value = false }
 }
 

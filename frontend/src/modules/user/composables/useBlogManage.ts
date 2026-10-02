@@ -45,8 +45,8 @@ export function useBlogManage() {
                 coverUrl: item.coverUrl?.replace(/^`|`$/g, '') ?? '',
             }))
             total.value = res.data?.total ?? 0
-        } catch {
-            ElMessage.error('加载博客列表失败，请稍后重试')
+        } catch (error) {
+            ElMessage.error((error as Error).message || '加载博客列表失败，请稍后重试')
         } finally {
             loading.value = false
         }
@@ -140,8 +140,8 @@ export function useBlogManage() {
 
             dialogVisible.value = false
             await fetchList()
-        } catch {
-            ElMessage.error('保存失败，请稍后重试')
+        } catch (error) {
+            ElMessage.error((error as Error).message || '保存失败，请稍后重试')
         } finally {
             submitting.value = false
         }
@@ -159,7 +159,7 @@ export function useBlogManage() {
             await fetchList()
         } catch (error) {
             if (error !== 'cancel' && error !== 'close') {
-                ElMessage.error('删除失败，请稍后重试')
+                ElMessage.error((error as Error).message || '删除失败，请稍后重试')
             }
         }
     }

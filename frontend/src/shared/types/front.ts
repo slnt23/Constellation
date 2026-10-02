@@ -25,6 +25,21 @@ export interface FeatureItem {
   sortOrder: number
 }
 
+export interface HeroVideoItem {
+  id: number
+  title: string
+  /** 视频预签名访问 URL */
+  videoUrl: string
+  /** 封面图预签名访问 URL */
+  posterUrl?: string
+  sortOrder: number
+  /** 状态：1=启用，0=禁用 */
+  status: number
+  remark?: string
+  createTime?: string
+  updateTime?: string
+}
+
 export interface SectionIntroData {
   eyebrow: string
   title: string

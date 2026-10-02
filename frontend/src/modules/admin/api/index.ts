@@ -1,4 +1,5 @@
 export * from './spotlight'
 export * from './feature'
+export * from './heroVideo'
 export * from './user'
 export * from './role'

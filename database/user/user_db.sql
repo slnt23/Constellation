@@ -4,6 +4,11 @@
 -- MySQL 版本：8.4
 -- 说明：user_role / user_account / user_address 由 user 模块维护，
 --       api 与 administration 复用 user_role 表。
+-- 初始账号：数据由 user_init_data.sql 写入，库中存 BCrypt 哈希，明文密码对应如下
+--   admin    / admin123       -> ADMIN
+--   merchant / merchant123    -> MERCHANT
+--   user     / user123        -> USER
+--   service  / service123     -> CUSTOMER_SERVICE
 -- ======================================================
 
 -- ------------------------------------------------------

@@ -47,8 +47,8 @@ async function fetchLatest() {
       currency: query.value.currency,
     })
     latestItem.value = res.data
-  } catch {
-    ElMessage.error('查询失败，请稍后再试')
+  } catch (error) {
+    ElMessage.error((error as Error).message || '查询失败，请稍后再试')
   } finally {
     loading.value = false
   }

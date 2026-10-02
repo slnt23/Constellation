@@ -20,8 +20,8 @@ export const usePriceItemStore = defineStore('priceItem', () => {
     try {
       const res = await itemApi.searchItems({ itemName: trimmed })
       searchResults.value = res.data?.records ?? []
-    } catch {
-      ElMessage.error('搜索失败，请稍后再试')
+    } catch (error) {
+      ElMessage.error((error as Error).message || '搜索失败，请稍后再试')
     } finally {
       searchLoading.value = false
     }

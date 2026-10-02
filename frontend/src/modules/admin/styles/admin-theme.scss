@@ -468,6 +468,13 @@
   border: 1px solid var(--admin-card-border);
 }
 
+.hero-video-thumb {
+  width: 96px;
+  height: 54px;
+  border-radius: var(--admin-radius-sm);
+  border: 1px solid var(--admin-card-border);
+}
+
 .admin-empty {
   display: flex;
   flex-direction: column;

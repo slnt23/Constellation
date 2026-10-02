@@ -59,8 +59,8 @@ const fetchList = async () => {
     const res = await spotlightApi.page(pageNum.value, pageSize.value)
     list.value = res.data?.records ?? []
     total.value = res.data?.total ?? 0
-  } catch {
-    ElMessage.error('加载焦点项目失败，请稍后重试')
+  } catch (error) {
+    ElMessage.error((error as Error).message || '加载焦点项目失败，请稍后重试')
   } finally {
     loading.value = false
   }
@@ -147,8 +147,8 @@ const submit = async () => {
 
     dialogVisible.value = false
     await fetchList()
-  } catch {
-    ElMessage.error('保存失败，请稍后重试')
+  } catch (error) {
+    ElMessage.error((error as Error).message || '保存失败，请稍后重试')
   } finally {
     submitting.value = false
   }
@@ -166,7 +166,7 @@ const remove = async (row: SpotlightItem) => {
     await fetchList()
   } catch (error) {
     if (error !== 'cancel' && error !== 'close') {
-      ElMessage.error('删除失败，请稍后重试')
+      ElMessage.error((error as Error).message || '删除失败，请稍后重试')
     }
   }
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.relax.owl.admin.mapper.HeroVideoMapper">
+
+    <!-- 生效视频 = 启用中且 sort_order 最小；sort_order 相同时按 id 兜底，保证结果稳定 -->
+    <select id="selectActive" resultType="com.relax.owl.admin.domain.entity.HeroVideoDO">
+        select id,
+               title,
+               video_url,
+               poster_url,
+               sort_order,
+               status,
+               remark,
+               create_time,
+               update_time
+        from admin_hero_video
+        where status = 1
+        order by sort_order asc, id asc
+        limit 1
+    </select>
+</mapper>

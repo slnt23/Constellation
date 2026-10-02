@@ -43,8 +43,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = BizException.class)
     public Result<?> handleBiz(BizException e) {
         log.warn("业务异常{}",e.getMessage(), e);
-//        return Result.fail(e.getCode(),e.getMessage());
-        return Result.fail(ResultStatus.BIZ_ERROR);
+        // 回传具体的业务码与提示：否则前端只能看到「业务异常」，
+        // 分不清是旧密码错误、邮箱已被占用还是文件超限
+        return Result.fail(e.getCode(), e.getMessage());
     }
 
     /**
@@ -55,8 +56,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = LoginFailureException.class)
     public Result<?> handleLoginFailure(LoginFailureException e) {
         log.warn("登录异常：{}", e.getMessage());
-//        return Result.fail(e.getCode(), e.getMessage());
-        return Result.fail(ResultStatus.LOGIN_ERROR);
+        // 同上：回传具体原因，前端才能区分验证码错误、账号禁用等场景
+        return Result.fail(e.getCode(), e.getMessage());
     }
 
     /**
@@ -85,7 +86,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = MaxUploadSizeExceededException.class)
     public Result<?> handleMaxUploadSize(MaxUploadSizeExceededException e) {
         log.warn("上传文件超限：{}", e.getMessage());
-        return Result.fail(ResultStatus.FILE_SIZE_EXCEEDED);
+        // 这里是 multipart 容器级限制，对图片/视频/文档都适用，
+        // 因此不能用写死为「图片大小不能超过 5MB」的 FILE_SIZE_EXCEEDED
+        return Result.fail(ResultStatus.UPLOAD_SIZE_EXCEEDED);
     }
 
     /**
@@ -95,17 +98,24 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler({MethodArgumentNotValidException.class, BindException.class})
     public Result<?> handleValid(Exception e) {
-        String msg = e instanceof MethodArgumentNotValidException
-                ? ((MethodArgumentNotValidException) e)
-                    .getBindingResult()
+        // Spring 6+ 起 MethodArgumentNotValidException 继承自 BindException，两者可统一取值；
+        // 这里用 instanceof 兜底，取不到字段信息时再退回枚举默认文案
+        String msg = "";
+        if (e instanceof BindException bindException) {
+            msg = bindException.getBindingResult()
                     .getFieldErrors()
                     .stream()
                     .map(FieldError::getDefaultMessage)
-                    .collect(Collectors.joining("；"))
-                : "参数校验失败";
+                    .filter(message -> message != null && !message.isBlank())
+                    .collect(Collectors.joining("；"));
+        }
+        if (msg.isBlank()) {
+            msg = ResultStatus.PARAMS_INVALID.getMessage();
+        }
 
         log.warn("参数校验失败：{}",msg,e);
-        return Result.fail(ResultStatus.PARAMS_INVALID);
+        // 回传具体字段提示，否则前端只能看到笼统的「参数校验失败」
+        return Result.fail(ResultStatus.PARAMS_INVALID.getCode(), msg);
     }
 
     /**

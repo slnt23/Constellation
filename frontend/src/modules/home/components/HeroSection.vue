@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import heroV1 from '@/shared/assets/home/hero-v1.mp4'
 import { appMeta } from '@/core/config/app.config'
+import { useHeroVideo } from '@/modules/home/composables/useHeroVideo'
 
-const HERO_VIDEO = heroV1
+const { videoUrl, posterUrl, loadHeroVideo } = useHeroVideo()
 
 const isMuted = ref(true)
 const showHeroContent = ref(true)
@@ -32,6 +32,7 @@ function handleScroll() {
 }
 
 onMounted(() => {
+  loadHeroVideo()
   window.addEventListener('scroll', handleScroll, { passive: true })
 })
 
@@ -43,7 +44,16 @@ onBeforeUnmount(() => {
 <template>
   <section class="hero-section">
     <div class="hero-videos">
-      <video ref="videoRef" :src="HERO_VIDEO" autoplay loop :muted="isMuted" playsinline />
+      <video
+        v-if="videoUrl"
+        ref="videoRef"
+        :src="videoUrl"
+        :poster="posterUrl || undefined"
+        autoplay
+        loop
+        :muted="isMuted"
+        playsinline
+      />
     </div>
 
     <Transition name="hero-content">

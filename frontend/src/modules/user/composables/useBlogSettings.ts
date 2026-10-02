@@ -73,8 +73,8 @@ export function useBlogSettings() {
                     items: [...s.items],
                 }))
             }
-        } catch {
-            ElMessage.error('加载博客设置失败')
+        } catch (error) {
+            ElMessage.error((error as Error).message || '加载博客设置失败')
         } finally {
             loading.value = false
         }
@@ -110,8 +110,8 @@ export function useBlogSettings() {
             } else {
                 ElMessage.error(res.message || '保存失败')
             }
-        } catch {
-            ElMessage.error('保存失败，请稍后重试')
+        } catch (error) {
+            ElMessage.error((error as Error).message || '保存失败，请稍后重试')
         } finally {
             submitting.value = false
         }

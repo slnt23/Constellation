@@ -5,6 +5,8 @@ node_modules/
 dist/
 
 .env.development
+.env.local
+.env.*.local
 
 # Temp & backup
 *.tmp
@@ -26,5 +28,9 @@ CLOUDE.md
 # 自动生成的文件（不提交）
 auto-imports.d.ts
 components.d.ts
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+vite.config.ts.timestamp-*.mjs
 src/assets/
 dist.zip
+.rubbish/

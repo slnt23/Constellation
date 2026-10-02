@@ -44,6 +44,9 @@ public enum ResultStatus {
     FILE_TYPE_ERROR("仅支持 jpeg/png/webp 图片",9404),
     FILE_SIZE_EXCEEDED("图片大小不能超过 5MB",9405),
     ROLE_IN_USE("角色已被用户使用，无法删除或禁用",9406),
+    VIDEO_TYPE_ERROR("仅支持 mp4/webm 视频",9407),
+    VIDEO_SIZE_EXCEEDED("视频大小不能超过 50MB",9408),
+    UPLOAD_SIZE_EXCEEDED("上传文件超过服务器允许的大小上限",9409),
     
     // 特殊状态
     TOKEN_EXPIRED("登录已过期，请重新登录", 401001),

@@ -31,7 +31,7 @@ export function useGalleryList() {
         } catch (e) {
             error.value = e instanceof Error ? e.message : '加载画廊数据失败'
             console.error('Gallery API Error:', e)
-            ElMessage.error('加载画廊数据失败，请稍后重试')
+            ElMessage.error(error.value)
         } finally {
             isLoading.value = false
         }
