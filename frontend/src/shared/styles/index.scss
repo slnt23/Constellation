@@ -1,4 +1,11 @@
 @use 'element-plus/theme-chalk/src/base.scss' as el-base;
+// 命令式调用的组件（ElMessage / ElMessageBox）不作为模板标签出现，
+// unplugin 的按需样式注入覆盖不到，必须显式引入，
+// 否则弹窗与提示会以无样式状态渲染（弹窗跑到左上角、无遮罩、toast 无背景）。
+@use 'element-plus/theme-chalk/src/message.scss' as el-message;
+@use 'element-plus/theme-chalk/src/message-box.scss' as el-message-box;
+@use 'element-plus/theme-chalk/src/notification.scss' as el-notification;
+@use 'element-plus/theme-chalk/src/loading.scss' as el-loading;
 @use './tokens';
 @use './themes';
 @use './base';
