@@ -2,29 +2,29 @@
 	
 # for owl project 
 
-cd ./rabbitmq/rabbitmq-owl
+cd ./rabbitmq-owl
 docker compose up -d
-cd ../..
+cd ..
 
 
-cd ./redis/redis-alone
+cd ./redis-alone
 docker compose up -d
-cd ../..
+cd ..
 
 
-cd ./nacos/nacos-owl
+cd ./nacos-owl
 docker compose up -d
-cd ../..
+cd ..
 
 
-cd ./minio/minio-owl
+cd ./minio-owl
 docker compose up -d
-cd ../..
+cd ..
 
 
-cd ./mysql/mysql-owl
+cd ./mysql-owl
 docker compose up -d
-cd ../..
+cd ..
 
 
 docker ps -a
