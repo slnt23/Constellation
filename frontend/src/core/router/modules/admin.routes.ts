@@ -57,6 +57,11 @@ const adminRoutes = [
             component: () => import('@/modules/admin/pages/HeroVideoPage.vue'),
           },
           {
+            path: 'menu-item',
+            name: 'admin-menu-item',
+            component: () => import('@/modules/admin/pages/MenuItemPage.vue'),
+          },
+          {
             path: 'settings',
             name: 'admin-settings',
             component: () => import('@/modules/admin/pages/SettingsPage.vue'),

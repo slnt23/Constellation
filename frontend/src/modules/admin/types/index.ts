@@ -1,5 +1,6 @@
 export * from './feature'
 export * from './heroVideo'
+export * from './menuItem'
 export * from './spotlight'
 export * from './user'
 export * from './role'

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.relax.owl.admin.mapper.MenuItemMapper">
+
+    <!-- sort_order 相同时按 id 兜底，保证菜单顺序稳定 -->
+    <select id="selectEnabled" resultType="com.relax.owl.admin.domain.entity.MenuItemDO">
+        select id,
+               title,
+               subtitle,
+               path,
+               image_url,
+               card_size,
+               sort_order,
+               status,
+               remark,
+               create_time,
+               update_time
+        from admin_menu_item
+        where status = 1
+        order by sort_order asc, id asc
+    </select>
+</mapper>

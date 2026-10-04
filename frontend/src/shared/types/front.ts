@@ -25,6 +25,27 @@ export interface FeatureItem {
   sortOrder: number
 }
 
+/**
+ * 后台返回的菜单项 VO —— 接口原样返回的结构。
+ * 菜单面板消费的是视图模型 {@link MenuItem}，两者字段名不同，由 useFrontMenu 做映射。
+ */
+export interface MenuItemVO {
+  id: number
+  title: string
+  subtitle?: string
+  /** 跳转的前端路由 */
+  path: string
+  /** 配图预签名访问 URL */
+  imageUrl: string
+  cardSize: 'large' | 'normal' | 'small'
+  sortOrder: number
+  /** 状态：1=启用，0=禁用 */
+  status: number
+  remark?: string
+  createTime?: string
+  updateTime?: string
+}
+
 export interface HeroVideoItem {
   id: number
   title: string

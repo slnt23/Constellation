@@ -1,4 +1,4 @@
-import { DataAnalysis, Folder, Grid, House, Monitor, Picture, User, VideoCamera } from '@element-plus/icons-vue'
+import { DataAnalysis, Folder, Grid, House, Menu, Monitor, Picture, User, VideoCamera } from '@element-plus/icons-vue'
 
 export interface AdminMenuItem {
   path: string
@@ -20,6 +20,7 @@ export const ADMIN_HOME_MENU_GROUP = {
     { path: '/admin/dashboard/spotlight', label: '焦点项目', icon: Picture },
     { path: '/admin/dashboard/features', label: '特性管理', icon: Grid },
     { path: '/admin/dashboard/hero-video', label: 'Hero 视频', icon: VideoCamera },
+    { path: '/admin/dashboard/menu-item', label: '菜单管理', icon: Menu },
   ] satisfies AdminMenuItem[],
 }
 

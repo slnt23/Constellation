@@ -28,9 +28,14 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
+      // 显式监听所有地址。默认的 'localhost' 在 Node 17+（DNS 解析改为 verbatim）
+      // 可能只解析到 IPv6 回环 ::1，导致浏览器走 127.0.0.1 时连接被拒。
+      // true 同时覆盖 IPv4/IPv6，并允许同网段设备访问开发页。
+      host: true,
       proxy: {
         '/api': {
-          target: 'http://localhost:8080',
+          // 同样固定为 IPv4：target 写 localhost 若解析到 ::1，会让代理转发失败（接口 502）
+          target: 'http://127.0.0.1:8080',
           // target: 'http://192.168.0.43:50023',
           changeOrigin: true, // 修改请求头 Origin 为目标地址
         },

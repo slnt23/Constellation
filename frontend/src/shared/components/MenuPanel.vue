@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { Close } from '@element-plus/icons-vue'
 
 interface MenuItem {
   path: string
@@ -60,7 +61,7 @@ onBeforeUnmount(() => {
             <h2 class="menu-panel__title">菜单</h2>
             <button class="ui-icon-close-button ui-icon-close-button--close ui-icon-close-button--right" type="button"
               aria-label="关闭菜单" @click="emit('close')">
-              <img src="/src/shared/assets/icons/close.svg" alt="" width="20" height="20" aria-hidden="true" />
+              <el-icon><Close /></el-icon>
             </button>
           </div>
 
@@ -69,7 +70,8 @@ onBeforeUnmount(() => {
           <div class="menu-panel__masonry">
             <RouterLink v-for="item in items" :key="item.path" :to="item.path" class="menu-panel__card"
               :class="`menu-panel__card--${item.size || 'normal'}`" @click="emit('close')">
-              <div v-if="imageLoadStates[item.path] !== 'loaded'" class="menu-panel__card-placeholder"></div>
+              <!-- 仅未出结果时显示闪烁骨架；加载失败时退回卡片底色 + 文案覆盖层，避免无限闪烁 -->
+              <div v-if="!imageLoadStates[item.path]" class="menu-panel__card-placeholder"></div>
               <img v-show="imageLoadStates[item.path] === 'loaded'" :src="item.image" :alt="item.title"
                 @load="handleImageLoad(item.path)" @error="handleImageError(item.path)" />
 

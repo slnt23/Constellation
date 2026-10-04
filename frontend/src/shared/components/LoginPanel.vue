@@ -7,6 +7,7 @@ import { loginMailApi, loginPasswordApi, resetPasswordApi, sendCodeApi } from '@
 import { getUserInfoApi } from '@/modules/user/api/profile'
 import { setCurrentUser, setToken } from '@/core/permission'
 import { ElMessage } from 'element-plus'
+import { Close } from '@element-plus/icons-vue'
 import type { LoginOrRegisterParams, SendCodeParams } from '@/modules/user/types'
 
 const props = defineProps({
@@ -171,8 +172,8 @@ const closeDialog = () => {
 <template>
     <el-dialog v-model="visible" width="1000px" :show-close="false" @close="closeDialog" class="login-panel">
         <button class="ui-icon-close-button ui-icon-close-button--close ui-icon-close-button--right" type="button"
-            @click="closeDialog">
-            <img src="/src/shared/assets/icons/close.svg" alt="关闭" width="20" height="20" />
+            aria-label="关闭" @click="closeDialog">
+            <el-icon><Close /></el-icon>
         </button>
 
         <div class="dialog-content">
